@@ -19,5 +19,8 @@ a sua volta si aggancia al bundle.Js che si trova in Vue.JS
     -->
     <div id="app"></div>
 
-        <script type="text/javascript" src='http://127.0.0.1:8081/bundle.js'>   </script>
 {% endblock %}
+
+    {% block js %}
+        <script src = "{% static 'bundle.js' %}"> </script>
+    {% endblock  %}
