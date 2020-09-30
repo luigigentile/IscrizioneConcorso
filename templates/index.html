@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
+
+{% block content %}
+<!--
+Questa è la prima Pagina che viene richiamata /p>
+a sua volta si aggancia al bundle.Js che si trova in Vue.JS
+-->
+
+
+
+    <noscript>
+        <strong>
+            Ci spiace, ma il frontend non funziona senza JavaScript abilitato. Abilita JavaScript per continuare!
+        </strong>
+    </noscript>
+    <!--
+        <h1> questo testo si trova in Index.html</h1>
+    -->
+    <div id="app"></div>
+
+        <script type="text/javascript" src='http://127.0.0.1:8081/bundle.js'>   </script>
+{% endblock %}

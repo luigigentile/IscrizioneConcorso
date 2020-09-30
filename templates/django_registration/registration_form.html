@@ -1,0 +1,21 @@
+{% extends "auth_layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block auth %}
+
+<h1>Crea un nuovo account per iscriverti al concorso</h1>
+<div class="registration-form-container">
+
+
+    <form method="post">
+
+        {% csrf_token %}
+        {{ form|crispy }}
+    <button type="submit" class = 'btn btn-sm btn-outline-primary'name="button">Registrati</button>
+
+    </form>
+    <p class 'mt-4'>Oppure <a href=" {% url 'login' %}">Effettua il login </a> </p>
+</div>
+
+
+{% endblock %}
