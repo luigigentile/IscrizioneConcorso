@@ -212,13 +212,26 @@ db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "assets"),
-    os.path.join(BASE_DIR, "frontend/dist"),
-]
+### https://docs.djangoproject.com/en/2.1/howto/static-files/
+
+#    COMMENTATI DA LUIGI
+##STATICFILES_DIRS = [
+##    os.path.join(BASE_DIR, "static"),
+##    os.path.join(BASE_DIR, "assets"),
+##    os.path.join(BASE_DIR, "frontend/dist"),
+##]
+##STATIC_URL = '/static/'
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.0/howto/static-files/
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+
+
+
+
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
