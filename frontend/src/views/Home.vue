@@ -1,12 +1,13 @@
 <template>
   <div class="home">
     <div class="container">
-      <h2>Elenco Prenotazioni
+      <h2>Elenco Prenotazioni modificato
         <router-link title="Inserisci una nuova Prenotazione"
                   :to="{ name: 'prenotazione-editor'}"
                   ><span>
                       <img  src="../assets/icon-addlink.svg" alt="Nuova Prenotazione">
                 </span>
+                <span><img width="15%" :src="iconAddLink" alt="Nuova ...."/></span>
         </router-link>
         </h2>
 
@@ -93,6 +94,12 @@ import { FormatToLocalDateString } from "../common/methods.js";
 
 export default {
   name: "Home",
+
+  computed: {
+    iconAddLink() {
+      return require("../assets/icon-addlink.svg");
+  }
+  },
 
   data() {
     return {
