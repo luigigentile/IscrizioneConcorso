@@ -35,41 +35,38 @@
           </li>
 
 
-      <!-- Menu Utente Dropdown -->
+    <!-- Menu Utente Dropdown -->
       <div class="dropdown nav-item mx-1">
         <button class="btn btn-sm btn-info " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          {{userName}}:
          </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-            <div class="dropdown-item ml-2">
-            <router-link
-              :to="{ name: 'user-editor',params: {pk: currentUser.id } }"
-              class="user-editor-link"
-            > Dati Personali
-          </router-link>
-          </div>
-
-             <a class="dropdown-item" href="/accounts/login/">Login</a>
-             <a class="dropdown-item" href="/accounts/logout/">Logout</a>
-             <a class="dropdown-item" href="/accounts/password_change/">Cambio Password</a>
-             <a class="dropdown-item" href="/accounts/password_reset/">Reset Password</a>
+            <div class="dropdown-item">
+                <router-link
+                  :to="{ name: 'user-editor',params: {pk: currentUser.id } }"
+                  class="user-editor-link"
+                >Dati Personali
+                </router-link>
+            </div>
+            <a class="dropdown-item" href="/accounts/login/">Login</a>
+            <a class="dropdown-item" href="/accounts/logout/">Logout</a>
+            <a class="dropdown-item" href="/accounts/password_change/">Cambio Password</a>
         </div>
       </div>
 
-          <!-- Menu Admin -->
-          <div class="dropdown">
-            <button class="btn btn-sm btn-info " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Tabelle
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                 <a class="dropdown-item" href="/admin/prenotazioni/anagraficascuole/">Anagrafica Scuole</a>
-                 <a class="dropdown-item" href="/admin/users/customuser/">Utenti</a>
-                 <a class="dropdown-item" href="/admin/prenotazioni/tabellaturni/">Tabella Turni</a>
-                 <a class="dropdown-item" href="/admin/prenotazioni/tabellasettori/">Tabella Settori</a>
-                 <a class="dropdown-item" href="/admin/prenotazioni/tabellaruoli/">Tabella Ruoli</a>
-            </div>
-          </div>
+    <!-- Menu Admin -->
+      <div class="dropdown" v-show="currentUser.isStaff">
+        <button class="btn btn-sm btn-info " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Tabelle
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+             <a class="dropdown-item" href="/admin/prenotazioni/anagraficascuole/">Anagrafica Scuole</a>
+             <a class="dropdown-item" href="/admin/users/customuser/">Utenti</a>
+             <a class="dropdown-item" href="/admin/prenotazioni/tabellaturni/">Tabella Turni</a>
+             <a class="dropdown-item" href="/admin/prenotazioni/tabellasettori/">Tabella Settori</a>
+             <a class="dropdown-item" href="/admin/prenotazioni/tabellaruoli/">Tabella Ruoli</a>
+        </div>
+      </div>
  <!-- Pulsante About-->
            <li class="nav-item mx-1">
              <router-link :to="{ name: 'About' }" class="btn btn-sm btn-info"

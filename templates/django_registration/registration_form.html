@@ -3,17 +3,46 @@
 
 {% block auth %}
 
+<script type="text/javascript">
+
+ function CheckPrivacy() {
+   var server =  'http://' + location.host + '/'
+   var varPrivacy = document.getElementById('privacy') ;
+   var varRegistrati = document.getElementById('registrati') ;
+//   CONTROLLA SE E' STATO validato il controllo della Privacy
+   if(varPrivacy.checked == true) {
+       varRegistrati.disabled = false;
+   } else {
+       varRegistrati.disabled = true;
+   }
+
+   return ;
+   }
+
+ </script>
+
+
+
+
+
 <h1>Crea un nuovo account per iscriverti al concorso</h1>
 <div class="registration-form-container">
 
 
     <form method="post">
-
         {% csrf_token %}
         {{ form|crispy }}
-    <button type="submit" class = 'btn btn-sm btn-outline-primary'name="button">Registrati</button>
+    <button type="submit" disabled id = 'registrati'  class = 'btn btn-sm btn-outline-primary'name="button">Registrati</button>
 
     </form>
+<br><br>
+<a href="#" target="_blank">Privacy Policy</a>
+
+    <div class="consensoprivacy">
+        <input  type="checkbox" id="privacy"  onchange= "CheckPrivacy()" >
+         <label  for="privacy"> Confermo la Privacy Policy </label>
+    </div>
+
     <p class 'mt-4'>Oppure <a href=" {% url 'login' %}">Effettua il login </a> </p>
 </div>
 
