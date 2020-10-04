@@ -7,7 +7,7 @@
                     <h3
                         class = "form-control"
                         rows="3" cols="80">
-                        Classe: {{prenotazione.classe}}   - Turno: {{prenotazione.turno.settore}} - Numero Alunni: {{prenotazione.numero_alunni}}
+                        Classe: {{turnoPrenotazione.classe}}   - Turno: {{turnoPrenotazione.turno.settore}} - Numero Alunni: {{turnoPrenotazione.numero_alunni}}
                     </h3>
                     <br>
                     <button
@@ -35,6 +35,10 @@ export default {
         type: Object,
         required:true
         },
+        turnoPrenotazione: {
+        type: Object,
+        required:true
+        },
     pk: {
         type: Number,
         required: true
@@ -53,19 +57,19 @@ export default {
         tornaIndietro() {
             this.$router.push({
                 name: "prenotazione",
-                params: { pk: this.pk }
+                params: { pk: this.prenotazione.id, prenotazione:this.prenotazione }
             })
 //            window.history.back(0)
          },
 
          async onSubmit() {
-             let  endpoint = `/api/movimentiPrenotazioni/${this.prenotazione.id}/`;
+             let  endpoint = `/api/movimentiPrenotazioni/${this.turnoPrenotazione.id}/`;
              alert(endpoint)
              try {
              await apiService(endpoint,"DELETE");
                 this.$router.push({
                     name: "prenotazione",
-                    params: { pk: this.pk, prenotazione:this.prenotazione}
+                    params: { pk: this.prenotazione, prenotazione:this.prenotazione}
                 })
 
       //:to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"

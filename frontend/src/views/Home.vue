@@ -1,13 +1,15 @@
 <template>
   <div class="home">
     <div class="container">
-      <h2>Elenco Prenotazioni modificato
+      <h2>Elenco Prenotazioni
         <router-link title="Inserisci una nuova Prenotazione"
                   :to="{ name: 'prenotazione-editor'}"
                   ><span>
-                      <img  src="../assets/icon-addlink.svg" alt="Nuova Prenotazione">
+                      <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#70bf2b" d="M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"/>
+                      </svg>
                 </span>
-                <span><img width="15%" :src="iconAddLink" alt="Nuova ...."/></span>
+
         </router-link>
         </h2>
 
@@ -15,7 +17,8 @@
       <div v-for="prenotazione in prenotazioni" :key="prenotazione.pk">
         <div class="card  border-primary rounded mb-1">
           <div class="card-header">
-            <router-link
+
+            <router-link title="Visualizza dettagli Prenotazione"
               :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
               class="prenotazione-link"
             >
@@ -37,7 +40,10 @@
                 :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, } }"
                 class="prenotazione-editor-link"
                 title = "Modifica Prenotazione"
-                ><img  @click="ModificaPrenotazione(prenotazione)" src="../assets/icon-changelink.svg" alt="Modifica">
+                > <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="#efb80b" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"/>
+                </svg>
+
             </router-link>
 
 

@@ -48,7 +48,6 @@ export default {
 
     methods : {
         tornaIndietro() {
-
             this.$router.push({
                 name: "Home",
             })

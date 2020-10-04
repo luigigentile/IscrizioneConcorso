@@ -34,11 +34,11 @@
         </div>
 
     <!--    Elenco movimenti prenotazione    -->
-    <div class="container table-striped" v-for="(prenotazione,index) in movimentiPrenotazione"   :key="index">
+    <div class="container table-striped" v-for="(turnoPrenotazione,index) in movimentiPrenotazione"   :key="index">
         <div class="row">
     <!--    icona delete     -->
         <router-link title="Elimina turno Prenotazione"
-                :to="{ name: 'movimento-prenotazione-confirm-delete', params: {prenotazione:prenotazione,pk:pk} }"
+                :to="{ name: 'movimento-prenotazione-confirm-delete', params: {prenotazione: prenotazione,turnoPrenotazione: turnoPrenotazione,pk: turnoPrenotazione.id} }"
                 ><span>
                     <svg width="14" height="14" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                       <path fill="#dd4646" d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"/>
@@ -47,17 +47,17 @@
           </router-link>
     <!--    icona modifica     -->
             <a href="#" title="Modifica turno Prenotazione">
-                <span @click="ModificaPrenotazione(prenotazione)">
+                <span @click="ModificaPrenotazione(turnoPrenotazione)">
                 <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                   <path fill="#efb80b" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"/>
                 </svg>
                 </span>
             </a>
-            <div class="col-lg-3 border-bottom" v-text="turni[prenotazione.turno-1].data"> </div>
-            <div class="col-lg-2 border-bottom" v-text="turni[prenotazione.turno-1].orario_turno"> </div>
-            <div class="col-lg-2 border-bottom" v-text="turni[prenotazione.turno-1].settore">    </div>
-            <div class="col-lg-2 border-bottom" v-text="prenotazione.classe"> </div>
-            <div class="col-lg-2 border-bottom" v-text="prenotazione.numero_alunni"> </div>
+            <div class="col-lg-3 border-bottom" v-text="turni[turnoPrenotazione.turno-1].data"> </div>
+            <div class="col-lg-2 border-bottom" v-text="turni[turnoPrenotazione.turno-1].orario_turno"> </div>
+            <div class="col-lg-2 border-bottom" v-text="turni[turnoPrenotazione.turno-1].settore">    </div>
+            <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.classe"> </div>
+            <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.numero_alunni"> </div>
         </div>
     </div>
     <!--    Fine Elenco movimenti prenotazione    -->
