@@ -2,14 +2,14 @@
 
   <nav class="navbar navbar-expand-sm navbar-light bg-light my-navbar">
     <div class="container">
-      <router-link :to="{ name: 'Home' }" class="navbar-brand">
+      <router-link :to="{ name: 'Home' }" class="navbar-brand" title="Ritorna alla pagina principale">
         <span><img width="15%" :src="logoSperimentando" alt="mi piace"/></span>
         Sperimentando
       </router-link>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <li class="nav-item" title="Ritorna alla pagina principale">
             <router-link :to="{ name: 'Home' }" class="btn btn-sm btn-primary"
               >Home
             </router-link>
@@ -22,7 +22,7 @@
           </li>
       -->
       <!-- Elenco Prenotazioni -->
-          <li class="nav-item mx-1 ">
+          <li class="nav-item mx-1 " title="Visualizza l'elenco delle prenotazioni">
             <router-link :to="{ name: 'prenotazioni-elenco' }" class="btn btn-sm btn-primary"
               >Elenco Prenotazioni
             </router-link>
@@ -65,6 +65,7 @@
              <a class="dropdown-item" href="/admin/prenotazioni/tabellaturni/">Tabella Turni</a>
              <a class="dropdown-item" href="/admin/prenotazioni/tabellasettori/">Tabella Settori</a>
              <a class="dropdown-item" href="/admin/prenotazioni/tabellaruoli/">Tabella Ruoli</a>
+            <a class="dropdown-item" href="/admin/sites/site/">Siti</a>
         </div>
       </div>
  <!-- Pulsante About-->
