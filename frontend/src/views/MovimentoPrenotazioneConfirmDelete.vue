@@ -69,7 +69,7 @@ export default {
              await apiService(endpoint,"DELETE");
                 this.$router.push({
                     name: "prenotazione",
-                    params: { pk: this.prenotazione, prenotazione:this.prenotazione}
+                    params: { pk: this.prenotazione.id, prenotazione:this.prenotazione}
                 })
 
       //:to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
