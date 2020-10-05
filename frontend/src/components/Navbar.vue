@@ -66,7 +66,9 @@
              <a class="dropdown-item" href="/admin/prenotazioni/tabellasettori/">Tabella Settori</a>
              <a class="dropdown-item" href="/admin/prenotazioni/tabellaruoli/">Tabella Ruoli</a>
             <a class="dropdown-item" href="/admin/sites/site/">Siti</a>
-        </div>
+            <a class="dropdown-item" href="/admin/prenotazioni/prenotazione/">Prenotazioni </a>
+            <a class="dropdown-item" href="/admin/prenotazioni/movimentiprenotazione/">Dettaglio Prenotazioni </a>
+            </div>
       </div>
  <!-- Pulsante About-->
            <li class="nav-item mx-1">
