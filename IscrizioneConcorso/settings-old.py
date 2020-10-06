@@ -25,7 +25,7 @@ SECRET_KEY = '-!%sb)#h!(asnb!2trm9%r$*47zkjd09!i_)kc^cg9bu8_y59z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS =['*']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -184,23 +185,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 ## Port for sending e-mail.
 #EMAIL_PORT = 1025
 
-#  IMPOSTAZIONI CORRETTE PER LA POSTA ELETTRONICA CON GMAIL
-#EMAIL_USE_TLS = True
-#  EMAIL_HOST = 'smtp.gmail.com'
-#  EMAIL_HOST_USER = 'luigi.gentile2@gmail.com'
-#  EMAIL_HOST_PASSWORD = 'filippo92'
-#  EMAIL_PORT = 587
-
-#  IMPOSTAZIONI CORRETTE PER LA POSTA ELETTRONICA CON SendGrid
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = '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'
-EMAIL_PORT = 587
-
-DEFAULT_FROM_EMAIL = 'luigi.gentile2@gmail.com'
-
-
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'luigi.gentile2@gmail.com'
+# EMAIL_HOST_PASSWORD = 'filippo92'
+# EMAIL_PORT = 587
 
 
 REST_FRAMEWORK = {
@@ -218,23 +207,31 @@ REST_FRAMEWORK = {
 }
 
 
-
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
+# Static files (CSS, JavaScript, Images)
+### https://docs.djangoproject.com/en/2.1/howto/static-files/
+
+#    COMMENTATI DA LUIGI
+##STATICFILES_DIRS = [
+##    os.path.join(BASE_DIR, "static"),
+##    os.path.join(BASE_DIR, "assets"),
+##    os.path.join(BASE_DIR, "frontend/dist"),
+##]
+##STATIC_URL = '/static/'
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "src/assets"),
-    os.path.join(BASE_DIR, "assets"),
-    os.path.join(BASE_DIR, "frontend/dist"),
-]
+# https://docs.djangoproject.com/en/3.0/howto/static-files/
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+
+
+
 
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
