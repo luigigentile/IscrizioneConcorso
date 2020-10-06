@@ -191,6 +191,19 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST_PASSWORD = 'filippo92'
 # EMAIL_PORT = 587
 
+#  IMPOSTAZIONI CORRETTE PER LA POSTA ELETTRONICA CON SendGrid
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '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'
+EMAIL_PORT = 587
+
+DEFAULT_FROM_EMAIL = 'luigi.gentile2@gmail.com'
+
+
+
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
