@@ -3,13 +3,9 @@
   <nav class="navbar navbar-expand-sm navbar-light bg-light my-navbar">
     <div class="container">
       <router-link :to="{ name: 'Home' }" class="navbar-brand" title="Ritorna alla pagina principale">
-        <span><img width="15%" :src="logoSperimentando" alt="mi piace"/>
-         <img src="/static/logoSperimentandoPiccolo.jpeg" style = 'max-width:15%' ></span>
+        <span>  <img src="/static/logoSperimentandoPiccolo.jpeg" style = 'max-width:14%' ></span>
         Sperimentando
       </router-link>
-
-      <img src="/static/logoSperimentandoPiccolo.jpeg" style = 'max-width:4%' >
-
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
