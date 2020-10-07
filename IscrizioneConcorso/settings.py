@@ -188,7 +188,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'luigi.gentile2@gmail.com'
-# EMAIL_HOST_PASSWORD = 'filippo92'
+# EMAIL_HOST_PASSWORD = ''
 # EMAIL_PORT = 587
 
 #  IMPOSTAZIONI CORRETTE PER LA POSTA ELETTRONICA CON SendGrid
