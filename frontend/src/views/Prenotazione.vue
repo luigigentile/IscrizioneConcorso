@@ -57,6 +57,9 @@
             <div class="col-lg-3 border-bottom" v-text="turni[turnoPrenotazione.turno-1].data"> </div>
             <div class="col-lg-2 border-bottom" v-text="turni[turnoPrenotazione.turno-1].orario_turno"> </div>
             <div class="col-lg-2 border-bottom" v-text="turni[turnoPrenotazione.turno-1].settore">    </div>
+
+    <div class="col-lg-4 border-bottom" v-text="turnoPrenotazione"> </div>
+
    getDataTurno -->
 
 
@@ -64,7 +67,7 @@
         <div class="col-lg-2 border-bottom" v-text="getDescrizioneOrarioTurno(getDataTurno.turno)"> </div>
         <div class="col-lg-2 border-bottom" v-text="getDescrizioneOrarioTurno(turnoPrenotazione.turno)"> </div>
         <div class="col-lg-2 border-bottom" v-text="getDescrizioneSettoreTurno(turnoPrenotazione.turno)"> </div>
-        <div class="col-lg-4 border-bottom" v-text="turnoPrenotazione"> </div>
+
         <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.classe"> </div>
         <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.numero_alunni"> </div>
         </div>

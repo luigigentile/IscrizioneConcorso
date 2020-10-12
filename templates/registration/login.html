@@ -3,18 +3,41 @@
 
 {% block auth %}
 
+<script type="text/javascript">
+
+ function SelezionaPrivacy() {
+   var server =  'http://' + location.host + '/'
+   var varPrivacy = document.getElementById('privacy') ;
+   var varAccedi = document.getElementById('accedi') ;
+
+   document.getElementById("accedi").disabled = false;
+
+   if(varPrivacy.checked == true) {
+         document.getElementById("accedi").disabled = false;
+   } else {
+       document.getElementById("accedi").disabled = true;
+   }
+
+   return ;
+   }
+
+ </script>
+
 <h1>Mostra Sperimentando</h1>
 <div class="login-form-container">
     <p class = 'lead text-muted'> Allarga la tua Conoscenza</p>
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class = 'btn btn-success btn-block'name="button">Accedi</button>
+        <!--    checkbox  Privacy    -->
+
+
+        <button type="submit"  id="accedi"  class = 'btn btn-success btn-block' name="button">Accedi</button>
     </form>
+
     <br>
     <p class= 'mt-2'> <a href=" {% url 'django_registration_register' %}">Registrati</a>
     <a class = 'ml-4'  href="/accounts/password_reset/">Password dimenticata?</a>
-     <a class="dropdown-item" href="/accounts/password_reset/">Password dimenticata?</a>
      </p>
 
 </div>
