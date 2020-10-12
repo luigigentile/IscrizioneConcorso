@@ -2,14 +2,14 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import generics,status,viewsets
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import  IsAuthenticated
+from rest_framework.permissions import  IsAuthenticated,AllowAny
 from rest_framework.response import  Response
 from rest_framework.views import  APIView
 
 from prenotazioni.api.serializers import MovimentiPrenotazioneSerializer, PrenotazioneSerializer
 from prenotazioni.api.serializers import TurniSerializer,DataTurniSerializer,SettoriSerializer
 from prenotazioni.api.serializers import DataPrenotazioniSerializer,AnagraficaScuoleSerializer
-from prenotazioni.api.serializers import TabellaRuoliSerializer
+from prenotazioni.api.serializers import TabellaRuoliSerializer,ListaTurniSerializer
 
 
 from prenotazioni.api.permissions import IsUserOrReadOnly,IsOwnerOrReadOnly,IsUserOrReadOnlyOrIsStaff
@@ -68,7 +68,7 @@ class MovimentiPrenotazioneCreateAPIView(generics.CreateAPIView):
 
 
 
-class PrenotazioniMovimentiListAPIView(generics.ListAPIView):
+class PrenotazioneMovimentiListAPIView(generics.ListAPIView):
     serializer_class =  MovimentiPrenotazioneSerializer
     permission_classes = [IsAuthenticated]
 
@@ -89,10 +89,13 @@ class TurniViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = [SearchFilter,OrderingFilter]
     search_fields = ["data"]
-    ordering_fields = ['numero_posti_disponibili','data']
+    ordering_fields = ['id','numero_posti_disponibili','data']
 
 
-
+class ListaTurni(generics.ListAPIView):
+    queryset = TabellaTurni.objects.all().order_by("id")
+    serializer_class = ListaTurniSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class DataTurni(generics.ListAPIView):
@@ -146,3 +149,12 @@ class RuoliViewSet(viewsets.ModelViewSet):
     queryset = TabellaRuoli.objects.all().order_by("ruolo")
     serializer_class = TabellaRuoliSerializer
     permission_classes = [IsAuthenticated]
+
+
+
+class anagraficaScuoleDeleteAll(APIView):
+
+    def delete(self, request,  format=None):
+        AnagraficaScuole.objects.all().delete()
+        permission_classes = [AllowAny]
+        return Response(status=status.HTTP_200_OK)

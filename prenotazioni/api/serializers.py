@@ -54,6 +54,14 @@ class TurniSerializer(serializers.ModelSerializer):
         return instance.data.strftime('%d %B %Y')
 
 
+class ListaTurniSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TabellaTurni
+        fields = '__all__'
+
+
+
+
 
 
 

@@ -57,16 +57,10 @@
             <div class="col-lg-3 border-bottom" v-text="turni[turnoPrenotazione.turno-1].data"> </div>
             <div class="col-lg-2 border-bottom" v-text="turni[turnoPrenotazione.turno-1].orario_turno"> </div>
             <div class="col-lg-2 border-bottom" v-text="turni[turnoPrenotazione.turno-1].settore">    </div>
-   getDataTurno -->
-
-
-
-        <div class="col-lg-2 border-bottom" v-text="getDescrizioneOrarioTurno(getDataTurno.turno)"> </div>
-        <div class="col-lg-2 border-bottom" v-text="getDescrizioneOrarioTurno(turnoPrenotazione.turno)"> </div>
-        <div class="col-lg-2 border-bottom" v-text="getDescrizioneSettoreTurno(turnoPrenotazione.turno)"> </div>
-        <div class="col-lg-4 border-bottom" v-text="turnoPrenotazione"> </div>
-        <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.classe"> </div>
-        <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.numero_alunni"> </div>
+-->
+            <div class="col-lg-3 border-bottom" v-text="turnoPrenotazione.turno-1)"> </div>
+            <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.classe"> </div>
+            <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.numero_alunni"> </div>
         </div>
     </div>
     <!--    Fine Elenco movimenti prenotazione    -->
@@ -180,39 +174,6 @@ export default {
   },
 
   methods: {
-
-
-      getDescrizioneSettoreTurno(varIdTurno) {
-          var j,descrizioneSettoreTurno;
-          for (j=0; j<this.turni.length; j++) {
-              if (this.turni[j].id == varIdTurno) {
-                  descrizioneSettoreTurno = this.turni[j].settore
-              }
-          }
-          return (descrizioneSettoreTurno)
-        },
-
-
-    getDescrizioneOrarioTurno(varIdTurno) {
-        var j,descrizioneOrarioTurno;
-        for (j=0; j<this.turni.length; j++) {
-            if (this.turni[j].id == varIdTurno) {
-                descrizioneOrarioTurno = this.turni[j].orario_turno
-            }
-        }
-        return (descrizioneOrarioTurno)
-      },
-
-      getDataTurno(varIdTurno) {
-          var j,getDataTurno;
-          for (j=0; j<this.turni.length; j++) {
-              if (this.turni[j].id == varIdTurno) {
-                  getDataTurno = this.turni[j].orario_turno
-              }
-          }
-          return (getDataTurno)
-        },
-
 
       getLocalDate(Data) {
         return FormatToLocalDateString(Data);
@@ -330,7 +291,8 @@ export default {
     getTurni() {
           let endpoint = `/api/turni/`;
           apiService(endpoint).then(data => {
-            this.turni.push(...data.results);
+          this.turni.push(...data.results);
+            alert(this.getSettoreTurno(2))
         });
     },
 
@@ -342,8 +304,8 @@ export default {
       });
     },
 
-    getSettoreTurno(IdTurno) {
-        return this.settori[IdTurno];
+    getSettoreTurno(VarIdTurno) {
+        return this.turni[VarIdTurno].settore;
     },
 
     getSettori() {
