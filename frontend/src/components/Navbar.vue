@@ -68,6 +68,7 @@
             <a class="dropdown-item" href="/admin/sites/site/">Siti</a>
             <a class="dropdown-item" href="/admin/prenotazioni/prenotazione/">Prenotazioni </a>
             <a class="dropdown-item" href="/admin/prenotazioni/movimentiprenotazione/">Dettaglio Prenotazioni </a>
+            <a class="dropdown-item" href="/admin/authtoken/token/">Token </a>
             </div>
       </div>
  <!-- Pulsante About-->

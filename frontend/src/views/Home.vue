@@ -117,7 +117,6 @@ export default {
       loadingPrenotazioni: false,
       requestUser: null,
       selectedUser: null,
-      movimentiPrenotazione: [],
     };
   },
 
@@ -144,19 +143,6 @@ export default {
       });
     },
 
-    async getMovimentiPrenotazione() {
-     this.movimentiPrenotazione = []
-      let endpoint = `/api/prenotazione/10/movimenti/`;
-      this.idPrenotazione = this.pk
-    //      alert("Prenotazione modificata Correttamente");
-      apiService(endpoint).then(data => {
-              this.movimentiPrenotazione.push(...data.results);
-//                this.movimentiPrenotazione = data.results;
-
-//          this.movimentiPrenotazione.push(data.results);
-     //        alert(data.results.id)
-      });
-    },
 
    getUserName() {
             let endpoint = "api/user/";
@@ -174,8 +160,7 @@ export default {
     created() {
       this.getPrenotazioni();
       this.getUserName();
-      this.getMovimentiPrenotazione();
-
+      
 
     //            this.getUsersName();
 
