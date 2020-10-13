@@ -132,7 +132,6 @@ class DistinctDataPrenotazione(generics.ListAPIView):
         return query_set
 
 
-
 class SettoriViewSet(viewsets.ModelViewSet):
     queryset = TabellaSettori.objects.all().order_by("id")
     serializer_class = SettoriSerializer
@@ -140,7 +139,7 @@ class SettoriViewSet(viewsets.ModelViewSet):
 
 
 class AnagraficaScuoleViewSet(viewsets.ModelViewSet):
-    queryset = AnagraficaScuole.objects.all()
+    queryset = AnagraficaScuole.objects.all().order_by("sigla")
     serializer_class = AnagraficaScuoleSerializer
     permission_classes = [IsAuthenticated]
 
