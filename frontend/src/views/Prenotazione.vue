@@ -26,8 +26,9 @@
 
     <!--    INTESTAZIONE DELLE COLONNE    -->
         <div class="row">
-          <div class="col-lg-3 border-bottom border-secondary ">Data</div>
-          <div class="col-lg-2 border-bottom border-secondary">Orario</div>
+         <div class="col-lg-1 border-bottom border-secondary "></div>
+          <div class="col-lg-2 border-bottom border-secondary ">Data</div>
+          <div class="col-lg-2 border-bottom border-secondary ml-4">Orario</div>
           <div class="col-lg-2 border-bottom border-secondary">Settore</div>
           <div class="col-lg-2 border-bottom border-secondary">Classe</div>
           <div class="col-lg-2 border-bottom border-secondary">N.ro Alunni</div>
@@ -64,12 +65,12 @@
 
 
 
-        <div class="col-lg-2 border-bottom" v-text="getDescrizioneOrarioTurno(getDataTurno.turno)"> </div>
+        <div class="col-lg-3 border-bottom" v-text="getDataTurno(turnoPrenotazione.turno)"> </div>
         <div class="col-lg-2 border-bottom" v-text="getDescrizioneOrarioTurno(turnoPrenotazione.turno)"> </div>
         <div class="col-lg-2 border-bottom" v-text="getDescrizioneSettoreTurno(turnoPrenotazione.turno)"> </div>
 
         <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.classe"> </div>
-        <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.numero_alunni"> </div>
+        <div class="col-lg-2 border-bottom ml-4" v-text="turnoPrenotazione.numero_alunni"> </div>
         </div>
     </div>
     <!--    Fine Elenco movimenti prenotazione    -->
@@ -207,13 +208,13 @@ export default {
       },
 
       getDataTurno(varIdTurno) {
-          var j,getDataTurno;
+          var j,dataTurno;
           for (j=0; j<this.turni.length; j++) {
               if (this.turni[j].id == varIdTurno) {
-                  getDataTurno = this.turni[j].orario_turno
+                  dataTurno = this.turni[j].data
               }
           }
-          return (getDataTurno)
+          return (dataTurno)
         },
 
 
@@ -367,7 +368,7 @@ export default {
                 if (this.operation == 'insert') {
                 let endpoint = `/api/prenotazioni/${this.pk}/movimento/`;
                 apiService(endpoint, "POST", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni})
-                alert("Prenotazione aggiunta correttamente")
+                alert("Turno di prenotazione aggiunto correttamente")
                 this.getMovimentiPrenotazione()
                 this.postiDisponibili = 0
                 }

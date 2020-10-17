@@ -12,8 +12,6 @@ class TabellaRuoli(models.Model):
         verbose_name_plural = 'ruoli'
 
 
-
-
 class TabellaSettori(models.Model):
     settore = models.CharField(max_length=30,unique = True)
 
@@ -22,6 +20,7 @@ class TabellaSettori(models.Model):
     class Meta:
         verbose_name = 'Settore'
         verbose_name_plural = 'Settori'
+
 
 class TabellaTurni(models.Model):
     data = models.DateField()
@@ -32,7 +31,7 @@ class TabellaTurni(models.Model):
     numero_posti_disponibili = models.PositiveIntegerField(blank=True, null=True)
 
     def __str__(self):
-        return str(self.id) + " " + str(self.data) + " " + str(self.settore) + " " + str(self.orario_turno)
+        return  str(self.id) + " - " + str(self.data.strftime('%d/%m/%Y')) + " - " + str(self.settore) + " - " + str(self.orario_turno)
 
     class Meta:
         verbose_name = 'Turno'
@@ -65,7 +64,7 @@ class Prenotazione(models.Model):
     pagato = models.BooleanField(default=False,null=True)
 
     def __str__(self):
-        return str(self.id) + " " + str(self.user) + " " + str(self.data_prenotazione)
+        return str(self.id) + " - " + str(self.user) + " - " + str(self.data_prenotazione.strftime('%d/%m/%Y'))
 
     class Meta:
         verbose_name = 'Prenotazione'
@@ -86,7 +85,7 @@ class MovimentiPrenotazione(models.Model):
     numero_alunni = models.PositiveIntegerField(blank=True, null=True)
 
     def __str__(self):
-        return str(self.id) + " " + str(self.turno) + " " + str(self.classe)
+        return str(self.id) + " -  " + str(self.turno) + " " + str(self.classe)
 
     class Meta:
         verbose_name = 'Dettaglio Prenotazione'
@@ -103,9 +102,9 @@ class AnagraficaScuole(models.Model):
     tiposcuola = models.CharField(max_length=50,blank=True)
     telefono = models.CharField(max_length=40,blank=True)
 
-def __str__(self):
-    return str(self.nome_scuola)
+    def __str__(self):
+        return str(self.nome_scuola)
 
-class Meta:
-    verbose_name = 'scuola'
-    verbose_name_plural = 'scuole'
+    class Meta:
+        verbose_name = 'scuola'
+        verbose_name_plural = 'scuole'
