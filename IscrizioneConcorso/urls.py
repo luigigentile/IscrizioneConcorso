@@ -21,13 +21,16 @@ from core.views import IndexTemplateViews
 from users.forms import CustomUserForm
 
 
-from IscrizioneConcorso.views import eseguimail
+from IscrizioneConcorso.views import mailConfermaPrenotazione,visualizzaprivacy
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 #    path(r'^mail/(?P<oggetto>\w+)/$', eseguimail, name='run_execmail'),
-    path('mail/', eseguimail,name='run_execmail'),
+#    path('mail/', eseguimail,name='run_execmail'),
+    path('mail-conferma-prenotazione/<int:pk>/', mailConfermaPrenotazione, name='mail_conferma_prenotazione'),
+    path('privacy/', visualizzaprivacy,name='run_visualizzaprivacy'),
+
     path("accounts/register/",
          RegistrationView.as_view(
             form_class=CustomUserForm,
