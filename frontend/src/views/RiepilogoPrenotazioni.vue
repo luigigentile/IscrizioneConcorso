@@ -34,7 +34,7 @@
             <div class="col-lg-2 border-bottom" v-text="turno.orario_turno"> </div>
             <div class="col-lg-2 border-bottom" v-text="turno.settore"> </div>
             <div class="col-lg-1 border-bottom text-right" v-text="turno.numero_posti_disponibili"> </div>
-            <div class="col-lg-1 border-bottom text-right" v-text="numeriAlunniPrenotatiPerTurno[turno.id]"> </div>
+            <div class="col-lg-2 border-bottom text-right" v-text="numeriAlunniPrenotatiPerTurno[turno.id]"> </div>
 <!--
             <div class="col-lg-2 border-bottom text-right">  {{ getNumeroAlunniPrenotatiPerTurno(turno.id) }} </div>
 -->
@@ -50,6 +50,7 @@
 
 <script>
 import { apiService } from "../common/api.service.js";
+import { FormatToLocalDateString } from "../common/methods.js";
 
 export default {
   name: "RiepilogoPrenotazioni",
@@ -71,6 +72,10 @@ export default {
   },
 
   methods: {
+     getLocalDate(Data) {
+        return FormatToLocalDateString(Data);
+          },
+
     getNumeroAlunniPrenotatiPerTurno(idturno) {
         var j
         var numeroTotaleAlunni
@@ -128,8 +133,6 @@ export default {
 
     },
 
-
-
     getPrenotazioni() {
       let endpoint = `/api/prenotazioni/`;
       apiService(endpoint).then(data => {
@@ -150,6 +153,15 @@ export default {
           apiService(endpoint).then(data => {
             this.distinct_data_turni.push(...data.results);
         });
+    },
+
+    setDateTOYYYYMMDD(varData) {
+        var anno,mese,giorno;
+        anno = varData.substring(5,9);
+        mese = varData.substring(3,4);
+        giorno = varData.substring(0,2);
+        return anno+"/"+mese+"/"+giorno
+
     },
 
     getTurniFiltratiPerData() {
