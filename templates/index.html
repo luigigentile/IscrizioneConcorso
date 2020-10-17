@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load render_bundle from webpack_loader %}
+{% load static %}
 
 {% block content %}
 <!--
@@ -19,5 +20,5 @@ a sua volta si aggancia al bundle.Js che si trova in Vue.JS
     -->
     <div id="app"></div>
 
-        <script type="text/javascript" src='http://127.0.0.1:8081/bundle.js'>   </script>
-{% endblock %}
+        <script src = "{% static 'bundle.js' %}"> </script>
+    {% endblock  %}

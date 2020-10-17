@@ -53,23 +53,18 @@
                 </svg>
                 </span>
             </a>
-    <!--
+
+
+<!--
             <div class="col-lg-3 border-bottom" v-text="turni[turnoPrenotazione.turno-1].data"> </div>
             <div class="col-lg-2 border-bottom" v-text="turni[turnoPrenotazione.turno-1].orario_turno"> </div>
             <div class="col-lg-2 border-bottom" v-text="turni[turnoPrenotazione.turno-1].settore">    </div>
-
-    <div class="col-lg-4 border-bottom" v-text="turnoPrenotazione"> </div>
-
-   getDataTurno -->
-
-
-
-        <div class="col-lg-2 border-bottom" v-text="getDescrizioneOrarioTurno(getDataTurno.turno)"> </div>
-        <div class="col-lg-2 border-bottom" v-text="getDescrizioneOrarioTurno(turnoPrenotazione.turno)"> </div>
-        <div class="col-lg-2 border-bottom" v-text="getDescrizioneSettoreTurno(turnoPrenotazione.turno)"> </div>
-
-        <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.classe"> </div>
-        <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.numero_alunni"> </div>
+-->
+            <div class="col-lg-2 border-bottom" v-text="listaTurni[turnoPrenotazione.turno-1].data"> </div>
+            <div class="col-lg-2 border-bottom" v-text="settori[listaTurni[turnoPrenotazione.turno-1].settore].settore"> </div>
+            <div class="col-lg-2 border-bottom" v-text="listaTurni[turnoPrenotazione.turno-1].orario_turno"> </div>
+            <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.classe"> </div>
+            <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.numero_alunni"> </div>
         </div>
     </div>
     <!--    Fine Elenco movimenti prenotazione    -->
@@ -154,6 +149,7 @@ export default {
       idMovimentoPrenotazione:null,
       idPrenotazione:null,
       turni: [],
+      listaTurni : [],
       turniFiltrati: [],
       settori:[],
       displayEditorPrenotazione: null,
@@ -184,41 +180,12 @@ export default {
 
   methods: {
 
-
-      getDescrizioneSettoreTurno(varIdTurno) {
-          var j,descrizioneSettoreTurno;
-          for (j=0; j<this.turni.length; j++) {
-              if (this.turni[j].id == varIdTurno) {
-                  descrizioneSettoreTurno = this.turni[j].settore
-              }
-          }
-          return (descrizioneSettoreTurno)
-        },
-
-
-    getDescrizioneOrarioTurno(varIdTurno) {
-        var j,descrizioneOrarioTurno;
-        for (j=0; j<this.turni.length; j++) {
-            if (this.turni[j].id == varIdTurno) {
-                descrizioneOrarioTurno = this.turni[j].orario_turno
-            }
-        }
-        return (descrizioneOrarioTurno)
-      },
-
-      getDataTurno(varIdTurno) {
-          var j,getDataTurno;
-          for (j=0; j<this.turni.length; j++) {
-              if (this.turni[j].id == varIdTurno) {
-                  getDataTurno = this.turni[j].orario_turno
-              }
-          }
-          return (getDataTurno)
-        },
-
-
       getLocalDate(Data) {
         return FormatToLocalDateString(Data);
+          },
+
+      getDescrizioneSettore(varIdSettore) {
+        return this.settori[varIdSettore-1].settore;
           },
 
     setPageTitle(title) {
@@ -331,9 +298,19 @@ export default {
     },
 
     getTurni() {
+          this.turni = []
           let endpoint = `/api/turni/`;
           apiService(endpoint).then(data => {
-            this.turni.push(...data.results);
+         this.turni.push(...data.results);
+        });
+    },
+
+
+    getListaTurni() {
+          this.listaTurni = []
+          let endpoint = `/api/listaturni/`;
+          apiService(endpoint).then(data => {
+         this.listaTurni = data.results;
         });
     },
 
@@ -352,7 +329,8 @@ export default {
     getSettori() {
           let endpoint = `/api/settori/`;
           apiService(endpoint).then(data => {
-            this.settori.push(...data.results);
+              this.settori = data.results
+//            this.settori.push(...data.results);
         });
     },
     clearDataPrenotazione() {
@@ -418,10 +396,11 @@ export default {
 
 
   },
-  async created() {
+   created() {
     this.getMovimentiPrenotazione();
     this.getMovimentiPrenotazioni();
     this.getTurni();
+    this.getListaTurni();
     this.getSettori();
     this.previousPrenotazione = this.prenotazione;
     this.getTurniFiltratiPerDataPrenotazione(this.prenotazione.data_prenotazione)

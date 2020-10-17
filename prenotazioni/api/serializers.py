@@ -33,6 +33,10 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
     def get_created_at(self, instance):
         return instance.created_at.strftime('%d %B %Y')
 
+#    def get_data_prenotazione(self, instance):
+#        return instance.data_prenotazione.strftime('%d %B %Y')
+#
+
 class DataPrenotazioniSerializer(serializers.ModelSerializer):
 #    data_prenotazione = serializers.SerializerMethodField(read_only=False)
     class Meta:
@@ -49,17 +53,23 @@ class TurniSerializer(serializers.ModelSerializer):
     def get_data(self, instance):
         return instance.data.strftime('%d %B %Y')
 
+
 class ListaTurniSerializer(serializers.ModelSerializer):
     class Meta:
         model = TabellaTurni
         fields = '__all__'
 
+
+
+
+
+
+
 class DataTurniSerializer(serializers.ModelSerializer):
     class Meta:
         model = TabellaTurni
         fields = ['data']
-    def get_data(self, instance):
-        return instance.data.strftime('%d %B %Y')
+
 
 class SettoriSerializer(serializers.ModelSerializer):
     class Meta:

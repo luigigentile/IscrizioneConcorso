@@ -6,8 +6,14 @@
         <input @change="updateScuola" type="checkbox" id="scuola"  v-model="scuola">
         <label class="ml-1" for="scuola"> scuola/gruppo </label><br>
 
+        <!--    STATUS
+        <div class="">
+        <input id="pk" type="number"   placeholder="ID"
+        v-model.number="pk">
+        <br>
+     -->
         <div v-if="userIsStaff">
-    <!--    checkbox  pagato    -->
+                <!--    checkbox  pagato    -->
             <input class="ml-3" type="checkbox" id="pagato"  v-model="pagato">
             <label class="ml-1 mr-4" for="pagato"> Pagato </label>
     <!--    STATUS  -->
@@ -17,23 +23,25 @@
                 <option value="CO" selected>Confermato</option>
             </select>
 
-    <!--    Pulsante Invia mail di Conferma -->
-        <a class="btn btn-outline-success ml-4" v-if="prenotazioneIsConfermata()" @click="inviaMailConferma" >invia Mail Conferma </a>
+
         </div>
         <br>
+
 
         <!--    DATA PRENOTAZIONE CON SELECT    -->
                 <label for="dataPrenotazione" class="col-3" >Data Prenotazione</label>
                 <select  id="dataPrenotazione"
                  class="col-9" placeholder="data prenotazione"
+                 v-on:change="getDataPrenotazione"
                  v-model="data_prenotazione">
-                 <option
+                  <option
                    v-for="turno in distinct_data_turni"
                    :key="turno.id"
                    >{{ turno.data }}
-                </option>
+               </option>
                 </select>
                 <br>
+
 
             <div v-if="scuola">
 
@@ -91,6 +99,9 @@
                 </form>
                 <p class = 'muted error mt-2'> {{ error }}</p>
                 <p class='muted error mt-2'></p>
+
+
+
     </div>
 
 </template>
@@ -187,41 +198,6 @@ export default {
     },
 
     methods : {
-        setDateTOYYYYMMDD(varData) {
-            var anno,mese,giorno;
-            anno = varData.substring(6,10);
-            mese = varData.substring(3,5);
-            giorno = varData.substring(0,2);
-            return anno+"-"+mese+"-"+giorno
-        },
-
-            inviaMailConferma() {
-            var reference
-//          SALVA LA PRENOTAZIONE
-            this.SetStatusField();
-            let endpoint = `/api/prenotazioni/${this.pk}/`;
-            apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
-                                        scuola:this.scuola,
-                                        pagato:this.pagato,
-                                        nome_scuola:this.nome_scuola,
-                                        status:this.status,
-                                        numero_accompagnatori: this.numero_accompagnatori,
-                                        numero_totale_alunni:this.numero_totale_alunni,
-                                        esigenze:this.esigenze})
-            alert("La prenotazione è stata modificata correttamente \ned è stata inviata una mail di conferma all'utente: " + this.requestUserName)
-            reference = "/mail-conferma-prenotazione/" + this.pk +"/"
-            location.href = reference;
-          },
-
-            prenotazioneIsConfermata() {
-            if(this.status=='CO') {
-              return true
-            }
-            else {
-              return false
-            }
-        },
-
         setRequestUserName() {
           this.requestUserName = window.localStorage.getItem("username");
           if (window.localStorage.getItem("isStaff") == "true") {
@@ -238,8 +214,8 @@ export default {
         },
 
         getLocalDate(Data) {
-            return FormatToLocalDateString(Data);
-        },
+        return FormatToLocalDateString(Data);
+            },
         getTurni() {
               let endpoint = `/api/turni/`;
               apiService(endpoint).then(data => {
@@ -295,18 +271,10 @@ export default {
                                                 numero_totale_alunni:this.numero_totale_alunni,
                                                 esigenze:this.esigenze})
                 this.getLastPrenotazione()
-                var messaggio
-                messaggio = "Gentile utente, \ngrazie di aver prenotato una visita alla mostra  Sperimentando.  \n"
-                if (this.scuola) {
-                    messaggio = messaggio + "Per completare la prenotazione, Le ricordo che bisogna inserire i turni e i settori da visitare.\n"
-                    }
-                messaggio = messaggio + "La preghiamo di attendere la nostra mail di conferma da parte di Sperimentando \n"
-                messaggio = messaggio + "Distinti saluti,\nlo staff di Sperimentando"
-                alert(messaggio)
+                alert("Prenotazione Aggiunta correttamente  \n Attendere email di conferma da parte di Sperimentando")
 //                this.vaiAMovimentiPrenotazione();
             }
             if (this.previousData_Prenotazione) {
-                alert("data prenotazion" + this.data_prenotazione)
                 this.SetStatusField();
                 let endpoint = `/api/prenotazioni/${this.pk}/`;
                 apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
@@ -334,6 +302,8 @@ export default {
 
     },
         created() {
+
+
 //     Controlla il titolo e il pulsante del Form
             if (this.pk)  {
                 this.title = "Modifica Prenotazione"
@@ -353,7 +323,8 @@ export default {
             this.getDistinctDataTurni()
             this.getScuole()
             this.setRequestUserName()
-        //        this.getLastPrenotazione()
+
+//        this.getLastPrenotazione()
         },
 
 };
