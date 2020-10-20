@@ -1,6 +1,11 @@
 <template lang="html">
   <div class="container">
+
+<h4 class="d-none d-print-block">Padova {{ getLocalDate(dataAttuale)}}</h4>
+
+
   <!--    DATA PRENOTAZIONE CON SELECT    -->
+    <div class="d-print-none">
           <label for="dataTurno" class="col-3" >Data Prenotazione</label>
           <select  id="dataTurno"
            class="col-2" placeholder="data prenotazione"
@@ -13,32 +18,30 @@
              >{{ turno.data }}
          </option>
           </select>
-  <!--        -->
-    <h2>Riepilogo Prenotazioni</h2>
+    </div>
+  <!--   FINE DATA PRENOTAZIONE CON SELECT     -->
 
+    <h3>Riepilogo Prenotazioni</h3>
     <!--    RIEPILOGO TURNI CON PRENOTAZIONI    -->
     <!--    INTESTAZIONE DELLE COLONNE    -->
-        <div class="row">
-          <div class="col-lg-2 border-bottom border-secondary ">Data</div>
-          <div class="col-lg-2 border-bottom border-secondary ">Orario</div>
-          <div class="col-lg-2 border-bottom border-secondary">Settore</div>
-          <div class="col-lg-1 border-bottom border-secondary text-right">Max</div>
-          <div class="col-lg-2 border-bottom border-secondary text-right">Prenotati</div>
-         <div class="col-lg-2 border-bottom border-secondary text-right">Disponibili</div>
+        <div class="row border-bottom border-secondary mb-2">
+          <div class="col-md-2 ">Data</div>
+          <div class="col-md-2 ">Orario</div>
+          <div class="col-md-2 ">Settore</div>
+          <div class="col-md-2 text-right">Max</div>
+          <div class="col-md-2 text-right">Prenotati</div>
+          <div class="col-md-2 text-right">Disponibili</div>
         </div>
 
     <!--    Elenco movimenti prenotazione    -->
-    <div class="container table-striped" v-for="(turno) in turni_filtrati"   :key="turno.id">
+    <div class="container border-bottom" v-for="(turno) in turni_filtrati"   :key="turno.id">
         <div class="row">
-            <div class="col-lg-2 border-bottom" v-text="turno.data"> </div>
-            <div class="col-lg-2 border-bottom" v-text="turno.orario_turno"> </div>
-            <div class="col-lg-2 border-bottom" v-text="turno.settore"> </div>
-            <div class="col-lg-1 border-bottom text-right" v-text="turno.numero_posti_disponibili"> </div>
-            <div class="col-lg-2 border-bottom text-right" v-text="numeriAlunniPrenotatiPerTurno[turno.id]"> </div>
-<!--
-            <div class="col-lg-2 border-bottom text-right">  {{ getNumeroAlunniPrenotatiPerTurno(turno.id) }} </div>
--->
-            <div class="col-lg-2 border-bottom text-right" v-text="turno.numero_posti_disponibili-numeriAlunniPrenotatiPerTurno[turno.id]"> </div>
+            <div class="col-md-2 " v-text="turno.data"> </div>
+            <div class="col-md-2 " v-text="turno.orario_turno"> </div>
+            <div class="col-md-2 " v-text="turno.settore"> </div>
+            <div class="col-md-2  text-right" v-text="turno.numero_posti_disponibili"> </div>
+            <div class="col-md-2  text-right" v-text="numeriAlunniPrenotatiPerTurno[turno.id]"> </div>
+            <div class="col-md-2 border-bottom text-right" v-text="turno.numero_posti_disponibili-numeriAlunniPrenotatiPerTurno[turno.id]"> </div>
 
         </div>
     </div>
@@ -68,6 +71,7 @@ export default {
       next: null,
       loadingPrenotazioni: false,
       numeroTurni:null,
+      dataAttuale:null,
   };
   },
 
@@ -209,6 +213,7 @@ export default {
     this.getMovimentiPrenotazioni();
     this.getDistinctDataTurni();
     this.getTurniFiltratiPerData();
+    this.dataAttuale = new Date();
 
 
 

@@ -1,20 +1,21 @@
 <template lang="html">
   <div class="container">
-
+      <h4 class="d-none d-print-block">Padova {{ getLocalDate(dataAttuale)}} </h4>
 <!--    SELEZIONA LA DATA PRENOTAZIONE CON SELECT    -->
+<div class ='d-print-none'>
     <label for="dataPrenotazione" class='mr-1'>Data Prenotazione </label>
-            <select  id="dataPrenotazione"
-            class="col-3 mr-2"
-             placeholder="data prenotazione"
-             v-on:change="getPrenotazioniFilteredByDataPrenotazione"
-             v-model="data_prenotazione">
-             <option value="">All.....</option>
-              <option
-               v-for="prenotazione in distinct_data_prenotazione"
-               :key="prenotazione.id"
-               >{{ prenotazione.data_prenotazione }}
-           </option>
-            </select>
+    <select  id="dataPrenotazione"
+        class="col-3 mr-2"
+        placeholder="data prenotazione"
+        v-on:change="getPrenotazioniFilteredByDataPrenotazione"
+        v-model="data_prenotazione">
+        <option value="">All.....</option>
+         <option
+           v-for="prenotazione in distinct_data_prenotazione"
+           :key="prenotazione.id"
+           >{{ prenotazione.data_prenotazione }}
+        </option>
+    </select>
 <!--    SELEZIONA LO STATUS  CON SELECT    -->
     <label for="idstatus" class='mr-1'>Status</label>
     <select  id="idstatus"
@@ -26,30 +27,32 @@
          <option value="DC">Da Confermare</option>
          <option value="CO" selected>Confermato</option>
     </select>
+</div>
+
     <!--        -->
-            <h2 id="dataPrenotazione" >Elenco Prenotazioni</h2>
+            <h3 id="dataPrenotazione" >Elenco Prenotazioni</h3>
 
     <!--    ELENCO COMPLETO PRENOTAZIONI    -->
     <!--    INTESTAZIONE DELLE COLONNE    -->
-        <div class="row">
-        <div class="col-lg-2 border-bottom border-secondary ">Data</div>
-        <div class="col-lg-1 border-bottom border-secondary ">Status</div>
-        <div class="col-lg-2 border-bottom border-secondary">Nome Scuola</div>
-        <div class="col-lg-2 border-bottom border-secondary">Numero Accompagnatori</div>
-        <div class="col-lg-1 border-bottom border-secondary ">Numero Alunni</div>
-        <div class="col-lg-4 border-bottom border-secondary ">Esigenze</div>
+        <div class="row border-bottom border-secondary mb-2">
+        <div class="col-md-1 ">Data</div>
+        <div class="col-md-1 ">Status</div>
+        <div class="col-md-3 ">Nome Scuola</div>
+        <div class="col-md-2 ">Accompagnatori</div>
+        <div class="col-md-1 ">Alunni</div>
+        <div class="col-md-4 ">Esigenze</div>
         </div>
 
 <!--      Elenco movimenti prenotazione -->
 <font face="Times New Roman" size="2" color="#000000">
     <div  v-for="(prenotazione,index) in prenotazioni_filtered"   :key="index">
-        <div class="row">
-            <div class="col-lg-2 border-bottom " v-text="getLocalDate(prenotazione.data_prenotazione)"> </div>
-            <div class="col-lg-1 border-bottom" v-text="prenotazione.status"> </div>
-            <div class="col-lg-2 border-bottom" v-text="prenotazione.nome_scuola"> </div>
-            <div class="col-lg-2 border-bottom" v-text="prenotazione.numero_accompagnatori"> </div>
-            <div class="col-lg-1 border-bottom " v-text="prenotazione.numero_totale_alunni"> </div>
-            <div  class="col-lg-4 border-bottom " v-text="prenotazione.esigenze"> </div>
+        <div class="row border-bottom">
+            <div class="col-md-1 " v-text="getLocalDate(prenotazione.data_prenotazione)"> </div>
+            <div class="col-md-1 " v-text="prenotazione.status"> </div>
+            <div class="col-md-3 " v-text="prenotazione.nome_scuola"> </div>
+            <div class="col-md-2 text-center" v-text="prenotazione.numero_accompagnatori"> </div>
+            <div class="col-md-1 text-center" v-text="prenotazione.numero_totale_alunni"> </div>
+            <div class="col-md-4 " v-text="prenotazione.esigenze"> </div>
         </div>
     </div>
     </font>
@@ -70,18 +73,19 @@ export default {
 
   data() {
     return {
-        space : "    ",
-      prenotazioni: [],
-      prenotazioni_filtered: [],
-      distinct_data_prenotazione:[],
-      status:null,
-      data_prenotazione:null,
-      filtro:null,
-      turni:[],
-      movimentiPrenotazioni: [],
-      postiPrenotati : null,
-      next: null,
-      loadingPrenotazioni: false,
+    space : "    ",
+    prenotazioni: [],
+    prenotazioni_filtered: [],
+    distinct_data_prenotazione:[],
+    status:null,
+    data_prenotazione:null,
+    filtro:null,
+    turni:[],
+    movimentiPrenotazioni: [],
+    postiPrenotati : null,
+    next: null,
+    loadingPrenotazioni: false,
+    dataAttuale:null,
   };
   },
 
@@ -173,6 +177,7 @@ export default {
 
     //        document.getElementById('SelectUser').selectedIndex  = "1"
     document.title = "Elenco Prenotazioni";
+    this.dataAttuale = new Date();
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- Questa è la  Pagina montata dal file da main.js sul div "ID=app"   -->
+    <!-- Questa è la  Pagina montata dal file  main.js sul div "id=app"   -->
     <NavbarComponent />
     <router-view />
   </div>
@@ -15,6 +15,7 @@ export default {
     NavbarComponent
   }
 };
+
 </script>
 
 <style>

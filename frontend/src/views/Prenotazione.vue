@@ -1,18 +1,22 @@
 <template lang="html">
   <!-- DESCRIZIONE  PRENOTAZIONE EFFETTUATA -->
-  <div class="container" id="da_stampare">
-    <div class="card  border-primary rounded mb-1">
-        <div class="card-header">
-            <p><strong>PRENOTAZIONE:</strong>
+
+
+  <div class="container" >
+      <h4 class="d-none d-print-block">Padova {{ getLocalDate(dataAttuale)}} </h4>
+    <div class="card  border-primary rounded mb-1" id="IDStampa">
+        <div class="card-header" >
+            <p  ><strong>PRENOTAZIONE:</strong>
                 <a href="#" title="Inserisci turni  prenotazione">
-                    <span @click="setDisplayInsertPrenotazione">
+                    <span class ='d-print-none' @click="setDisplayInsertPrenotazione">
                         <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                           <path fill="#70bf2b" d="M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"/>
                         </svg>
                   </span>
-
-
                 </a>
+ <!--   stampante
+                <span class ='d-print-none' @click="stampa" >  <img src="/static/apps_printer_15747.png" style = 'max-width:3%' ></span>
+-->
               <br>Data Prenotazione {{ getLocalDate(prenotazione.data_prenotazione) }}
               <br>Prenotazione Effettuata da : <strong class="author-name">   {{ prenotazione.user }}</strong>
 
@@ -25,54 +29,46 @@
      <!-- FINE DESCRIZIONE  PRENOTAZIONE EFFETTUATA -->
 
     <!--    INTESTAZIONE DELLE COLONNE    -->
-        <div class="row">
-         <div class="col-lg-1 border-bottom border-secondary "></div>
-          <div class="col-lg-2 border-bottom border-secondary ">Data</div>
-          <div class="col-lg-2 border-bottom border-secondary ml-4">Orario</div>
-          <div class="col-lg-2 border-bottom border-secondary">Settore</div>
-          <div class="col-lg-2 border-bottom border-secondary">Classe</div>
-          <div class="col-lg-2 border-bottom border-secondary">N.ro Alunni</div>
+    <div class="container border-bottom border-secondary">
+        <div class="row  rounded" >
+          <div class="col-md-3 ml-4 mr-1  ">Data</div>
+          <div class="col-md-2 ">Orario</div>
+          <div class="col-md-2 ">Settore</div>
+          <div class="col-md-2 ">Classe</div>
+          <div class="col-md-2 text-right ">N.ro Alunni</div>
         </div>
+    </div>
 
     <!--    Elenco movimenti prenotazione    -->
-    <div class="container table-striped" v-for="(turnoPrenotazione,index) in movimentiPrenotazione"   :key="index">
+    <div class="container border-bottom" v-for="(turnoPrenotazione,index) in movimentiPrenotazione"   :key="index">
         <div class="row">
     <!--    icona delete     -->
         <router-link title="Elimina turno Prenotazione"
                 :to="{ name: 'movimento-prenotazione-confirm-delete', params: {prenotazione: prenotazione,turnoPrenotazione: turnoPrenotazione,pk: turnoPrenotazione.id} }"
-                ><span>
+                ><span class ='d-print-none'>
                     <svg width="14" height="14" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                       <path fill="#dd4646" d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"/>
                   </svg>
                   </span>
           </router-link>
     <!--    icona modifica     -->
-            <a href="#" title="Modifica turno Prenotazione">
+            <a class ='d-print-none' href="#" title="Modifica turno Prenotazione">
                 <span @click="ModificaPrenotazione(turnoPrenotazione)">
                 <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                   <path fill="#efb80b" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"/>
                 </svg>
                 </span>
             </a>
-    <!--
-            <div class="col-lg-3 border-bottom" v-text="turni[turnoPrenotazione.turno-1].data"> </div>
-            <div class="col-lg-2 border-bottom" v-text="turni[turnoPrenotazione.turno-1].orario_turno"> </div>
-            <div class="col-lg-2 border-bottom" v-text="turni[turnoPrenotazione.turno-1].settore">    </div>
 
-    <div class="col-lg-4 border-bottom" v-text="turnoPrenotazione"> </div>
+        <div class="col-md-3 " v-text="getDataTurno(turnoPrenotazione.turno)"> </div>
+        <div class="col-md-2 " v-text="getDescrizioneOrarioTurno(turnoPrenotazione.turno)"> </div>
+        <div class="col-md-2" v-text="getDescrizioneSettoreTurno(turnoPrenotazione.turno)"> </div>
 
-   getDataTurno -->
-
-
-
-        <div class="col-lg-3 border-bottom" v-text="getDataTurno(turnoPrenotazione.turno)"> </div>
-        <div class="col-lg-2 border-bottom" v-text="getDescrizioneOrarioTurno(turnoPrenotazione.turno)"> </div>
-        <div class="col-lg-2 border-bottom" v-text="getDescrizioneSettoreTurno(turnoPrenotazione.turno)"> </div>
-
-        <div class="col-lg-2 border-bottom" v-text="turnoPrenotazione.classe"> </div>
-        <div class="col-lg-2 border-bottom ml-4" v-text="turnoPrenotazione.numero_alunni"> </div>
+        <div class="col-md-2 " v-text="turnoPrenotazione.classe"> </div>
+        <div class="col-md-2 text-right" v-text="turnoPrenotazione.numero_alunni"> </div>
         </div>
     </div>
+
     <!--    Fine Elenco movimenti prenotazione    -->
 
     <!--    Inserisci/Modifica prenotazione    -->
@@ -170,7 +166,8 @@ export default {
       error: null,
       next: null,
       requestUser: null,
-      requestUrl: null
+      requestUrl: null,
+      dataAttuale:null,
     };
   },
   computed: {
@@ -185,6 +182,10 @@ export default {
 
   methods: {
 
+      stampa() {
+          alert("sto stampando")
+          windows.print()
+       },
 
       getDescrizioneSettoreTurno(varIdTurno) {
           var j,descrizioneSettoreTurno;
@@ -428,6 +429,7 @@ export default {
     this.getTurniFiltratiPerDataPrenotazione(this.prenotazione.data_prenotazione)
 //    this.getNumeroAlunniPrenotatiPerOrarioTurno(1)
     document.title = "Elenco Prenotazioni";
+    this.dataAttuale = new Date();
 },
 
 
