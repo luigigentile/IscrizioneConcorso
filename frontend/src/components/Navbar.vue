@@ -14,14 +14,7 @@
               >Home
             </router-link>
           </li>
-  <!-- Nuova Prenotazione
-          <li class="nav-item mx-1 mp-0">
-            <router-link :to="{ name: 'prenotazione-editor' }" class="btn btn-sm btn-primary"
-              >Nuova Prenotazione
-            </router-link>
-          </li>
-      -->
-      <!-- Elenco Prenotazioni -->
+ <!-- Elenco Prenotazioni -->
           <li class="nav-item mx-1 " title="Visualizza l'elenco delle prenotazioni">
             <router-link :to="{ name: 'prenotazioni-elenco' }" class="btn btn-sm btn-primary"
               >Elenco Prenotazioni

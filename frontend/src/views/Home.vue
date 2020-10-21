@@ -18,12 +18,13 @@
         <div class="card  border-primary rounded mb-1">
           <div class="card-header">
 
-            <router-link title="Visualizza dettagli Prenotazione"
+            <router-link  v-if="prenotazione.scuola || staff " title="Visualizza dettagli Prenotazione"
               :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
               class="prenotazione-link"
             >
               Data Prenotazione {{ getLocalDate(prenotazione.data_prenotazione) }}
           </router-link>
+          <span v-else>Data Prenotazione {{ getLocalDate(prenotazione.data_prenotazione) }} </span>
 
   <!--    icona delete      -->
               <router-link title="Elimina  Prenotazione"
@@ -34,7 +35,6 @@
                             </svg>
                             </span>
                 </router-link>
-
     <!--    icona change     -->
             <router-link
                 :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, } }"
@@ -43,18 +43,18 @@
                 > <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                   <path fill="#efb80b" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"/>
                 </svg>
-
             </router-link>
-
 
             <p class="mb-0">
               Prenotazione Effettuata da :
               <strong class="author-name">{{ prenotazione.user }}</strong>
             </p>
+            <div v-if="prenotazione.scuola" class="">
               Scuola/Gruppo : <strong class="author-name">   {{ prenotazione.nome_scuola }}</strong>
               <p>
               Status : <strong class="author-name">   {{ prenotazione.status }}</strong>
-          </p>
+            </p>
+              </div>
 
           </div>
           <div class="card-body mt-n3">
@@ -111,12 +111,11 @@ export default {
     return {
       prenotazioni: [],
       userName: null,
+      staff:false,
       classe:null,
       usersName: [],
       next: null,
       loadingPrenotazioni: false,
-      requestUser: null,
-      selectedUser: null,
     };
   },
 
@@ -149,6 +148,7 @@ export default {
             apiService(endpoint)
               .then(data => {
                  this.userName = data.username;
+                 this.staff = data.is_staff;
               })
         },
 
@@ -160,7 +160,7 @@ export default {
     created() {
       this.getPrenotazioni();
       this.getUserName();
-      
+
 
     //            this.getUsersName();
 

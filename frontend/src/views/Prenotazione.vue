@@ -180,6 +180,22 @@ export default {
     }
   },
 
+
+  async beforeRouteEnter(to,from,next) {
+//      alert(to.name)
+//      alert(to.params.pk)
+////      alert(prenotazione)
+      if(to.params.prenotazione == undefined) {
+          alert("No prenotazione")
+          let endpoint = "api/prenotazioni/105/";
+          apiService(endpoint).then(data => {
+             prenotazione.push(...data.results);
+            });
+      }
+    return next();
+  },
+
+
   methods: {
 
       stampa() {
@@ -397,9 +413,9 @@ export default {
 
             async getPrenotazione() {
               //          let endpoint = `/api/prenotazioni/${this.pk}/`;
-              let endpoint = "api/prenotazioni/1";
+              let endpoint = "api/prenotazioni/105/";
               apiService(endpoint).then(data => {
-                this.prenotazione.push(...data.results);
+                prenotazione=data;
                 });
           },
 

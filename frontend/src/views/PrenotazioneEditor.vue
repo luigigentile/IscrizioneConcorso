@@ -1,12 +1,9 @@
 <template lang="html">
-    <div class="container mt-2">
-        <h1 class = "mb-3">{{title}}  </h1>
+    <div class="container">
+        <h1 class = "mb-1">{{title}}  </h1>
             <form @submit.prevent="onSubmit" >
-        <!--    checkbox  Scuola    -->
-        <input @change="updateScuola" type="checkbox" id="scuola"  v-model="scuola">
-        <label class="ml-1" for="scuola"> scuola/gruppo </label><br>
 
-        <div v-if="userIsStaff">
+        <div class = "border-bottom border-secondary pb-1" v-if="userIsStaff">
     <!--    checkbox  pagato    -->
             <input class="ml-3" type="checkbox" id="pagato"  v-model="pagato">
             <label class="ml-1 mr-4" for="pagato"> Pagato </label>
@@ -16,43 +13,49 @@
                 <option value="DC">Da Confermare</option>
                 <option value="CO" selected>Confermato</option>
             </select>
-
     <!--    Pulsante Invia mail di Conferma -->
-        <a class="btn btn-outline-success ml-4" v-if="prenotazioneIsConfermata()" @click="inviaMailConferma" >invia Mail Conferma </a>
+        <a class="btn btn-outline-success ml-4 btn-sm" v-if="prenotazioneIsConfermata()" @click="inviaMailConferma" >invia Mail Conferma </a>
         </div>
+
+        <br>
+        <!--    Pulsante Invia mail di Conferma
+        <a class="btn btn-outline-success ml-4" v-if="prenotazioneIsConfermata()" @click="vaiAprenotazioni" >passa a.. </a>
+-->
+<!--    checkbox  Scuola    -->
+        <input class="ml-3" @change="updateScuola" type="checkbox" id="scuola"  v-model="scuola">
+        <label class="ml-1" for="scuola"> scuola/gruppo </label><br>
+
+<!--    DATA PRENOTAZIONE CON SELECT    -->
+        <label for="dataPrenotazione" class="col-3" >Data Prenotazione</label>
+        <select  id="dataPrenotazione"
+            @change="changeDataPrenotazione"
+            class="col-9" placeholder="data prenotazione"
+            v-model="data_prenotazione">
+            <option
+               v-for="turno in distinct_data_turni"
+               :key="turno.id"
+               >{{ turno.data }}
+             </option>
+        </select>
         <br>
 
-        <!--    DATA PRENOTAZIONE CON SELECT    -->
-                <label for="dataPrenotazione" class="col-3" >Data Prenotazione</label>
-                <select  id="dataPrenotazione"
-                 class="col-9" placeholder="data prenotazione"
-                 v-model="data_prenotazione">
-                 <option
-                   v-for="turno in distinct_data_turni"
-                   :key="turno.id"
-                   >{{ turno.data }}
-                </option>
-                </select>
-                <br>
-
-            <div v-if="scuola">
-
+        <div v-if="scuola">
 <!--    Nome Scuola con casella di testo e Select  -->
-                <label for="nomescuola" class="col-3" >Nome Scuola/Gruppo</label>
-                <input type="text" class="col-4" placeholder="nome scuola" v-model="nome_scuola" id="nomescuola" autofocus>
-        <!--    SELEZIONA LA SCUOLA CON SELECT    -->
-                        <select  id="nomescuola"
-                        class="col-4 ml-3"
-                         placeholder="nome scuola"
-                         v-model="nome_scuola">
-                        <option value=""></option>
-                         <option
-                               v-for="scuola in scuole"
-                               :key="scuola.codice_ministeriale"
-                               >{{ scuola.sigla  }} - {{ scuola.nome_scuola }} - {{ scuola.comune }}
-                        </option>
-                    </select>
-            </div>
+            <label for="nomescuola" class="col-3" >Nome Scuola/Gruppo</label>
+            <input type="text" class="col-4" placeholder="nome scuola" v-model="nome_scuola" id="nomescuola" autofocus>
+<!--    SELEZIONA LA SCUOLA CON SELECT    -->
+            <select  id="nomescuola"
+                class="col-4 ml-3"
+                placeholder="nome scuola"
+                v-model="nome_scuola">
+                <option value=""></option>
+                <option
+                       v-for="scuola in scuole"
+                       :key="scuola.codice_ministeriale"
+                       >{{ scuola.sigla  }} - {{ scuola.nome_scuola }} - {{ scuola.comune }}
+                </option>
+            </select>
+        </div>
 
                 <!--    Data Prenotazione
                 <label for="dataPrenotazione" class="col-3" >Data Prenotazione</label>
@@ -61,12 +64,12 @@
                 -->
                 <!--    Numero accompagnatori    -->
                 <label for="numeroAccompagnatori" class="col-3" >{{label_numero_accompagnatori}} </label>
-                <input id="numeroAccompagnatori" type="number"  class="col-9" placeholder="numero_accompagnatori"
+                <input @change="changeNumeroAccompagnatori" id="numeroAccompagnatori" type="number"  class="col-9" placeholder="numero_accompagnatori"
                 v-model.number="numero_accompagnatori">
                 <!--    Numero Totale Alunni    -->
                     <div v-if="scuola">
                     <label for="numeroTotaleAlunni" class="col-3" >Numero Totale Alunni</label>
-                    <input id="numeroTotaleAlunni" type="number"  class="col-9" placeholder="numero_totale_alunni"
+                    <input @change="changeNumeroTotaleAlunni" id="numeroTotaleAlunni" type="number"  class="col-9" placeholder="numero_totale_alunni"
                     v-model.number="numero_totale_alunni">
                     </div>
 
@@ -187,13 +190,43 @@ export default {
     },
 
     methods : {
-        setDateTOYYYYMMDD(varData) {
+            setDateTOYYYYMMDD(varData) {
             var anno,mese,giorno;
             anno = varData.substring(6,10);
             mese = varData.substring(3,5);
             giorno = varData.substring(0,2);
             return anno+"-"+mese+"-"+giorno
         },
+
+        changeNumeroAccompagnatori() {
+            if (this.numero_accompagnatori < 0) {
+                var messaggio
+                messaggio = "Attenzione!!! il  numero di accompagnatori deve essere positivo"
+                alert(messaggio)
+                this.numero_accompagnatori = this.previousNumero_Accompagnatori
+                document.getElementById("numeroAccompagnatori").focus();
+                }
+            },
+
+            changeNumeroTotaleAlunni() {
+                if (this.numero_totale_alunni < 0) {
+                    var messaggio
+                    messaggio = "Attenzione!!! il  numero di accompagnatori deve essere positivo"
+                    alert(messaggio)
+                    this.numero_totale_alunni = this.previousNumero_Totale_Alunni
+                    document.getElementById("numeroTotaleAccompagnatori").focus();
+                    }
+                },
+
+        changeDataPrenotazione() {
+            if (this.scuola) {
+                var messaggio
+                messaggio = "Gentile utente, le ricordiamo che se viene modificata la data di . \n"
+                messaggio = messaggio + "prenotazione dovrà impostare nuovamente i turni di prenotazione perchè il sistema \n"
+                messaggio = messaggio + "dovrà controllare la disponibilità di posti. \n"
+                alert(messaggio)
+                }
+            },
 
             inviaMailConferma() {
             var reference
@@ -212,6 +245,15 @@ export default {
             reference = "/mail-conferma-prenotazione/" + this.pk +"/"
             location.href = reference;
           },
+
+          vaiAprenotazioni() {
+          var reference
+//          SALVA LA PRENOTAZIONE
+          this.SetStatusField();
+          reference = "/vai-prenotazione/" + this.pk +"/"
+          alert(reference)
+          location.href = reference;
+        },
 
             prenotazioneIsConfermata() {
             if(this.status=='CO') {
@@ -288,12 +330,12 @@ export default {
         onSubmit() {
             if (!this.previousData_Prenotazione) {
                 let endpoint = `/api/prenotazioni/`;
-                apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,
+                alert(apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,
                                                 numero_accompagnatori: this.numero_accompagnatori,
                                                 scuola:this.scuola,
                                                 nome_scuola:this.nome_scuola,
                                                 numero_totale_alunni:this.numero_totale_alunni,
-                                                esigenze:this.esigenze})
+                                                esigenze:this.esigenze}))
                 this.getLastPrenotazione()
                 var messaggio
                 messaggio = "Gentile utente, \ngrazie di aver prenotato una visita alla mostra  Sperimentando.  \n"
@@ -306,7 +348,6 @@ export default {
 //                this.vaiAMovimentiPrenotazione();
             }
             if (this.previousData_Prenotazione) {
-                alert("data prenotazion" + this.data_prenotazione)
                 this.SetStatusField();
                 let endpoint = `/api/prenotazioni/${this.pk}/`;
                 apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
@@ -317,11 +358,22 @@ export default {
                                             numero_accompagnatori: this.numero_accompagnatori,
                                             numero_totale_alunni:this.numero_totale_alunni,
                                             esigenze:this.esigenze})
-                alert("Prenotazione Modificata correttamente")
-                this.tornaIndietro()
+                if(this.data_prenotazione != this.previousData_Prenotazione && this.scuola) {
+                    var messaggio,reference
+                    messaggio = "Gentile utente, la sua prenotazione è stata modificata correttamente. \n"
+                    messaggio = messaggio + "Attenzione avendo cambiato la data di prenotazione è necessario \n"
+                    messaggio = messaggio + "nuovamente impostare i turni di prenotazione. \nI turni precedenti sono stati eliminati perchè si riferivano ad una data di prenotazione differente \n"
+                    alert(messaggio)
+                    reference = "/data-prenotazione-modificata/" + this.pk +"/"
+                    location.href = reference;
+//                    this.tornaIndietro()
+                    }
+                else {
+                    alert("Gentile utente, la sua prenotazione è stata modificata correttamente")
+                    this.tornaIndietro()
+                    }
             }
         },
-
         SetStatusField() {
             if(this.data_prenotazione != this.previousData_Prenotazione) {
                 this.status = "DC"; }
