@@ -40,8 +40,8 @@ class DataPrenotazioniSerializer(serializers.ModelSerializer):
         fields = ['data_prenotazione']
 
 class TurniSerializer(serializers.ModelSerializer):
-#    settore = serializers.StringRelatedField(read_only=True)
-#    data = serializers.SerializerMethodField(read_only=True)
+    settore = serializers.StringRelatedField(read_only=True)
+    data = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = TabellaTurni
         fields = '__all__'
