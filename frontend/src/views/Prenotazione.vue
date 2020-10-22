@@ -86,7 +86,7 @@
 
           <div class="form-row">
         <!--    TURNO    -->
-            <div class="col-5 ">
+            <div class="col-4 ">
             <select id = "SelectTurno" class="form-control mb-2"
                 v-model='turno'
                   @change="getSelectedUserTurno">
@@ -111,7 +111,9 @@
             <div class="col-2">
               <input type="number" id="numeroAlunni"  @change="checkNumeroAlunni" class="form-control" placeholder="numero alunni" v-model.number="numeroAlunni">
             </div>
-            <button  class="btn btn-outline-primary btn-sm"  >Aggiungi</button>
+            <div class="col-2">
+            <button  class="btn btn-outline-primary "  >{{labelPulsanteAggiungi}}</button>
+                </div>
           </div>
 
 
@@ -168,6 +170,7 @@ export default {
       requestUser: null,
       requestUrl: null,
       dataAttuale:null,
+      labelPulsanteAggiungi : 'Aggiungi'
     };
   },
   computed: {
@@ -181,32 +184,15 @@ export default {
   },
 
 
-  async beforeRouteEnter(to,from,next) {
-//      alert(to.name)
-//      alert(to.params.pk)
-////      alert(prenotazione)
-      if(to.params.prenotazione == undefined) {
-          alert("No prenotazione")
-          let endpoint = "api/prenotazioni/105/";
-          apiService(endpoint).then(data => {
-             prenotazione.push(...data.results);
-            });
-      }
-    return next();
-  },
 
 
   methods: {
 
-      stampa() {
-          alert("sto stampando")
-          windows.print()
-       },
 
       getDescrizioneSettoreTurno(varIdTurno) {
           var j,descrizioneSettoreTurno;
           for (j=0; j<this.turni.length; j++) {
-              if (this.turni[j].id == varIdTurno) {
+             if (this.turni[j].id == varIdTurno) {
                   descrizioneSettoreTurno = this.turni[j].settore
               }
           }
@@ -217,7 +203,7 @@ export default {
     getDescrizioneOrarioTurno(varIdTurno) {
         var j,descrizioneOrarioTurno;
         for (j=0; j<this.turni.length; j++) {
-            if (this.turni[j].id == varIdTurno) {
+          if (this.turni[j].id == varIdTurno) {
                 descrizioneOrarioTurno = this.turni[j].orario_turno
             }
         }
@@ -227,7 +213,7 @@ export default {
       getDataTurno(varIdTurno) {
           var j,dataTurno;
           for (j=0; j<this.turni.length; j++) {
-              if (this.turni[j].id == varIdTurno) {
+             if (this.turni[j].id == varIdTurno) {
                   dataTurno = this.turni[j].data
               }
           }
@@ -260,7 +246,15 @@ export default {
     },
 
     checkNumeroAlunni() {
-        if (this.numeroAlunni - this.numeroAlunniPrevious > this.postiDisponibili) {
+//      CONTROLLA SE IL NUMERO DI ALUNNI E' NEGATIVO
+      if (this.numeroAlunni < 0) {
+            alert("Attenzione !!!! il numero di alunni non puo' essere negativo")
+            this.numeroAlunni = this.numeroAlunniPrevious
+            document.getElementById("numeroAlunni").focus();
+            return
+        }
+//      CONTROLLA SE C'E' DISPONIBILITA'
+       if (this.numeroAlunni - this.numeroAlunniPrevious > this.postiDisponibili) {
             alert("Attenzione non ci sono abbastanza posti disponibili")
             document.getElementById("numeroAlunni").focus();
             return false
@@ -277,6 +271,7 @@ export default {
             this.clearDataPrenotazione()
             this.getMovimentiPrenotazioni()
             this.operation = "insert"
+            this.labelPulsanteAggiungi = "Aggiungi"
             this.numeroAlunniPrevious = 0
             this.displayInsertPrenotazione = true
             this.displayUpdatePrenotazione = false
@@ -307,7 +302,7 @@ export default {
         numeroTotaleAlunni = 0
         this.postiPrenotatiPerTurno[idturno] = 0
         for (j=0; j<this.movimentiPrenotazioni.length; j++) {
-            if (this.movimentiPrenotazioni[j].turno == idturno) {
+           if (this.movimentiPrenotazioni[j].turno == idturno) {
                    numeroTotaleAlunni = numeroTotaleAlunni + this.movimentiPrenotazioni[j].numero_alunni
     //               alert("turno =" + idturno +" posti prenotati = " + this.postiPrenotatiPerTurno[idturno])
                    this.postiPrenotatiPerTurno[idturno] = numeroTotaleAlunni
@@ -329,7 +324,7 @@ export default {
     getNumeroPostiDisponibili(idTurno) {
     var j
        for (j=0; j<this.turni.length; j++) {
-            if (this.turni[j].id == idTurno) {
+           if (this.turni[j].id == idTurno) {
                 return this.turni[j].numero_posti_disponibili
            }
         }
@@ -341,7 +336,7 @@ export default {
         var numeroPostiDisponibili
         numeroPostiDisponibili = 0
         for (j=0; j<this.turni.length; j++) {
-            if (this.turni[j].turno == idturno) {
+           if (this.turni[j].turno == idturno) {
                    numeroPostiDisponibili = this.turni[j].numero_posti_disponibili
             }
         }
@@ -379,10 +374,10 @@ export default {
         this.numeroAlunni = null
     },
     AddInsertPrenotazione() {
-                if (this.checkNumeroAlunni() == false) {
+               if (this.checkNumeroAlunni() == false) {
                     return
                 }
-                if (this.operation == 'insert') {
+               if (this.operation == 'insert') {
                 let endpoint = `/api/prenotazioni/${this.pk}/movimento/`;
                 apiService(endpoint, "POST", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni})
                 alert("Turno di prenotazione aggiunto correttamente")
@@ -390,10 +385,10 @@ export default {
                 this.postiDisponibili = 0
                 }
 
-                if (this.operation == 'update') {
+               if (this.operation == 'update') {
                     let endpoint = `/api/movimentiPrenotazioni/${this.idMovimentoPrenotazione}/`;
                     apiService(endpoint, "PUT", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni})
-                    alert("Prenotazione modificata Correttamente");
+                    alert("Turno di prenotazione modificato correttamente");
                     this.getMovimentiPrenotazione()
                 }
 
@@ -411,27 +406,21 @@ export default {
                 this.displayEditorPrenotazione = false
             },
 
-            async getPrenotazione() {
-              //          let endpoint = `/api/prenotazioni/${this.pk}/`;
-              let endpoint = "api/prenotazioni/105/";
-              apiService(endpoint).then(data => {
-                prenotazione=data;
-                });
-          },
 
         ModificaPrenotazione(prenotazione) {
             this.setDisplayEditorPrenotazione()
-                    this.operation = "update";
-                    this.clearDataPrenotazione()
-                    this.getMovimentiPrenotazioni()
-                    this.idMovimentoPrenotazione = prenotazione.id;
-                    this.turno = prenotazione.turno;
-                    this.classe = prenotazione.classe;
-                    this.numeroAlunni = prenotazione.numero_alunni;
-                    this.numeroAlunniPrevious = this.numeroAlunni
-                    this.postiDisponibili = this.getNumeroPostiDisponibili(this.turno) - this.postiPrenotatiPerTurno[this.turno] ;
-                    this.displayInsertPrenotazione = false
-                    this.displayUpdatePrenotazione = true
+                this.operation = "update";
+                this.labelPulsanteAggiungi = "Modifica"
+                this.clearDataPrenotazione()
+                this.getMovimentiPrenotazioni()
+                this.idMovimentoPrenotazione = prenotazione.id;
+                this.turno = prenotazione.turno;
+                this.classe = prenotazione.classe;
+                this.numeroAlunni = prenotazione.numero_alunni;
+                this.numeroAlunniPrevious = this.numeroAlunni
+                this.postiDisponibili = this.getNumeroPostiDisponibili(this.turno) - this.postiPrenotatiPerTurno[this.turno] ;
+                this.displayInsertPrenotazione = false
+                this.displayUpdatePrenotazione = true
                 },
 
 

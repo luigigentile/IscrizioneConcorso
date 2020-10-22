@@ -5,19 +5,24 @@ async function getJSON(response) {
     return response.json();
 }
 
+
 function apiService(endpoint, method, data) {
-  const config = {
-    method: method || "GET",
-    body: data !== undefined ? JSON.stringify(data) : null,
-    headers: {
-      "content-type": "application/json",
-      "X-CSRFToken": CSRF_TOKEN
+    const config = {
+        method: method || "GET",
+        body: data !== undefined ? JSON.stringify(data) : null,
+        headers: {
+            'content-type': 'application/json',
+            'X-CSRFToken': CSRF_TOKEN
+
+        }
     }
-  };
-  return fetch(endpoint, config)
-    .then(getJSON)
-    .catch(error => console.log(error));
+    return fetch(endpoint, config)
+            .then(getJSON)
+            .catch(error => console.log(error))
 }
+
+
+
 
 
 

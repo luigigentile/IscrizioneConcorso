@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="container">
-        <h1 class = "mb-1">{{title}}  </h1>
+        <h1 class = "mb-1">{{title}} </h1>
             <form @submit.prevent="onSubmit" >
 
         <div class = "border-bottom border-secondary pb-1" v-if="userIsStaff">
@@ -110,7 +110,7 @@ export default {
     props: {
         pk: {
             type: Number,
-            required:true
+            required:false
         },
         previousData_Prenotazione: {
             type: String,
@@ -167,7 +167,7 @@ export default {
             turni: [],
             distinct_data_turni:[],
             label_numero_accompagnatori:null,
-
+            tipoOperazione : null,
         }
     },
 
@@ -201,7 +201,7 @@ export default {
         changeNumeroAccompagnatori() {
             if (this.numero_accompagnatori < 0) {
                 var messaggio
-                messaggio = "Attenzione!!! il  numero di accompagnatori deve essere positivo"
+                messaggio = "Attenzione!!! il  numero " + this.label_numero_accompagnatori + " deve essere positivo"
                 alert(messaggio)
                 this.numero_accompagnatori = this.previousNumero_Accompagnatori
                 document.getElementById("numeroAccompagnatori").focus();
@@ -211,15 +211,15 @@ export default {
             changeNumeroTotaleAlunni() {
                 if (this.numero_totale_alunni < 0) {
                     var messaggio
-                    messaggio = "Attenzione!!! il  numero di accompagnatori deve essere positivo"
+                    messaggio = "Attenzione!!! il  numero di alunni deve essere positivo"
                     alert(messaggio)
                     this.numero_totale_alunni = this.previousNumero_Totale_Alunni
-                    document.getElementById("numeroTotaleAccompagnatori").focus();
+                    document.getElementById("numeroTotaleAlunni").focus();
                     }
                 },
 
         changeDataPrenotazione() {
-            if (this.scuola) {
+            if (this.scuola && tipoOperazione =="update") {
                 var messaggio
                 messaggio = "Gentile utente, le ricordiamo che se viene modificata la data di . \n"
                 messaggio = messaggio + "prenotazione dovrà impostare nuovamente i turni di prenotazione perchè il sistema \n"
@@ -306,8 +306,7 @@ export default {
           let endpoint = "api/prenotazioni/?ordering=-id";
           apiService(endpoint).then(data => {
              this.lastPrenotazione[0] = data.results[0];
-               alert("Numero Prenotazione :" + this.lastPrenotazione[0].id)
-                 this.$router.push({
+               this.$router.push({
                       name: "prenotazione",
                       params: {pk: this.lastPrenotazione[0].id , prenotazione:this.lastPrenotazione[0]}
                   })
@@ -330,13 +329,14 @@ export default {
         onSubmit() {
             if (!this.previousData_Prenotazione) {
                 let endpoint = `/api/prenotazioni/`;
-                alert(apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,
+                apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,
                                                 numero_accompagnatori: this.numero_accompagnatori,
                                                 scuola:this.scuola,
                                                 nome_scuola:this.nome_scuola,
                                                 numero_totale_alunni:this.numero_totale_alunni,
-                                                esigenze:this.esigenze}))
-                this.getLastPrenotazione()
+                                                esigenze:this.esigenze})
+
+
                 var messaggio
                 messaggio = "Gentile utente, \ngrazie di aver prenotato una visita alla mostra  Sperimentando.  \n"
                 if (this.scuola) {
@@ -345,6 +345,12 @@ export default {
                 messaggio = messaggio + "La preghiamo di attendere la nostra mail di conferma da parte di Sperimentando \n"
                 messaggio = messaggio + "Distinti saluti,\nlo staff di Sperimentando"
                 alert(messaggio)
+//        SI POSIZIONE SULL'ULTIMA PRENOTAZIONE O TORNA ALLA PAGINA home
+                if (this.scuola) {
+                    this.getLastPrenotazione()
+                }else {
+                    this.tornaIndietro()
+                }
 //                this.vaiAMovimentiPrenotazione();
             }
             if (this.previousData_Prenotazione) {
@@ -374,6 +380,7 @@ export default {
                     }
             }
         },
+
         SetStatusField() {
             if(this.data_prenotazione != this.previousData_Prenotazione) {
                 this.status = "DC"; }
@@ -405,6 +412,14 @@ export default {
             this.getDistinctDataTurni()
             this.getScuole()
             this.setRequestUserName()
+//          IMPOSTA IL TIPO DI OPERAZIONE
+            if (this.previousData_Prenotazione) {
+                this.tipoOperazione ="update"}
+            else {
+                this.tipoOperazione ="insert"
+            }
+
+
         //        this.getLastPrenotazione()
         },
 

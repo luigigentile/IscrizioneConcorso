@@ -21,7 +21,7 @@
             </router-link>
           </li>
  <!-- Riepilogo Prenotazioni -->
-          <li class="nav-item mx-1" >
+          <li class="nav-item mx-1" title="Visualizza il Riepilogo Prenotazioni">
             <router-link v-show="currentUser.isStaff" :to="{ name: 'prenotazioni-riepilogo' }" class="btn btn-sm btn-primary"
               >Riepilogo Prenotazioni
             </router-link>
@@ -29,7 +29,7 @@
 
 
     <!-- Menu Utente Dropdown -->
-      <div class="dropdown nav-item mx-1">
+      <div class="dropdown nav-item mx-1" title="Account">
         <button class="btn btn-sm btn-info " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          {{userName}}:
          </button>
