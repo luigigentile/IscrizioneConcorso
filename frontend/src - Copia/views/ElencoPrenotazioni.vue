@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="container">
-      <h4 class="d-none d-print-block">Padova {{ dataAttuale}} </h4>
+      <h4 class="d-none d-print-block">Padova {{ getLocalDate(dataAttuale)}} </h4>
 <!--    SELEZIONA LA DATA PRENOTAZIONE CON SELECT    -->
 <div class ='d-print-none'>
     <label for="dataPrenotazione" class='mr-1'>Data Prenotazione </label>
@@ -35,42 +35,29 @@
     <!--    ELENCO COMPLETO PRENOTAZIONI    -->
     <!--    INTESTAZIONE DELLE COLONNE    -->
         <div class="row border-bottom border-secondary mb-2">
-        <div class="col-md-2 ">Data</div>
+        <div class="col-md-1 ">Data</div>
         <div class="col-md-1 ">Status</div>
-        <div class="col-md-4">Nome Scuola</div>
-        <div class="col-md-1 ">Accomp.</div>
+        <div class="col-md-3 ">Nome Scuola</div>
+        <div class="col-md-2 ">Accompagnatori</div>
         <div class="col-md-1 ">Alunni</div>
-        <div class="col-md-3 ">Esigenze</div>
+        <div class="col-md-4 ">Esigenze</div>
         </div>
 
 <!--      Elenco movimenti prenotazione -->
 <font face="Times New Roman" size="2" color="#000000">
     <div  v-for="(prenotazione,index) in prenotazioni_filtered"   :key="index">
         <div class="row border-bottom">
-            <div class="col-md-2 " v-text="prenotazione.data_prenotazione"> </div>
+            <div class="col-md-1 " v-text="getLocalDate(prenotazione.data_prenotazione)"> </div>
             <div class="col-md-1 " v-text="prenotazione.status"> </div>
-<!--   LINK AL DETTAGLIO PRENOTAZIONE
-            <router-link  v-if="prenotazione.scuola || staff " title="Visualizza dettagli Prenotazione"
-              :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
-              class="prenotazione-link col-md-4"
-            >Data Prenotazione {{ prenotazione.nome_scuola }}
-            </router-link>
--->
-
-<!--   LINK ALla PRENOTAZIONE -->
-            <router-link
-                :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, } }"
-                class="prenotazione-editor-link col-md-4"
-                title = "Modifica Prenotazione"
-                > Data Prenotazione {{ prenotazione.nome_scuola }}
-            </router-link>
-            <div class="col-md-1 text-center" v-text="prenotazione.numero_accompagnatori"> </div>
+            <div class="col-md-3 " v-text="prenotazione.nome_scuola"> </div>
+            <div class="col-md-2 text-center" v-text="prenotazione.numero_accompagnatori"> </div>
             <div class="col-md-1 text-center" v-text="prenotazione.numero_totale_alunni"> </div>
-            <div class="col-md-3 " v-text="prenotazione.esigenze"> </div>
+            <div class="col-md-4 " v-text="prenotazione.esigenze"> </div>
         </div>
     </div>
     </font>
     <!--        Fine Elenco movimenti prenotazione -->
+
 
   </div>
 </template>
@@ -92,6 +79,7 @@ export default {
     distinct_data_prenotazione:[],
     status:null,
     data_prenotazione:null,
+    filtro:null,
     turni:[],
     movimentiPrenotazioni: [],
     postiPrenotati : null,
@@ -105,21 +93,6 @@ export default {
 
 
   methods: {
-
-      setDateTOYYYYMMDD(varData) {
-      if (varData == null) {
-              return varData
-          }
-      if (varData.length == 0) {
-              return varData
-          }
-
-      var anno,mese,giorno;
-      anno = varData.substring(6,10);
-      mese = varData.substring(3,5);
-      giorno = varData.substring(0,2);
-      return anno+"-"+mese+"-"+giorno
-  },
 
       getLocalDate(Data) {
     //    return new Date(DataPrenotazione).toLocaleDateString();
@@ -142,8 +115,10 @@ export default {
 
     getPrenotazioniFilteredByDataPrenotazione() {
         this.prenotazioni_filtered = [];
+
         if (this.data_prenotazione != null ) {
-            let endpoint = `/api/prenotazioni/?search=${this.setDateTOYYYYMMDD(this.data_prenotazione)}`;
+            this.filtro = this.data_prenotazione
+            let endpoint = `/api/prenotazioni/?search=${this.data_prenotazione}`;
             apiService(endpoint).then(data => {
             this.prenotazioni_filtered.push(...data.results);
              });
@@ -157,6 +132,7 @@ export default {
         this.prenotazioni_filtered = [];
 
         if (this.status != null ) {
+            this.filtro = this.status
             let endpoint = `/api/prenotazioni/?ordering=data_prenotazione&search=${this.status}`;
             apiService(endpoint).then(data => {
             this.prenotazioni_filtered.push(...data.results);

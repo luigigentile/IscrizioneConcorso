@@ -3,6 +3,7 @@
 
 <h4 class="d-none d-print-block">Padova {{ getLocalDate(dataAttuale)}}</h4>
 
+
   <!--    DATA PRENOTAZIONE CON SELECT    -->
     <div class="d-print-none">
           <label for="dataTurno" class="col-3" >Data Prenotazione</label>
@@ -23,7 +24,7 @@
     <h3>Riepilogo Prenotazioni</h3>
     <!--    RIEPILOGO TURNI CON PRENOTAZIONI    -->
     <!--    INTESTAZIONE DELLE COLONNE    -->
-        <div class="row border-bottom border-secondary mb-1">
+        <div class="row border-bottom border-secondary mb-2">
           <div class="col-md-2 ">Data</div>
           <div class="col-md-2 ">Orario</div>
           <div class="col-md-2 ">Settore</div>
@@ -33,7 +34,6 @@
         </div>
 
     <!--    Elenco movimenti prenotazione    -->
-    <font face="Times New Roman" size="2" color="#000000">
     <div class="container border-bottom" v-for="(turno) in turni_filtrati"   :key="turno.id">
         <div class="row">
             <div class="col-md-2 " v-text="turno.data"> </div>
@@ -42,9 +42,9 @@
             <div class="col-md-2  text-right" v-text="turno.numero_posti_disponibili"> </div>
             <div class="col-md-2  text-right" v-text="numeriAlunniPrenotatiPerTurno[turno.id]"> </div>
             <div class="col-md-2 border-bottom text-right" v-text="turno.numero_posti_disponibili-numeriAlunniPrenotatiPerTurno[turno.id]"> </div>
+
         </div>
     </div>
-    </font>
         <!--    Fine Elenco movimenti prenotazione    -->
 
 
@@ -160,23 +160,18 @@ export default {
     },
 
     setDateTOYYYYMMDD(varData) {
-        if (varData == null) {
-                return varData
-            }
-        if (varData.length == 0) {
-                return varData
-            }
         var anno,mese,giorno;
-        anno = varData.substring(6,10);
-        mese = varData.substring(3,5);
+        anno = varData.substring(5,9);
+        mese = varData.substring(3,4);
         giorno = varData.substring(0,2);
-        return anno+"-"+mese+"-"+giorno
+        return anno+"/"+mese+"/"+giorno
+
     },
 
     getTurniFiltratiPerData() {
     this.turni_filtrati = [];
     if (this.data_turno != null  && this.data_turno != "" ) {
-            let endpoint = `/api/turni/?search=${this.setDateTOYYYYMMDD(this.data_turno)}`;
+            let endpoint = `/api/turni/?search=${this.data_turno}`;
             apiService(endpoint).then(data => {
               this.turni_filtrati.push(...data.results);
              });

@@ -144,11 +144,6 @@ export default {
             type: Number,
             required:false
         },
-        from_Name: {
-            type: String,
-            required:false
-        },
-
     },
 
     data() {
@@ -163,8 +158,8 @@ export default {
             pagato:this.previouspagato || false,
             nome_scuola:this.previousNome_Scuola || null,
             status:this.previousStatus || null,
-            numero_accompagnatori: this.previousNumero_Accompagnatori  || 1,
-            numero_totale_alunni: this.previousNumero_Totale_Alunni  || 0,
+            numero_accompagnatori: this.previousNumero_Accompagnatori  || null,
+            numero_totale_alunni: this.previousNumero_Totale_Alunni  || null,
             esigenze: this.previousEsigenze  || null,
             error: null,
             requestUserName : null,
@@ -177,7 +172,6 @@ export default {
     },
 
     async beforeRouteEnter(to,from,next) {
-        to.params.from_Name = from.name
         if(to.params.pk !== undefined) {
             let endpoint = `/api/prenotazioni/${to.params.pk}/`;
             await apiService(endpoint)
@@ -312,7 +306,7 @@ export default {
         },
         tornaIndietro() {
             this.$router.push({
-                name: this.from_Name
+                name: "Home"
             })
 //        window.history.back()
          },

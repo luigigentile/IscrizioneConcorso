@@ -21,21 +21,24 @@ from core.views import IndexTemplateViews
 from users.forms import CustomUserForm
 
 
-from IscrizioneConcorso.views import mailConfermaPrenotazione,visualizzaprivacy
+from IscrizioneConcorso.views import mailConfermaPrenotazione,visualizzaprivacy,dataPrenotazioneModificata
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-#    path(r'^mail/(?P<oggetto>\w+)/$', eseguimail, name='run_execmail'),
-#    path('mail/', eseguimail,name='run_execmail'),
     path('mail-conferma-prenotazione/<int:pk>/', mailConfermaPrenotazione, name='mail_conferma_prenotazione'),
+    path('data-prenotazione-modificata/<int:pk>/', dataPrenotazioneModificata, name='data_prenotazione_modificata'),
     path('privacy/', visualizzaprivacy,name='run_visualizzaprivacy'),
+#    path('accounts/register/', RegistrationView,name='django_registration_register'),
+
+
 
     path("accounts/register/",
          RegistrationView.as_view(
             form_class=CustomUserForm,
             success_url="/",
          ), name="django_registration_register"),
+
 
 
     path('api/', include("users.api.urls")),

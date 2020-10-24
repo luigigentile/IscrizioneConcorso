@@ -1,8 +1,10 @@
 <template lang="html">
   <!-- DESCRIZIONE  PRENOTAZIONE EFFETTUATA -->
+
+
   <div class="container" >
       <h4 class="d-none d-print-block">Padova {{ getLocalDate(dataAttuale)}} </h4>
-    <div class="card  border-primary rounded ">
+    <div class="card  border-primary rounded mb-1" id="IDStampa">
         <div class="card-header" >
             <p  ><strong>PRENOTAZIONE:</strong>
                 <a href="#" title="Inserisci turni  prenotazione">
@@ -10,13 +12,14 @@
                         <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                           <path fill="#70bf2b" d="M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"/>
                         </svg>
-                    </span>
+                  </span>
                 </a>
  <!--   stampante
                 <span class ='d-print-none' @click="stampa" >  <img src="/static/apps_printer_15747.png" style = 'max-width:3%' ></span>
 -->
-              <br>Data Prenotazione {{ prenotazione.data_prenotazione }}
+              <br>Data Prenotazione {{ getLocalDate(prenotazione.data_prenotazione) }}
               <br>Prenotazione Effettuata da : <strong class="author-name">   {{ prenotazione.user }}</strong>
+
               <br>Numero Accompagnatori: {{ prenotazione.numero_accompagnatori}} <br>
                <span>Numero Totale Alunni: {{ prenotazione.numero_totale_alunni}}</span><br>
                <span>Esigenze: {{ prenotazione.esigenze}}</span>
@@ -28,9 +31,9 @@
     <!--    INTESTAZIONE DELLE COLONNE    -->
     <div class="container border-bottom border-secondary">
         <div class="row  rounded" >
-          <div class="col-md-2 ml-4 mr-1  ">Data</div>
+          <div class="col-md-3 ml-4 mr-1  ">Data</div>
           <div class="col-md-2 ">Orario</div>
-          <div class="col-md-3 ">Settore</div>
+          <div class="col-md-2 ">Settore</div>
           <div class="col-md-2 ">Classe</div>
           <div class="col-md-2 text-right ">N.ro Alunni</div>
         </div>
@@ -57,22 +60,24 @@
                 </span>
             </a>
 
-        <div class="col-md-2 " v-text="getDataTurno(turnoPrenotazione.turno)"> </div>
+        <div class="col-md-3 " v-text="getDataTurno(turnoPrenotazione.turno)"> </div>
         <div class="col-md-2 " v-text="getDescrizioneOrarioTurno(turnoPrenotazione.turno)"> </div>
-        <div class="col-md-3" v-text="getDescrizioneSettoreTurno(turnoPrenotazione.turno)"> </div>
+        <div class="col-md-2" v-text="getDescrizioneSettoreTurno(turnoPrenotazione.turno)"> </div>
 
         <div class="col-md-2 " v-text="turnoPrenotazione.classe"> </div>
         <div class="col-md-2 text-right" v-text="turnoPrenotazione.numero_alunni"> </div>
         </div>
     </div>
+
     <!--    Fine Elenco movimenti prenotazione    -->
 
     <!--    Inserisci/Modifica prenotazione    -->
     <!--    Form Input data    -->
-        <br>
-        <form class ="mt-2 " v-show="displayEditorPrenotazione" @submit.prevent="AddInsertPrenotazione">
+        <br><br>
+        <form class ="mt-3 " v-show="displayEditorPrenotazione" @submit.prevent="AddInsertPrenotazione">
+
             <div class="row">
-              <div class="col-lg-4 ml-3 border-bottom border-secondary ">Turno</div>
+              <div class="col-lg-5 border-bottom border-secondary ">Turno</div>
               <div class="col-lg-2 border-bottom border-secondary ">Classe</div>
               <div class="col-lg-2 border-bottom border-secondary">Disponibilità</div>
               <div class="col-lg-1 border-bottom border-secondary text-right">Alunni</div>
@@ -82,7 +87,7 @@
           <div class="form-row">
         <!--    TURNO    -->
             <div class="col-4 ">
-            <select id = "SelectTurno" class="form-control mb-1"
+            <select id = "SelectTurno" class="form-control mb-2"
                 v-model='turno'
                   @change="getSelectedUserTurno">
                   <optgroup label="Data - Turno - Settore">
@@ -179,6 +184,8 @@ export default {
   },
 
 
+
+
   methods: {
 
 
@@ -213,20 +220,6 @@ export default {
           return (dataTurno)
         },
 
-        setDateTOYYYYMMDD(varData) {
-            if (varData == null) {
-                    return varData
-                }
-            if (varData.length == 0) {
-                    return varData
-                }
-            var anno,mese,giorno;
-            anno = varData.substring(6,10);
-            mese = varData.substring(3,5);
-            giorno = varData.substring(0,2);
-            return anno+"-"+mese+"-"+giorno
-        },
-
 
       getLocalDate(Data) {
         return FormatToLocalDateString(Data);
@@ -245,7 +238,6 @@ export default {
         var idTurno
         idTurno = document.getElementById("SelectTurno").value
         this.postiPrenotati = this.postiPrenotatiPerTurno[idTurno];
-        this.numeroAlunni = 0
 //        this.postiDisponibili = this.turni[idTurno-1].numero_posti_disponibili - this.postiPrenotati
         this.postiDisponibili = this.getNumeroPostiDisponibili(idTurno)- this.postiPrenotati
         document.getElementById("classe").focus();
@@ -360,7 +352,7 @@ export default {
 
     getTurniFiltratiPerDataPrenotazione(dataPrenotazione) {
 //         let endpoint = `/api/prenotazioni/${this.pk}/movimenti/`;
-        let endpoint = `/api/turni/?search=${this.setDateTOYYYYMMDD(dataPrenotazione)}`;
+        let endpoint = `/api/turni/?search=${dataPrenotazione}`;
         apiService(endpoint).then(data => {
           this.turniFiltrati.push(...data.results);
       });

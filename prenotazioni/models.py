@@ -58,7 +58,7 @@ class Prenotazione(models.Model):
                                 on_delete = models.CASCADE,
                                 related_name = 'prenotazioni')
     nome_scuola = models.CharField(max_length=50,null=True)
-    numero_accompagnatori = models.PositiveIntegerField(default=2)
+    numero_accompagnatori = models.PositiveIntegerField(default=1)
     numero_totale_alunni = models.PositiveIntegerField(null=True)
     esigenze = models.TextField(blank=True, null=True)
     pagato = models.BooleanField(default=False,null=True)
@@ -82,7 +82,7 @@ class MovimentiPrenotazione(models.Model):
                                 related_name = 'turni')
 
     classe = models.CharField(max_length=30,blank=True, null=True)
-    numero_alunni = models.PositiveIntegerField(blank=True, null=True)
+    numero_alunni = models.PositiveIntegerField(blank=True, default=0)
 
     def __str__(self):
         return str(self.id) + " -  " + str(self.turno) + " " + str(self.classe)

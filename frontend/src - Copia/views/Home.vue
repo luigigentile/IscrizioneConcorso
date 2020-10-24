@@ -22,9 +22,9 @@
               :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
               class="prenotazione-link"
             >
-              Data Prenotazione {{ prenotazione.data_prenotazione }}
+              Data Prenotazione {{ getLocalDate(prenotazione.data_prenotazione) }}
           </router-link>
-          <span v-else>Data Prenotazione {{ prenotazione.data_prenotazione }} </span>
+          <span v-else>Data Prenotazione {{ getLocalDate(prenotazione.data_prenotazione) }} </span>
 
   <!--    icona delete      -->
               <router-link title="Elimina  Prenotazione"
@@ -51,10 +51,8 @@
             </p>
             <div v-if="prenotazione.scuola" class="">
               Scuola/Gruppo : <strong class="author-name">   {{ prenotazione.nome_scuola }}</strong>
-
-            </div>
-            <div class="">
-               <p> Status : <strong class="author-name">   {{ prenotazione.status }}</strong>
+              <p>
+              Status : <strong class="author-name">   {{ prenotazione.status }}</strong>
             </p>
               </div>
 
@@ -89,6 +87,7 @@
           </div>
         </div>
       </div>
+
 
 
     </div>
