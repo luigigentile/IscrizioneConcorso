@@ -37,7 +37,7 @@
         <div class="row border-bottom border-secondary mb-2">
         <div class="col-md-2 ">Data</div>
         <div class="col-md-1 ">Status</div>
-        <div class="col-md-4">Nome Scuola</div>
+        <div class="col-md-4">Nome Scuola/Utente</div>
         <div class="col-md-1 ">Accomp.</div>
         <div class="col-md-1 ">Alunni</div>
         <div class="col-md-3 ">Esigenze</div>
@@ -59,11 +59,22 @@
 
 <!--   LINK ALla PRENOTAZIONE -->
             <router-link
+                v-if="prenotazione.scuola"
                 :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, } }"
                 class="prenotazione-editor-link col-md-4"
                 title = "Modifica Prenotazione"
-                > Data Prenotazione {{ prenotazione.nome_scuola }}
+                >  {{ prenotazione.nome_scuola }}
             </router-link>
+
+            <router-link
+                v-else
+                :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, } }"
+                class="prenotazione-editor-link col-md-4"
+                title = "Modifica Prenotazione"
+                >   {{ prenotazione.user }}
+            </router-link>
+
+
             <div class="col-md-1 text-center" v-text="prenotazione.numero_accompagnatori"> </div>
             <div class="col-md-1 text-center" v-text="prenotazione.numero_totale_alunni"> </div>
             <div class="col-md-3 " v-text="prenotazione.esigenze"> </div>
@@ -102,10 +113,7 @@ export default {
   },
 
 
-
-
   methods: {
-
       setDateTOYYYYMMDD(varData) {
       if (varData == null) {
               return varData
