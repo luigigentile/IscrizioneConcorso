@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect,HttpResponseBadRequest,HttpResponse
 from prenotazioni.models import Prenotazione,MovimentiPrenotazione
 from users.models import CustomUser
 from users.forms import CustomUserForm
+from django.conf import settings
 
 #def RegistrationView(request):
 #    success_url="/"
@@ -15,12 +16,15 @@ from users.forms import CustomUserForm
 ##    return render(request)
 ##    return render(request,"127.0.0.1:8000/IscrizioneConcorso/frontend/views/userEditor.vue")
 
-
-
-
-
-
-
+def visualizzaGuidaUtente(request):
+    print(settings.BASE_DIR)
+    with open(settings.BASE_DIR + '/static/GuidaUtente.pdf', 'rb') as pdf:
+        response = HttpResponse(pdf.read())
+        response['Content-Disposition'] = 'inline;filename=some_file.pdf'
+        response['Content-Disposition'] ="attachment; filename=GuidaUtente.pdf"
+        return response
+    pdf.closed
+#
 
 def mailConfermaPrenotazione(request,pk):
     import os

@@ -60,7 +60,7 @@
 <!--   LINK ALla PRENOTAZIONE -->
             <router-link
                 v-if="prenotazione.scuola"
-                :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, } }"
+                :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, prenotazione:prenotazione} }"
                 class="prenotazione-editor-link col-md-4"
                 title = "Modifica Prenotazione"
                 >  {{ prenotazione.nome_scuola }}

@@ -1,24 +1,47 @@
 <template lang="html">
     <div class="container">
-        <h1 class = "mb-1">{{title}} </h1>
-            <form @submit.prevent="onSubmit" >
+<!--    Pulsante Dettaglio Prenotazione di Conferma -->
+        <div class="container " >
+            <div class="row  rounded" >
+                <div class="col-md-8  ">
+                      <h1 >{{title}} </h1>
+                </div>
+<!--    Pulsante Dettaglio Prenotazione di Conferma -->
+                <div class="col-md-3 ml-3" v-if="previousscuola">
+                     <span class="btn btn-outline-success  mt-3 btn-sm">
+                     <router-link   title="Visualizza dettagli Prenotazione"
+                       :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
+                       class="prenotazione-link"
+                       >Dettaglio Prenotazioni
+                       </router-link>
+                      </span>
+                 </div>
 
-        <div class = "border-bottom border-secondary pb-1" v-if="userIsStaff">
-    <!--    checkbox  pagato    -->
+            </div>
+        </div>
+
+        <form @submit.prevent="onSubmit" >
+
+        <div class = "border-bottom border-secondary pb-1" v-if="userIsStaff && pk">
+    <!--    checkbox  pagato -->
             <input class="ml-3" type="checkbox" id="pagato"  v-model="pagato">
             <label class="ml-1 mr-4" for="pagato"> Pagato </label>
-    <!--    STATUS  -->
+    <!--    STATUS   -->
             <label class="ml-1" for="id_status">Status:</label>
             <select class="ml-1" name="status" id="id_status" v-model="status">
                 <option value="DC">Da Confermare</option>
                 <option value="CO" selected>Confermato</option>
             </select>
+
     <!--    Pulsante Invia mail di Conferma -->
-        <a class="btn btn-outline-success ml-4 btn-sm" v-if="prenotazioneIsConfermata()" @click="inviaMailConferma" >invia Mail Conferma </a>
+        <a class="btn btn-outline-success ml-4 btn-sm" v-if="prenotazioneIsConfermata()" @click="inviaMailConferma"
+            >invia Mail Conferma
+        </a>
         </div>
 
+
         <br>
-        <!--    Pulsante Modifica Data Prenotayione
+        <!--    Pulsante Modifica Data Prenotazione
         <a class="btn btn-outline-success ml-4"  @click="modificaDataPrenotazione" >passa a.. </a>
         -->
 <!--    checkbox  Scuola    -->
@@ -112,6 +135,10 @@ export default {
             type: Number,
             required:false
         },
+        prenotazione: {
+            type: Object,
+            required:false
+        },
         previousData_Prenotazione: {
             type: String,
             required:false
@@ -191,6 +218,7 @@ export default {
                         to.params.previousNumero_Totale_Alunni = data.numero_totale_alunni;
                         to.params.previousEsigenze = data.esigenze;
                     })
+                    .catch(error => console.log(error))
             }
         return next();
     },
@@ -205,7 +233,7 @@ export default {
         },
 
         changeNumeroAccompagnatori() {
-            if (this.numero_accompagnatori < 0) {
+            if (this.numero_accompagnatori <= 0) {
                 var messaggio
                 messaggio = "Attenzione!!! il  numero " + this.label_numero_accompagnatori + " deve essere positivo"
                 alert(messaggio)
@@ -239,14 +267,16 @@ export default {
 //          SALVA LA PRENOTAZIONE
             this.SetStatusField();
             let endpoint = `/api/prenotazioni/${this.pk}/`;
-            apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
+            alert(apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
                                         scuola:this.scuola,
                                         pagato:this.pagato,
                                         nome_scuola:this.nome_scuola,
                                         status:this.status,
                                         numero_accompagnatori: this.numero_accompagnatori,
                                         numero_totale_alunni:this.numero_totale_alunni,
-                                        esigenze:this.esigenze})
+                                        esigenze:this.esigenze}))
+
+
             alert("La prenotazione è stata modificata correttamente \ned è stata inviata una mail di conferma all'utente: " + this.requestUserName)
             reference = "/mail-conferma-prenotazione/" + this.pk +"/"
             location.href = reference;

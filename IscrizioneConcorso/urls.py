@@ -22,6 +22,7 @@ from users.forms import CustomUserForm
 
 
 from IscrizioneConcorso.views import mailConfermaPrenotazione,visualizzaprivacy,dataPrenotazioneModificata
+from IscrizioneConcorso.views import visualizzaGuidaUtente
 
 
 urlpatterns = [
@@ -29,6 +30,7 @@ urlpatterns = [
     path('mail-conferma-prenotazione/<int:pk>/', mailConfermaPrenotazione, name='mail_conferma_prenotazione'),
     path('data-prenotazione-modificata/<int:pk>/', dataPrenotazioneModificata, name='data_prenotazione_modificata'),
     path('privacy/', visualizzaprivacy,name='run_visualizzaprivacy'),
+    path('guidautente/', visualizzaGuidaUtente,name='guida_utente'),
 #    path('accounts/register/', RegistrationView,name='django_registration_register'),
 
 

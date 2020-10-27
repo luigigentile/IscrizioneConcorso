@@ -13,7 +13,6 @@ function apiService(endpoint, method, data) {
         headers: {
             'content-type': 'application/json',
             'X-CSRFToken': CSRF_TOKEN
-
         }
     }
     return fetch(endpoint, config)

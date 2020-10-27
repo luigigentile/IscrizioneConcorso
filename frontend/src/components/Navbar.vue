@@ -64,13 +64,21 @@
             <a class="dropdown-item" href="/admin/authtoken/token/">Token </a>
             </div>
       </div>
- <!-- Pulsante About-->
-           <li class="nav-item mx-1">
-             <router-link :to="{ name: 'About' }" class="btn btn-sm btn-info"
-               >About
-             </router-link>
-           </li>
 
+      <!-- Menu ? -->
+        <div class="dropdown nav-item mx-1" title="">
+          <button class="btn btn-sm btn-info " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           ?
+           </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-item">
+                  <router-link :to="{ name: 'About' }"
+                    >About
+                  </router-link>
+              </div>
+              <a class="dropdown-item" href="/guidautente/">Guida Utente</a>
+          </div>
+        </div>
 
         </ul>
       </div>

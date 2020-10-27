@@ -37,7 +37,7 @@
                 </router-link>
     <!--    icona change     -->
             <router-link
-                :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, } }"
+                :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, prenotazione:prenotazione} }"
                 class="prenotazione-editor-link"
                 title = "Modifica Prenotazione"
                 > <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
