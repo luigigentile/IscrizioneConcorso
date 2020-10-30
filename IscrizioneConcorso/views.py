@@ -28,7 +28,8 @@ def visualizzaGuidaUtente(request):
 
 def mailConfermaPrenotazione(request,pk):
     import os
-    EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD')
+#    print("EMAIL_HOST_USER:")
+#    print(settings.EMAIL_HOST_USER)
 #    print("pk= " + str(pk))
     prenotazione = Prenotazione.objects.get(pk=pk)
     print("User Id della prenotazione = " + str(prenotazione.user.id))
@@ -40,36 +41,36 @@ def mailConfermaPrenotazione(request,pk):
     success_url="/"
     destinatari = (user.email,)
 #   CONTENUTO DELLA MAIL
-    contenuto = "Gentile " + user.first_name  + ", grazie per esserti iscritto alla mostra di  Sperimentando\n\n"
-    contenuto = contenuto + "Utente              " + str(user.username) + "\n"
-    contenuto = contenuto + "Scuola/Gruppo:      " + str(prenotazione.nome_scuola) + "\n"
-    contenuto = contenuto + "N.ro accompagnatori:" + str(prenotazione.numero_accompagnatori) + "\n"
-    contenuto = contenuto + "N.ro alunni:        " + str(prenotazione.numero_totale_alunni) + "\n"
-    contenuto = contenuto + "Data Prenotazione:  " + str(prenotazione.data_prenotazione) + "\n"
-    contenuto = contenuto + "Esigenze:           " + str(prenotazione.esigenze) + "\n\n"
+    contenuto = "Gentile " + user.first_name  + ", \ngrazie per aver scelto di visitare la Mostra Sperimentando.\n"
+    contenuto = contenuto + "La prenotazione della visita alla mostra è confermata.\n"
+    contenuto = contenuto + "Ecco i dettagli della visita:\n"
+    contenuto = contenuto + "Utente:             \t" + str(user.username) + "\n"
+    contenuto = contenuto + "Scuola/Gruppo:      \t" + str(prenotazione.nome_scuola) + "\n"
+    contenuto = contenuto + "N.ro accompagnatori:\t" + str(prenotazione.numero_accompagnatori) + "\n"
+    contenuto = contenuto + "N.ro alunni:        \t" + str(prenotazione.numero_totale_alunni) + "\n"
+    contenuto = contenuto + "Data Prenotazione:  \t" + str(prenotazione.data_prenotazione.strftime('%d %B %Y')) + "\n"
+    contenuto = contenuto + "Esigenze:           \t" + str(prenotazione.esigenze) + "\n\n"
 #   DETTAGLI PRENOTAZIONE
     contenuto = contenuto + "Dettaglio Prenotazione:" + "\n"
-    contenuto = contenuto + "Settore\t" + "Orario\t\t" + "Classe\t" +"N.ro Alunni\t" +"\n"
+    contenuto = contenuto + "Settore\t\t" + "Orario\t\t" + "Classe\t\t" +"N.ro Alunni" +"\n"
 
     for dettaglio in dettagliPrenotazione:
-        contenuto = contenuto + str(dettaglio.turno.settore) + "\t"
-        contenuto = contenuto + str(dettaglio.turno.orario_turno) + "\t "
-        contenuto = contenuto + str(dettaglio.classe) + "\t"
-        contenuto = contenuto + str(dettaglio.numero_alunni) + "\t"
+        contenuto = contenuto + str(dettaglio.turno.settore) + "\t\t"
+        contenuto = contenuto + str(dettaglio.turno.orario_turno) + "\t\t"
+        contenuto = contenuto + str(dettaglio.classe) + "\t\t"
+        contenuto = contenuto + str(dettaglio.numero_alunni)
         contenuto = contenuto +  "\n"
 
     print(contenuto)
     print(destinatari)
+    oggetto = "Conferma di prenotazione alla Mostra Sperimentando"
 
     from django.core.mail import EmailMessage
-    email = EmailMessage(subject='Ti sei iscritto correttamente ', body=contenuto, to=destinatari)
+    email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari)
     email.send()
 
 #    success_url = reverse_lazy('home')
     return HttpResponseRedirect(success_url)
-#    return HttpResponseRedirect('/')
-
-
 #    return render(request)
 #    return render(request,"powerSimulation/simulazioneResults.html",context)
 
