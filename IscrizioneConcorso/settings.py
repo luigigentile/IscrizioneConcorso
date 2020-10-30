@@ -178,11 +178,7 @@ ACCOUNT_EMAIL_REQUIRED = (True)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Host for sending e-mail.
-#EMAIL_HOST = 'localhost'
-## Port for sending e-mail.
-#EMAIL_PORT = 1025
-
+#  IMPOSTAZIONI CORRETTE PER LA POSTA ELETTRONICA CON Gmail
 # EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'luigi.gentile2@gmail.com'
@@ -190,13 +186,19 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_PORT = 587
 
 #  IMPOSTAZIONI CORRETTE PER LA POSTA ELETTRONICA CON SendGrid
+#EMAIL_USE_TLS = True
+#EMAIL_HOST = 'smtp.sendgrid.net'
+#EMAIL_HOST_USER = 'apikey'
+#EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD')
+#EMAIL_PORT = 587
+#DEFAULT_FROM_EMAIL = 'luigi.gentile2@gmail.com'
+
+#  IMPOSTAZIONI CORRETTE PER LA POSTA ELETTRONICA CON ERGONET
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST = 'smtp.ergonet.it'
+EMAIL_HOST_USER=os.getenv('EMAIL_HOST_USER')+"@aifpadova.it"
 EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
-
-DEFAULT_FROM_EMAIL = 'luigi.gentile2@gmail.com'
 
 
 
