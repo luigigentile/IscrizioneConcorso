@@ -9,13 +9,14 @@ from rest_framework.views import  APIView
 from prenotazioni.api.serializers import MovimentiPrenotazioneSerializer, PrenotazioneSerializer
 from prenotazioni.api.serializers import TurniSerializer,DataTurniSerializer,SettoriSerializer
 from prenotazioni.api.serializers import DataPrenotazioniSerializer,AnagraficaScuoleSerializer
+from prenotazioni.api.serializers import AnagraficaVideoSerializer
 from prenotazioni.api.serializers import TabellaRuoliSerializer,ListaTurniSerializer
 
 
 from prenotazioni.api.permissions import IsUserOrReadOnly,IsOwnerOrReadOnly,IsUserOrReadOnlyOrIsStaff
 from prenotazioni.models import TabellaTurni,TabellaSettori,TabellaRuoli
 
-from prenotazioni.models import Prenotazione,MovimentiPrenotazione,AnagraficaScuole
+from prenotazioni.models import Prenotazione,MovimentiPrenotazione,AnagraficaScuole,AnagraficaVideo
 from rest_framework.filters import SearchFilter,OrderingFilter
 
 class PrenotazioniViewSet(viewsets.ModelViewSet):
@@ -141,6 +142,12 @@ class SettoriViewSet(viewsets.ModelViewSet):
 class AnagraficaScuoleViewSet(viewsets.ModelViewSet):
     queryset = AnagraficaScuole.objects.all().order_by("sigla")
     serializer_class = AnagraficaScuoleSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class AnagraficaVideoViewSet(viewsets.ModelViewSet):
+    queryset = AnagraficaVideo.objects.all().order_by("id")
+    serializer_class = AnagraficaVideoSerializer
     permission_classes = [IsAuthenticated]
 
 

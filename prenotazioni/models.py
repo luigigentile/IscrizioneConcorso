@@ -40,6 +40,30 @@ class TabellaTurni(models.Model):
 class StatusPrenotazione(models.TextChoices):
     DACONFERMARE = 'DC', 'Da Confermare'
     CONFERMATO = 'CO', 'Confermato'
+    EFFETTUATA = 'EF', 'Effettuata'
+
+class TipoVisita(models.TextChoices):
+    VIRTUALE = 'VI', 'Virtuale'
+    INPRESENZA = 'PR', 'In Presenza'
+    
+
+class AnagraficaVideo(models.Model):
+    titolo = models.CharField(max_length=50,blank=True)
+    descrizione = models.CharField(max_length=250,blank=True)
+    note = models.CharField(max_length=250,blank=True)
+    collegamento = models.CharField(max_length=128,blank=True)
+    settore = models.ForeignKey(TabellaSettori,
+                                on_delete = models.CASCADE,
+                                related_name = 'settorivideo')
+  
+    def __str__(self):
+        return str(self.id) + " " + str(self.descrizione)
+    class Meta:
+        verbose_name = 'video'
+        verbose_name_plural = 'video'
+
+
+
 
 class Prenotazione(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -49,6 +73,12 @@ class Prenotazione(models.Model):
         max_length=2,
         choices=StatusPrenotazione.choices,
         default=StatusPrenotazione.DACONFERMARE,
+        null=True
+    )
+    tipoVisita = models.CharField(
+        max_length=2,
+        choices=TipoVisita.choices,
+        default=TipoVisita.VIRTUALE,
         null=True
     )
 
@@ -62,6 +92,9 @@ class Prenotazione(models.Model):
     numero_totale_alunni = models.PositiveIntegerField(null=True)
     esigenze = models.TextField(blank=True, null=True)
     pagato = models.BooleanField(default=False,null=True)
+    argomentiPreferiti = models.CharField(max_length=250,blank=True, null=True)
+    mailInformativaInviata = models.BooleanField(default=False,null=True)
+    mailConfermaInviata = models.BooleanField(default=False,null=True)
 
     def __str__(self):
         return str(self.id) + " - " + str(self.user) + " - " + str(self.data_prenotazione.strftime('%d/%m/%Y'))
@@ -80,9 +113,9 @@ class MovimentiPrenotazione(models.Model):
                                 on_delete = models.CASCADE,
                                 null=True,
                                 related_name = 'turni')
-
     classe = models.CharField(max_length=30,blank=True, null=True)
     numero_alunni = models.PositiveIntegerField(blank=True, default=0)
+    
 
     def __str__(self):
         return str(self.id) + " -  " + str(self.turno) + " " + str(self.classe)
@@ -108,3 +141,5 @@ class AnagraficaScuole(models.Model):
     class Meta:
         verbose_name = 'scuola'
         verbose_name_plural = 'scuole'
+
+

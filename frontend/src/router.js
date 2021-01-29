@@ -6,6 +6,7 @@ import PrenotazioneEditor from "./views/PrenotazioneEditor.vue";
 import MovimentoPrenotazioneConfirmDelete from "./views/MovimentoPrenotazioneConfirmDelete.vue";
 import RiepilogoPrenotazioni from "./views/RiepilogoPrenotazioni.vue";
 import ElencoPrenotazioni from "./views/ElencoPrenotazioni.vue";
+import ElencoVideo from "./views/ElencoVideo.vue";
 import PrenotazioneConfirmDelete from "./views/PrenotazioneConfirmDelete.vue";
 import UserEditor from "./views/UserEditor.vue";
 import UserResetPassword from "./views/UserResetPassword.vue";
@@ -38,6 +39,13 @@ const routes = [
         path: "/prenotazioni/elenco/",
         name: "prenotazioni-elenco",
         component: ElencoPrenotazioni,
+        props: true
+      },
+
+      {
+        path: "/elencovideo/",
+        name: "elencovideo",
+        component: ElencoVideo,
         props: true
       },
 

@@ -22,7 +22,7 @@
               :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
               class="prenotazione-link"
             >
-              Data Prenotazione {{ prenotazione.data_prenotazione }}
+              {{ prenotazione.id }} Data Prenotazione {{ prenotazione.data_prenotazione }}
           </router-link>
           <span v-else>Data Prenotazione {{ prenotazione.data_prenotazione }} </span>
 

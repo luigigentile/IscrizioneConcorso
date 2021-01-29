@@ -14,12 +14,19 @@
               >Home
             </router-link>
           </li>
- <!-- Elenco Prenotazioni -->
+  <!-- Elenco Video -->
+          <li class="nav-item mx-1 " title="Visualizza l'elenco dei video disponibili">
+            <router-link v-show="currentUser.isStaff" :to="{ name: 'elencovideo' }" class="btn btn-sm btn-primary"
+              >Video
+            </router-link>
+          </li>
+  <!-- Elenco Prenotazioni -->
           <li class="nav-item mx-1 " title="Visualizza l'elenco delle prenotazioni">
             <router-link :to="{ name: 'prenotazioni-elenco' }" class="btn btn-sm btn-primary"
               >Elenco Prenotazioni
             </router-link>
           </li>
+ 
  <!-- Riepilogo Prenotazioni -->
           <li class="nav-item mx-1" title="Visualizza il Riepilogo Prenotazioni">
             <router-link v-show="currentUser.isStaff" :to="{ name: 'prenotazioni-riepilogo' }" class="btn btn-sm btn-primary"
@@ -61,6 +68,7 @@
             <a class="dropdown-item" href="/admin/sites/site/">Siti</a>
             <a class="dropdown-item" href="/admin/prenotazioni/prenotazione/">Prenotazioni </a>
             <a class="dropdown-item" href="/admin/prenotazioni/movimentiprenotazione/">Dettaglio Prenotazioni </a>
+            <a class="dropdown-item" href="/admin/prenotazioni/anagraficavideo/">Video </a>
             <a class="dropdown-item" href="/admin/authtoken/token/">Token </a>
             </div>
       </div>

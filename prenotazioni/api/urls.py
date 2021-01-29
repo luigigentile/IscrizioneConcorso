@@ -9,6 +9,7 @@ router.register(r"settori", qv.SettoriViewSet)
 router.register(r"ruoli", qv.RuoliViewSet)
 router.register(r"movimentiPrenotazioni", qv.MovimentiPrenotazioneViewSet)
 router.register(r"scuole", qv.AnagraficaScuoleViewSet)
+router.register(r"video", qv.AnagraficaVideoViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

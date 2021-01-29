@@ -1,7 +1,7 @@
 import locale
 from rest_framework import serializers
 from prenotazioni.models import TabellaTurni,TabellaSettori,TabellaRuoli
-from prenotazioni.models import Prenotazione,MovimentiPrenotazione,AnagraficaScuole
+from prenotazioni.models import Prenotazione,MovimentiPrenotazione,AnagraficaScuole,AnagraficaVideo
 #locale.setlocale(locale.LC_ALL, 'it_IT.UTF8')
 
 locale.setlocale(locale.LC_ALL, '')
@@ -28,7 +28,8 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Prenotazione
-        fields = ['id','user','created_at','data_prenotazione','scuola','pagato','status','nome_scuola','numero_accompagnatori','numero_totale_alunni','esigenze']
+        fields = ['id','user','created_at','data_prenotazione','scuola','pagato','status','nome_scuola','numero_accompagnatori','numero_totale_alunni','esigenze',
+        'argomentiPreferiti','tipoVisita','mailInformativaInviata','mailConfermaInviata']
 #        fields = '__all__'
 
 #    def get_created_at(self, instance):
@@ -77,6 +78,11 @@ class SettoriSerializer(serializers.ModelSerializer):
 class AnagraficaScuoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnagraficaScuole
+        fields = '__all__'
+
+class AnagraficaVideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnagraficaVideo
         fields = '__all__'
 
 class TabellaRuoliSerializer(serializers.ModelSerializer):

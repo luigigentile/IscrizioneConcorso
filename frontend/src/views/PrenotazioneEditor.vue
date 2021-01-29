@@ -3,12 +3,12 @@
 <!--    Pulsante Dettaglio Prenotazione di Conferma -->
         <div class="container " >
             <div class="row  rounded" >
-                <div class="col-md-8  ">
-                      <h1 >{{title}} </h1>
+                <div class="col-md-9  ">
+                      <h1 >{{title}}  </h1>
                 </div>
-<!--    Pulsante Dettaglio Prenotazione di Conferma -->
-                <div class="col-md-3 ml-3" v-if="previousscuola">
-                     <span class="btn btn-outline-success  mt-3 btn-sm">
+              <!--   Pulsante Dettaglio Prenotazione di Conferma -->
+                <div class="col-md-3 text-right" v-if="previousscuola">
+                     <span class="btn btn-outline-success  mt-3 btn-sm text-right">
                      <router-link   title="Visualizza dettagli Prenotazione"
                        :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
                        class="prenotazione-link"
@@ -16,37 +16,55 @@
                        </router-link>
                       </span>
                  </div>
-
+               
             </div>
         </div>
 
         <form @submit.prevent="onSubmit" >
 
         <div class = "border-bottom border-secondary pb-1" v-if="userIsStaff && pk">
-    <!--    checkbox  pagato -->
-            <input class="ml-3" type="checkbox" id="pagato"  v-model="pagato">
-            <label class="ml-1 mr-4" for="pagato"> Pagato </label>
-    <!--    STATUS   -->
-            <label class="ml-1" for="id_status">Status:</label>
+        <!--    checkbox  pagato -->
+            <input class="ml-1" type="checkbox" id="pagato"  v-model="pagato">
+            <label class="ml-1 mr-3" for="pagato"> Pagato </label>
+    
+   
+    
+        <!--    STATUS   -->
+            <label class="ml-3" for="id_status">Status:</label>
             <select class="ml-1" name="status" id="id_status" v-model="status">
                 <option value="DC">Da Confermare</option>
                 <option value="CO" selected>Confermato</option>
+                <option value="EF" selected>Effettuata</option>
             </select>
 
-    <!--    Pulsante Invia mail di Conferma -->
-        <a class="btn btn-outline-success ml-4 btn-sm" v-if="prenotazioneIsConfermata()" @click="inviaMailConferma"
+        <!--    Pulsante Invia mail di Conferma -->
+        <a class="btn btn-outline-success ml-4 mt-n2 btn-sm" v-if="prenotazioneIsConfermata()" @click="inviaMailConferma"
+            >invia Mail Informativa
+        </a>
+        <!--    Pulsante Invia mail Informativa -->
+        <a class="btn btn-outline-success ml-4 mt-n2 btn-sm" v-if="prenotazioneIsConfermata()" @click="inviaMailConferma"
             >invia Mail Conferma
         </a>
+
+            <!--    Pulsante Invia mail Informativa -->
+            <span class="ml-3" >Mail Inviate:  </span>
+      
+    
+    
         </div>
 
+        
 
-        <br>
-        <!--    Pulsante Modifica Data Prenotazione
-        <a class="btn btn-outline-success ml-4"  @click="modificaDataPrenotazione" >passa a.. </a>
-        -->
 <!--    checkbox  Scuola    -->
         <input class="ml-3" @change="updateScuola" type="checkbox" id="scuola"  v-model="scuola">
         <label class="ml-1" for="scuola"> scuola/gruppo </label><br>
+<!--    TIPO VISITA   -->
+    <label  class="col-3" for="id_tipovisita">Tipo Visita:</label>
+    <select  class="col-7 mr-4"  name="tipoVisita" id="id_tipovisita" v-model="tipoVisita">
+        <option value="VI">Virtuale</option>
+        <option value="PR" selected>Presenza</option>
+    </select>
+
 
 <!--    DATA PRENOTAZIONE CON SELECT    -->
         <label for="dataPrenotazione" class="col-3" >Data Prenotazione</label>
@@ -60,13 +78,13 @@
                >{{ turno.data }}
              </option>
         </select>
-        <br>
+     
 
         <div v-if="scuola">
-<!--    Nome Scuola con casella di testo e Select  -->
+            <!--    Nome Scuola con casella di testo e Select  -->
             <label for="nomescuola" class="col-3" >Nome Scuola/Gruppo</label>
             <input type="text" class="col-4" placeholder="nome scuola" v-model="nome_scuola" id="nomescuola" autofocus>
-<!--    SELEZIONA LA SCUOLA CON SELECT    -->
+            <!--    SELEZIONA LA SCUOLA CON SELECT    -->
             <select  id="nomescuola"
                 class="col-4 ml-3"
                 placeholder="nome scuola"
@@ -79,12 +97,7 @@
                 </option>
             </select>
         </div>
-
-                <!--    Data Prenotazione
-                <label for="dataPrenotazione" class="col-3" >Data Prenotazione</label>
-                <input id="dataPrenotazione" type="date"  class="col-9" placeholder="data prenotazione"
-                    v-model="data_prenotazione">
-                -->
+ 
                 <!--    Numero accompagnatori    -->
                 <label for="numeroAccompagnatori" class="col-3" >{{label_numero_accompagnatori}} </label>
                 <input @change="changeNumeroAccompagnatori" id="numeroAccompagnatori" type="number"  class="col-9" placeholder="numero_accompagnatori"
@@ -96,10 +109,13 @@
                     v-model.number="numero_totale_alunni">
                     </div>
 
+               <!--    argomenti Preferiti    -->
+                    <label for="argomentiPreferiti" class="col-3" >Argomenti Preferiti</label>
+                    <input type="text" class="col-9" placeholder="Argomenti Preferiti" v-model="argomentiPreferiti" id="argomentiPreferiti" autofocus>
+                    
                 <!--    esigenze    -->
                     <label for="esigenze" class="col-3" >Esigenze</label>
                     <input type="text" class="col-9" placeholder="esigenze" v-model="esigenze" id="esigenze" autofocus>
-
                     <br>
                     <br>
                     <button
@@ -159,11 +175,19 @@ export default {
             type: String,
             required:false
             },
+        previousTipoVisita: {
+        type: String,
+        required:false
+        },
         previousEsigenze: {
             type: String,
             required:false
             },
-        previousNumero_Totale_Alunni: {
+      previousArgomentiPreferiti: {
+            type: String,
+            required:false
+            },
+      previousNumero_Totale_Alunni: {
             type: Number,
             required:false
         },
@@ -190,9 +214,11 @@ export default {
             pagato:this.previouspagato || false,
             nome_scuola:this.previousNome_Scuola || null,
             status:this.previousStatus || null,
+            tipoVisita:this.previousTipoVisita || null,
             numero_accompagnatori: this.previousNumero_Accompagnatori  || 1,
             numero_totale_alunni: this.previousNumero_Totale_Alunni  || 0,
             esigenze: this.previousEsigenze  || null,
+            argomentiPreferiti: this.previousArgomentiPreferiti  || null,
             error: null,
             requestUserName : null,
             userIsStaff:false,
@@ -214,9 +240,11 @@ export default {
                         to.params.previouspagato = data.pagato;
                         to.params.previousNome_Scuola = data.nome_scuola;
                         to.params.previousStatus = data.status;
+                         to.params.previousTipoVisita = data.tipoVisita;
                         to.params.previousNumero_Accompagnatori = data.numero_accompagnatori;
                         to.params.previousNumero_Totale_Alunni = data.numero_totale_alunni;
                         to.params.previousEsigenze = data.esigenze;
+                        to.params.previousArgomentiPreferiti = data.argomentiPreferiti;
                     })
                     .catch(error => console.log(error))
             }
@@ -272,9 +300,12 @@ export default {
                                         pagato:this.pagato,
                                         nome_scuola:this.nome_scuola,
                                         status:this.status,
+                                        tipoVisita:this.tipoVisita,
                                         numero_accompagnatori: this.numero_accompagnatori,
                                         numero_totale_alunni:this.numero_totale_alunni,
-                                        esigenze:this.esigenze}))
+                                        esigenze:this.esigenze,
+                                        argomentiPreferiti:this.argomentiPreferiti,
+                                        }))
 
 
             alert("La prenotazione è stata modificata correttamente \ned è stata inviata una mail di conferma all'utente: " + this.requestUserName)
@@ -367,9 +398,12 @@ export default {
                                                pagato:this.pagato,
                                                nome_scuola:this.nome_scuola,
                                                status:this.status,
+                                               tipoVisita:this.tipoVisita,
                                                numero_accompagnatori: this.numero_accompagnatori,
                                                numero_totale_alunni:this.numero_totale_alunni,
-                                               esigenze:this.esigenze})
+                                               esigenze:this.esigenze,
+                                               argomentiPreferiti:this.argomentiPreferiti,
+                                               })
                                             }
                       },
 
@@ -383,7 +417,9 @@ export default {
                                                 scuola:this.scuola,
                                                 nome_scuola:this.nome_scuola,
                                                 numero_totale_alunni:this.numero_totale_alunni,
-                                                esigenze:this.esigenze})
+                                                esigenze:this.esigenze,
+                                                argomentiPreferiti:this.argomentiPreferiti,
+                                                })
 
 
                 messaggio = "Gentile utente, \ngrazie di aver prenotato una visita alla mostra  Sperimentando.  \n"
@@ -409,9 +445,12 @@ export default {
                                             pagato:this.pagato,
                                             nome_scuola:this.nome_scuola,
                                             status:this.status,
+                                            tipoVisita:this.tipoVisita,
                                             numero_accompagnatori: this.numero_accompagnatori,
                                             numero_totale_alunni:this.numero_totale_alunni,
-                                            esigenze:this.esigenze})
+                                            esigenze:this.esigenze,
+                                            argomentiPreferiti:this.argomentiPreferiti,
+                                            })
                 if(this.data_prenotazione != this.previousData_Prenotazione && this.scuola) {
 
                     messaggio = "Gentile utente, la sua prenotazione è stata modificata correttamente. \n"

@@ -440,7 +440,6 @@ export default {
     this.getSettori();
     this.previousPrenotazione = this.prenotazione;
     this.getTurniFiltratiPerDataPrenotazione(this.prenotazione.data_prenotazione)
-//    this.getNumeroAlunniPrenotatiPerOrarioTurno(1)
     document.title = "Elenco Prenotazioni";
     this.dataAttuale = new Date();
 },
