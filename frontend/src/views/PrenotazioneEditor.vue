@@ -1,54 +1,62 @@
 <template lang="html">
     <div class="container">
-<!--    Pulsante Dettaglio Prenotazione di Conferma -->
+<!--    TITOLO - Pulsante Dettaglio Prenotazione - pulsante Pagamenti -->
         <div class="container " >
             <div class="row  rounded" >
-                <div class="col-md-9  ">
-                      <h1 >{{title}}  </h1>
+                <div class="col-md-7" >
+                      <h2 >{{title}}  </h2>
                 </div>
-              <!--   Pulsante Dettaglio Prenotazione di Conferma -->
-                <div class="col-md-3 text-right" v-if="previousscuola">
-                     <span class="btn btn-outline-success  mt-3 btn-sm text-right">
+              <!--   Pulsante Dettaglio Prenotazione  -->
+                <div class="col-md-3 mt-2 text-right" >
+                     <span class="text-right" v-if="scuola">
                      <router-link   title="Visualizza dettagli Prenotazione"
                        :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
-                       class="prenotazione-link"
+                       class="btn btn-outline-success btn-sm prenotazione-link"
                        >Dettaglio Prenotazioni
                        </router-link>
                       </span>
+                </div>
+               <!--   Pulsante PAGAMENTI -->
+                <div class="col-md-2 mt-2 text-right">
+                    <a class="btn btn-outline-success btn-sm" @click="visualizzaPagamenti"> 
+                        Pagamenti
+                    </a>
                  </div>
-               
             </div>
         </div>
+    <!--    FINE TITOLO ....... pulsante Pagamenti -->
 
         <form @submit.prevent="onSubmit" >
-
         <div class = "border-bottom border-secondary pb-1" v-if="userIsStaff && pk">
         <!--    checkbox  pagato -->
             <input class="ml-1" type="checkbox" id="pagato"  v-model="pagato">
             <label class="ml-1 mr-3" for="pagato"> Pagato </label>
-    
-   
-    
         <!--    STATUS   -->
-            <label class="ml-3" for="id_status">Status:</label>
+            <label class="ml-2" for="id_status">Status:</label>
             <select class="ml-1" name="status" id="id_status" v-model="status">
                 <option value="DC">Da Confermare</option>
                 <option value="CO" selected>Confermato</option>
                 <option value="EF" selected>Effettuata</option>
             </select>
-
-        <!--    Pulsante Invia mail di Conferma -->
-        <a class="btn btn-outline-success ml-4 mt-n2 btn-sm" v-if="prenotazioneIsConfermata()" @click="inviaMailConferma"
+        <!--    Pulsante Invia mail Informativa -->
+        <a class="btn btn-outline-success ml-3 mt-n2 btn-sm" v-if="!mailInformativaInviata" @click="inviaMailInformativa"
             >invia Mail Informativa
         </a>
-        <!--    Pulsante Invia mail Informativa -->
-        <a class="btn btn-outline-success ml-4 mt-n2 btn-sm" v-if="prenotazioneIsConfermata()" @click="inviaMailConferma"
+        <!--    Pulsante Invia mail di Conferma -->
+        <a class="btn btn-outline-success ml-2 mt-n2 btn-sm" v-if="!mailConfermaInviata" @click="inviaMailConferma"
             >invia Mail Conferma
         </a>
 
             <!--    Pulsante Invia mail Informativa -->
-            <span class="ml-3" >Mail Inviate:  </span>
+         <span class="ml-4" >Mail Inviate:  </span>
       
+      <!--    checkbox  Mail Informativa    -->
+        <input class="ml-1"  type="checkbox" id="mailinformativa"  v-model="mailInformativaInviata">
+        <label class="ml-1" for="mailinformativa"> Informativa </label>
+
+          <!--    checkbox  Mail di Conferma    -->
+        <input class="ml-1"  type="checkbox" id="mailConferma"  v-model="mailConfermaInviata">
+        <label class="ml-1" for="mailConferma"> Conferma </label><br>
     
     
         </div>
@@ -163,6 +171,15 @@ export default {
             type: Boolean,
             required:false
             },
+        previousMailInformativa: {
+            type: Boolean,
+            required:false
+            },
+
+         previousMailConferma: {
+            type: Boolean,
+            required:false
+            },
         previouspagato: {
             type: Boolean,
             required:false
@@ -211,6 +228,8 @@ export default {
             data_prenotazione:this.previousData_Prenotazione || null,
             scuole: [],
             scuola:this.previousscuola || false,
+            mailInformativaInviata:this.previousMailInformativa || false,
+            mailConfermaInviata:this.previousMailConferma || false,
             pagato:this.previouspagato || false,
             nome_scuola:this.previousNome_Scuola || null,
             status:this.previousStatus || null,
@@ -237,10 +256,12 @@ export default {
                     .then(data => {
                         to.params.previousData_Prenotazione = data.data_prenotazione;
                         to.params.previousscuola = data.scuola;
+                        to.params.previousMailInformativa = data.mailInformativaInviata;
+                        to.params.previousMailConferma = data.mailConfermaInviata;
                         to.params.previouspagato = data.pagato;
                         to.params.previousNome_Scuola = data.nome_scuola;
                         to.params.previousStatus = data.status;
-                         to.params.previousTipoVisita = data.tipoVisita;
+                        to.params.previousTipoVisita = data.tipoVisita;
                         to.params.previousNumero_Accompagnatori = data.numero_accompagnatori;
                         to.params.previousNumero_Totale_Alunni = data.numero_totale_alunni;
                         to.params.previousEsigenze = data.esigenze;
@@ -290,13 +311,16 @@ export default {
                 }
             },
 
-            inviaMailConferma() {
+        inviaMailConferma() {
             var reference
-//          SALVA LA PRENOTAZIONE
+    //          SALVA LA PRENOTAZIONE
             this.SetStatusField();
             let endpoint = `/api/prenotazioni/${this.pk}/`;
-            alert(apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
+            this.mailConfermaInviata = true
+            apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
                                         scuola:this.scuola,
+                                        mailInformativaInviata:this.mailInformativaInviata,
+                                        mailConfermaInviata:this.mailConfermaInviata,
                                         pagato:this.pagato,
                                         nome_scuola:this.nome_scuola,
                                         status:this.status,
@@ -305,21 +329,51 @@ export default {
                                         numero_totale_alunni:this.numero_totale_alunni,
                                         esigenze:this.esigenze,
                                         argomentiPreferiti:this.argomentiPreferiti,
-                                        }))
-
-
+                                        })
             alert("La prenotazione è stata modificata correttamente \ned è stata inviata una mail di conferma all'utente: " + this.requestUserName)
             reference = "/mail-conferma-prenotazione/" + this.pk +"/"
             location.href = reference;
+           
+          },
+
+          
+          inviaMailInformativa() {
+            var reference
+    //          SALVA LA PRENOTAZIONE
+            this.SetStatusField();
+            let endpoint = `/api/prenotazioni/${this.pk}/`;
+            this.mailInformativaInviata = true
+            apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
+                                        scuola:this.scuola,
+                                        mailInformativaInviata:this.mailInformativaInviata,
+                                        mailConfermaInviata:this.mailConfermaInviata,
+                                        pagato:this.pagato,
+                                        nome_scuola:this.nome_scuola,
+                                        status:this.status,
+                                        tipoVisita:this.tipoVisita,
+                                        numero_accompagnatori: this.numero_accompagnatori,
+                                        numero_totale_alunni:this.numero_totale_alunni,
+                                        esigenze:this.esigenze,
+                                        argomentiPreferiti:this.argomentiPreferiti,
+                                        })
+            alert("La prenotazione è stata modificata correttamente \ned è stata inviata una mail di conferma all'utente: " + this.requestUserName)
+            reference = "/mail-informativa/" + this.pk +"/"
+            location.href = reference;
+           
+          },
+
+          visualizzaPagamenti() {
+              var linkpage = "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/"
+              window.open(linkpage,"");
           },
 
 
-            prenotazioneIsConfermata() {
+        prenotazioneIsConfermata() {
             if(this.status=='CO') {
-              return true
+                return true
             }
             else {
-              return false
+                return false
             }
         },
 
@@ -395,6 +449,8 @@ export default {
                    alert(typeof(this.newDate));
                    apiService(endpoint, "PUT", {data_prenotazione: newDate,
                                                scuola:this.scuola,
+                                               mailInformativaInviata:this.mailInformativaInviata,
+                                               mailConfermaInviata:this.mailConfermaInviata,
                                                pagato:this.pagato,
                                                nome_scuola:this.nome_scuola,
                                                status:this.status,
@@ -415,6 +471,8 @@ export default {
                 apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,
                                                 numero_accompagnatori: this.numero_accompagnatori,
                                                 scuola:this.scuola,
+                                                mailInformativaInviata:this.mailInformativaInviata,
+                                                mailConfermaInviata:this.mailConfermaInviata,
                                                 nome_scuola:this.nome_scuola,
                                                 numero_totale_alunni:this.numero_totale_alunni,
                                                 esigenze:this.esigenze,
@@ -442,6 +500,8 @@ export default {
                 let endpoint = `/api/prenotazioni/${this.pk}/`;
                 apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
                                             scuola:this.scuola,
+                                            mailInformativaInviata:this.mailInformativaInviata,
+                                            mailConfermaInviata:this.mailConfermaInviata,
                                             pagato:this.pagato,
                                             nome_scuola:this.nome_scuola,
                                             status:this.status,
