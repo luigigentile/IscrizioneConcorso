@@ -75,6 +75,34 @@ def mailConfermaPrenotazione(request,pk):
 #    return render(request,"powerSimulation/simulazioneResults.html",context)
 
 
+
+def mailInformativa(request,pk):
+    import os
+#    print("EMAIL_HOST_USER:")
+#    print(settings.EMAIL_HOST_USER)
+#    print("pk= " + str(pk))
+    prenotazione = Prenotazione.objects.get(pk=pk)
+    print("User Id della prenotazione = " + str(prenotazione.user.id))
+    user = CustomUser.objects.get(id=prenotazione.user.id)
+#    dettagliPrenotazione = MovimentiPrenotazione.objects.get(prenotazione=prenotazione.id)
+    success_url="/"
+    destinatari = (user.email,)
+#   CONTENUTO DELLA MAIL
+    contenuto = "Gentile " + user.first_name  + ", \ngrazie per aver scelto di visitare la Mostra Sperimentando.\n"
+    contenuto = contenuto + "Per Confermare la prenotazione bisogna che lei effettui il pagamento di XXXX€... entro il  gg-mm-aa .\n"
+    contenuto = contenuto + "Questo è il link alla sezione dei pagamenti:\n"
+    contenuto = contenuto + "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/:\n"
+   #
+    ##print(contenuto)
+    #print(destinatari)
+    oggetto = "Informativa sulla  Mostra Sperimentando"
+
+    from django.core.mail import EmailMessage
+    email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari)
+    email.send()
+    return HttpResponseRedirect(success_url)
+
+
 def dataPrenotazioneModificata(request,pk):
 #   SELEZIONA  LA PRENOTAZIONE CON id=pk
     prenotazione = Prenotazione.objects.get(pk=pk)
@@ -88,11 +116,19 @@ def dataPrenotazioneModificata(request,pk):
     return HttpResponseRedirect(success_url)
 
 
+def visualizzaPagamenti(request):
+ 
+    print("Visualizza Pagamenti ")
+
+    return render(request,"https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/")
+
+
+
 def visualizzaprivacy(request):
 
     #    email.send()
 #    print(request.user.email)
-    print("run e-mail sended ")
+    print("Visualizza Privacy ")
 #    success_url = reverse_lazy('127.0.0.1:8000/IscrizioneConcorso/privacypolicy.html/')
 #    return HttpResponseRedirect(success_url)
 
