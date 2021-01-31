@@ -8,7 +8,7 @@
                 </div>
               <!--   Pulsante Dettaglio Prenotazione  -->
                 <div class="col-md-3 mt-2 text-right" >
-                     <span class="text-right" v-if="scuola">
+                     <span class="text-right" v-if="scuola && pk">
                      <router-link   title="Visualizza dettagli Prenotazione"
                        :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
                        class="btn btn-outline-success btn-sm prenotazione-link"
@@ -16,6 +16,7 @@
                        </router-link>
                       </span>
                 </div>
+              
                <!--   Pulsante PAGAMENTI -->
                 <div class="col-md-2 mt-2 text-right">
                     <a class="btn btn-outline-success btn-sm" @click="visualizzaPagamenti"> 
@@ -25,7 +26,6 @@
             </div>
         </div>
     <!--    FINE TITOLO ....... pulsante Pagamenti -->
-
         <form @submit.prevent="onSubmit" >
         <div class = "border-bottom border-secondary pb-1" v-if="userIsStaff && pk">
         <!--    checkbox  pagato -->
@@ -60,7 +60,6 @@
     
     
         </div>
-
         
 
 <!--    checkbox  Scuola    -->
@@ -93,17 +92,19 @@
             <label for="nomescuola" class="col-3" >Nome Scuola/Gruppo</label>
             <input type="text" class="col-4" placeholder="nome scuola" v-model="nome_scuola" id="nomescuola" autofocus>
             <!--    SELEZIONA LA SCUOLA CON SELECT    -->
-            <select  id="nomescuola"
+          
+            <select  id="nomescuola" 
                 class="col-4 ml-3"
                 placeholder="nome scuola"
                 v-model="nome_scuola">
-                <option value=""></option>
+                <option value=""  ></option>
                 <option
                        v-for="scuola in scuole"
                        :key="scuola.codice_ministeriale"
                        >{{ scuola.sigla  }} - {{ scuola.nome_scuola }} - {{ scuola.comune }}
                 </option>
             </select>
+            
         </div>
  
                 <!--    Numero accompagnatori    -->
@@ -227,13 +228,13 @@ export default {
             id:this.previousId || null,
             data_prenotazione:this.previousData_Prenotazione || null,
             scuole: [],
-            scuola:this.previousscuola || false,
+            scuola:this.previousscuola || null,
             mailInformativaInviata:this.previousMailInformativa || false,
             mailConfermaInviata:this.previousMailConferma || false,
             pagato:this.previouspagato || false,
             nome_scuola:this.previousNome_Scuola || null,
             status:this.previousStatus || null,
-            tipoVisita:this.previousTipoVisita || null,
+            tipoVisita:this.previousTipoVisita || 'VI',
             numero_accompagnatori: this.previousNumero_Accompagnatori  || 1,
             numero_totale_alunni: this.previousNumero_Totale_Alunni  || 0,
             esigenze: this.previousEsigenze  || null,
@@ -385,6 +386,7 @@ export default {
         },
 
         updateScuola() {
+         
             if (this.scuola == true) {
                 this.label_numero_accompagnatori = "Numero Accompagnatori"
             } else {

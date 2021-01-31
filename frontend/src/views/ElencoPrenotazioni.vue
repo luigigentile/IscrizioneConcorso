@@ -3,7 +3,9 @@
       <h4 class="d-none d-print-block">Padova {{ dataAttuale}} </h4>
 <!--    SELEZIONA LA DATA PRENOTAZIONE CON SELECT    -->
 <div class ='d-print-none'>
+ <font face="Times New Roman" size="3" color="#000000">
     <label for="dataPrenotazione" class='mr-1'>Data Prenotazione </label>
+   
     <select  id="dataPrenotazione"
         class="col-3 mr-2"
         placeholder="data prenotazione"
@@ -27,28 +29,37 @@
          <option value="DC">Da Confermare</option>
          <option value="CO" selected>Confermato</option>
     </select>
+    </font>
 </div>
 
     <!--        -->
-            <h3 id="dataPrenotazione" >Elenco Prenotazioni</h3>
+    <h3 id="dataPrenotazione" >Elenco Prenotazioni</h3>
 
     <!--    ELENCO COMPLETO PRENOTAZIONI    -->
     <!--    INTESTAZIONE DELLE COLONNE    -->
+        <div class="row border-top border-secondary mb-2">
+            <div class="col-md-8 "></div>
+              <div class="col-md-3 ml-2 text-right">Mail Inviate</div>
+        </div>
         <div class="row border-bottom border-secondary mb-2">
-        <div class="col-md-2 ">Data</div>
+        <div class="col-md-1 ">Data</div>
         <div class="col-md-1 ">Status</div>
-        <div class="col-md-4">Nome Scuola/Utente</div>
+        <div class="col-md-1 ">Visita</div>
+        <div class="col-md-2">Utente</div>
         <div class="col-md-1 ">Accomp.</div>
         <div class="col-md-1 ">Alunni</div>
-        <div class="col-md-3 ">Esigenze</div>
+        <div class="col-md-1 ">Esigenze</div>
+        <div class="col-md-2 ">Argomenti</div>
+        <div class="col-md-1 text-right">I.    C.</div>
         </div>
 
 <!--      Elenco movimenti prenotazione -->
-<font face="Times New Roman" size="2" color="#000000">
+<font face="Times New Roman" size="1" color="#000000">
     <div  v-for="(prenotazione,index) in prenotazioni_filtered"   :key="index">
         <div class="row border-bottom">
-            <div class="col-md-2 " v-text="prenotazione.data_prenotazione"> </div>
+            <div class="col-md-1 " v-text="prenotazione.data_prenotazione"> </div>
             <div class="col-md-1 " v-text="prenotazione.status"> </div>
+            <div class="col-md-1 " v-text="prenotazione.tipoVisita"> </div>
 <!--   LINK AL DETTAGLIO PRENOTAZIONE
             <router-link  v-if="prenotazione.scuola || staff " title="Visualizza dettagli Prenotazione"
               :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
@@ -61,7 +72,7 @@
             <router-link
                 v-if="prenotazione.scuola"
                 :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, prenotazione:prenotazione} }"
-                class="prenotazione-editor-link col-md-4"
+                class="prenotazione-editor-link col-md-2"
                 title = "Modifica Prenotazione"
                 >  {{ prenotazione.nome_scuola }}
             </router-link>
@@ -77,7 +88,12 @@
 
             <div class="col-md-1 text-center" v-text="prenotazione.numero_accompagnatori"> </div>
             <div class="col-md-1 text-center" v-text="prenotazione.numero_totale_alunni"> </div>
-            <div class="col-md-3 " v-text="prenotazione.esigenze"> </div>
+            <div class="col-md-1 " v-text="prenotazione.esigenze"> </div>
+            <div class="col-md-2 " v-text="prenotazione.argomentiPreferiti "> </div>
+            <div class="col-md-1 text-right" v-text="prenotazione.mailInformativaInviata + ' ' + prenotazione.mailConfermaInviata">
+                <h4 class="ml-4" >Mail Inviate:  </h4>
+             </div>
+             
         </div>
     </div>
     </font>

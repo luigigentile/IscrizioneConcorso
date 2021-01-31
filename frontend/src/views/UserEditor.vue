@@ -2,7 +2,7 @@
   <!-- DESCRIZIONE  PRENOTAZIONE EFFETTUATA -->
   <div class="container" id="da_stampare">
 
-      user EDITOR modificato
+ 
 
 
       <form @submit.prevent="onSubmit" >
