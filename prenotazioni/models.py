@@ -63,8 +63,6 @@ class AnagraficaVideo(models.Model):
         verbose_name_plural = 'video'
 
 
-
-
 class Prenotazione(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
@@ -102,6 +100,10 @@ class Prenotazione(models.Model):
     class Meta:
         verbose_name = 'Prenotazione'
         verbose_name_plural = 'Prenotazioni'
+    
+    @property
+    def labelStatus(self):
+        return StatusPrenotazione(self.status).label
 
 class MovimentiPrenotazione(models.Model):
     prenotazione = models.ForeignKey(Prenotazione,

@@ -12,7 +12,7 @@
                      <router-link   title="Visualizza dettagli Prenotazione"
                        :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
                        class="btn btn-outline-success btn-sm prenotazione-link"
-                       >Dettaglio Prenotazioni
+                       >Dettaglio Turni
                        </router-link>
                       </span>
                 </div>
@@ -484,9 +484,9 @@ export default {
 
                 messaggio = "Gentile utente, \ngrazie di aver prenotato una visita alla mostra  Sperimentando.  \n"
                 if (this.scuola) {
-                    messaggio = messaggio + "Per completare la prenotazione, Le ricordo che bisogna inserire i turni e i settori da visitare.\n"
-                    }
-                messaggio = messaggio + "La preghiamo di attendere la nostra mail di conferma da parte di Sperimentando \n"
+                messaggio = messaggio + "Completi la prenotazione inserendo i turni e i settori da visitare.\n"
+                }
+                messaggio = messaggio + "Nei prossimi giorni Le manderemo una mail di conferma da parte di Sperimentando \n"
                 messaggio = messaggio + "Distinti saluti,\nlo staff di Sperimentando"
                 alert(messaggio)
 //        SI POSIZIONE SULL'ULTIMA PRENOTAZIONE O TORNA ALLA PAGINA home

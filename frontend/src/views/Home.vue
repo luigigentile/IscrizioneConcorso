@@ -4,7 +4,10 @@
       <h2>Elenco Prenotazioni
         <router-link title="Inserisci una nuova Prenotazione"
                   :to="{ name: 'prenotazione-editor'}"
-                  ><span>
+                  class="btn btn-sm btn-primary"
+
+                  ><span> Nuova Prenotazione
+
                       <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                         <path fill="#70bf2b" d="M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"/>
                       </svg>
@@ -15,7 +18,7 @@
 
          <!-- AGGIUNGE LE PRENOTAZIONI DELL'UTENTE USER -->
       <div v-for="prenotazione in prenotazioni" :key="prenotazione.pk">
-        <div class="card  border-primary rounded mb-1">
+        <div class="card  border-primary rounded ">
           <div class="card-header">
 
             <router-link  v-if="prenotazione.scuola || staff " title="Visualizza dettagli Prenotazione"
@@ -29,7 +32,7 @@
   <!--    icona delete      -->
               <router-link title="Elimina  Prenotazione"
                           :to="{ name: 'prenotazione-delete', params: {prenotazione:prenotazione} }"
-                          ><span>
+                          ><span ml-2>
                               <svg width="14" height="14" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="#dd4646" d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"/>
                             </svg>
@@ -38,7 +41,7 @@
     <!--    icona change     -->
             <router-link
                 :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, prenotazione:prenotazione} }"
-                class="prenotazione-editor-link"
+                class="prenotazione-editor-link ml-2"
                 title = "Modifica Prenotazione"
                 > <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                   <path fill="#efb80b" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"/>
@@ -53,8 +56,8 @@
               Scuola/Gruppo : <strong class="author-name">   {{ prenotazione.nome_scuola }}</strong>
 
             </div>
-            <div class="">
-               <p> Status : <strong class="author-name">   {{ prenotazione.status }}</strong>
+            <div class="mb-n3">
+               <p> Status : <strong class="author-name">   {{ prenotazione.labelStatus }}</strong>
             </p>
               </div>
 
@@ -84,7 +87,10 @@
               Esigenze:
               <span class="author-name">{{ prenotazione.esigenze }}</span>
             </p>
-
+              <p class="mb-0">
+              Argomenti Preferiti:
+              <span class="author-name">{{ prenotazione.argomentiPreferiti }}</span>
+            </p>
             <!-- FINE AGGIUNGE LE DOMANDE POSTE DALL'UTENTE USER -->
           </div>
         </div>
