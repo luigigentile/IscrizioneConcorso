@@ -28,12 +28,18 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Prenotazione
+        
+
+     
         fields = ['id','user','created_at','data_prenotazione','scuola','pagato','status','nome_scuola','numero_accompagnatori','numero_totale_alunni','esigenze',
-        'argomentiPreferiti','tipoVisita','mailInformativaInviata','mailConfermaInviata']
+        'argomentiPreferiti','tipoVisita','mailInformativaInviata','mailConfermaInviata','labelStatus']
+        
 #        fields = '__all__'
 
-#    def get_created_at(self, instance):
+    #def aaa(self, instance):
+   
 #        return instance.created_at.strftime('%d %B %Y')
+
 
 class DataPrenotazioniSerializer(serializers.ModelSerializer):
     data_prenotazione = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'])
