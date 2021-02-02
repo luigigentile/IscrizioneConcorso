@@ -47,6 +47,14 @@ class PrenotazioniViewSet(viewsets.ModelViewSet):
 ##        request.session.get('num_visits', 0)
         serializer.save(user=self.request.user)
 
+
+class ListaPrenotazioni(generics.ListAPIView):
+    queryset = Prenotazione.objects.all().order_by("-created_at")
+    serializer_class = PrenotazioneSerializer
+    permission_classes = [IsAuthenticated]
+
+
+
 class MovimentiPrenotazioneViewSet(viewsets.ModelViewSet):
     queryset = MovimentiPrenotazione.objects.all()
     serializer_class = MovimentiPrenotazioneSerializer
@@ -146,9 +154,13 @@ class AnagraficaScuoleViewSet(viewsets.ModelViewSet):
 
 
 class AnagraficaVideoViewSet(viewsets.ModelViewSet):
-    queryset = AnagraficaVideo.objects.all().order_by("id")
+    queryset = AnagraficaVideo.objects.all().order_by("settore")
     serializer_class = AnagraficaVideoSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [SearchFilter,OrderingFilter]
+    search_fields = ['settore']
+    ordering_fields = ['settore']
+   
 
 
 class RuoliViewSet(viewsets.ModelViewSet):

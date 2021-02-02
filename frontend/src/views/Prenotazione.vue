@@ -5,8 +5,8 @@
     <div class="card  border-primary rounded ">
         <div class="card-header" >
             <p  ><strong>PRENOTAZIONE:</strong>
-                <a href="#" title="Inserisci turni  prenotazione">
-                    <span class ='d-print-none' @click="setDisplayInsertPrenotazione">
+                <a href="#" title="Inserisci turni  prenotazione"> 
+                    <span class ='d-print-none btn btn-sm btn-primary ml-3' @click="setDisplayInsertPrenotazione">Nuovo Turno
                         <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                           <path fill="#70bf2b" d="M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"/>
                         </svg>
@@ -21,7 +21,7 @@
                <span>Numero Totale Alunni: {{ prenotazione.numero_totale_alunni}}</span><br>
                <span>Esigenze: {{ prenotazione.esigenze}}</span>
            </p>
-            </div>
+          </div>
     </div>
      <!-- FINE DESCRIZIONE  PRENOTAZIONE EFFETTUATA -->
 

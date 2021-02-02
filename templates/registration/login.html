@@ -4,23 +4,20 @@
 {% block auth %}
 
 <script type="text/javascript">
+     function SelezionaPrivacy() {
+       var server =  'http://' + location.host + '/'
+       var varPrivacy = document.getElementById('privacy') ;
+       var varAccedi = document.getElementById('accedi') ;
+       document.getElementById("accedi").disabled = false;
+    //   Abilita il pulsante "accesi" se é stato selezionato il controllo sulla privacy
+       if(varPrivacy.checked == true) {
+             document.getElementById("accedi").disabled = false;
+       } else {
+           document.getElementById("accedi").disabled = true;
+       }
 
- function SelezionaPrivacy() {
-   var server =  'http://' + location.host + '/'
-   var varPrivacy = document.getElementById('privacy') ;
-   var varAccedi = document.getElementById('accedi') ;
-
-   document.getElementById("accedi").disabled = false;
-
-   if(varPrivacy.checked == true) {
-         document.getElementById("accedi").disabled = false;
-   } else {
-       document.getElementById("accedi").disabled = true;
-   }
-
-   return ;
-   }
-
+      return ;
+      }
  </script>
 
 <h1>Mostra Sperimentando</h1>
@@ -29,17 +26,16 @@
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <!--    checkbox  Privacy    -->
-
-
-        <button type="submit"  id="accedi"  class = 'btn btn-success btn-block' name="button">Accedi</button>
+       <button type="submit"  id="accedi"  class = 'btn btn-success btn-block' name="button">Accedi</button>
     </form>
 
     <br>
-    <p class= 'mt-2'> <a href=" {% url 'django_registration_register' %}">Registrati</a>
+    <font face="Times New Roman" size="4" color="#000000">
+    <p class= 'mt-2'> <span> Se non sei ancora registrato </span>  <a href=" {% url 'django_registration_register' %}">
+            Registrati</a>
     <a class = 'ml-4'  href="/accounts/password_reset/">Password dimenticata?</a>
      </p>
-
+    </font>
 </div>
 
 

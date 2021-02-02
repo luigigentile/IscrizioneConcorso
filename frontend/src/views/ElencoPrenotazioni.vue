@@ -45,7 +45,7 @@
         <div class="col-md-1 ">Data</div>
         <div class="col-md-1 ">Status</div>
         <div class="col-md-1 ">Visita</div>
-        <div class="col-md-2">Utente</div>
+        <div class="col-md-2">Utente/Scuola</div>
         <div class="col-md-1 ">Accomp.</div>
         <div class="col-md-1 ">Alunni</div>
         <div class="col-md-1 ">Esigenze</div>
@@ -68,11 +68,12 @@
             </router-link>
 -->
 
-<!--   LINK ALla PRENOTAZIONE -->
+<!--   LINK ALla PRENOTAZIONE --> 
+      <div  class="prenotazione-editor-link col-md-2" >
             <router-link
-                v-if="prenotazione.scuola"
+                v-if="prenotazione.scuola "
                 :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, prenotazione:prenotazione} }"
-                class="prenotazione-editor-link col-md-2"
+               
                 title = "Modifica Prenotazione"
                 >  {{ prenotazione.nome_scuola }}
             </router-link>
@@ -84,6 +85,7 @@
                 title = "Modifica Prenotazione"
                 >   {{ prenotazione.user }}
             </router-link>
+    </div>
 
 
             <div class="col-md-1 text-center" v-text="prenotazione.numero_accompagnatori"> </div>
@@ -107,7 +109,7 @@ import { apiService } from "../common/api.service.js";
 import { FormatToLocalDateString } from "../common/methods.js";
 
 export default {
-  name: "RiepilogoPrenotazioni",
+  name: "ElencoPrenotazioni",
 
 
 
@@ -125,6 +127,8 @@ export default {
     next: null,
     loadingPrenotazioni: false,
     dataAttuale:null,
+    currentUser:{},
+    isGuida:null,
   };
   },
 
@@ -156,10 +160,9 @@ export default {
           },
 
 
-
     getPrenotazioni() {
-      let endpoint = `/api/prenotazioni/?ordering=data_prenotazione`;
-     apiService(endpoint).then(data => {
+         let endpoint = `/api/prenotazioni/?ordering=data_prenotazione`;
+         apiService(endpoint).then(data => {
         this.prenotazioni.push(...data.results);
          });
     },
@@ -168,6 +171,7 @@ export default {
         this.prenotazioni_filtered = [];
         if (this.data_prenotazione != null ) {
             let endpoint = `/api/prenotazioni/?search=${this.setDateTOYYYYMMDD(this.data_prenotazione)}`;
+            //alert(endpoint)
             apiService(endpoint).then(data => {
             this.prenotazioni_filtered.push(...data.results);
              });
@@ -179,7 +183,7 @@ export default {
 
     getPrenotazioniFilteredByStatus() {
         this.prenotazioni_filtered = [];
-
+      
         if (this.status != null ) {
             let endpoint = `/api/prenotazioni/?ordering=data_prenotazione&search=${this.status}`;
             apiService(endpoint).then(data => {
@@ -212,16 +216,35 @@ export default {
       });
     },
 
+      getUserName() {
+            this.currentUser = {};
+             let endpoint = "/api/user/";
+             apiService(endpoint)
+               .then(data => {
+                 this.currentUser.id = data.id;
+                 this.currentUser.userName = data.username;
+                 this.currentUser.isStaff = data.is_staff;
+                 this.currentUser.isGuida = data.isguida;
+                 this.userName=data.username;
+              })
+         },
+
+           setIsGuida() {
+            this.isGuida = window.localStorage.getItem("isGuida");
+    },
+
 
   },
 
   created() {
+    this.setIsGuida()
+    this.getUserName();
     this.getPrenotazioni();
     this.getPrenotazioniFilteredByDataPrenotazione()
     this.getTurni();
     this.getMovimentiPrenotazioni();
     this.getDistinctDataPrenotazione();
-
+    
 
     //        document.getElementById('SelectUser').selectedIndex  = "1"
     document.title = "Elenco Prenotazioni";

@@ -20,4 +20,5 @@ urlpatterns = [
     path("distinctdataprenotazione/", qv.DistinctDataPrenotazione.as_view(),name='distinct-data-prenotazione'),
     path('anagraficascuole/deleteall/', qv.anagraficaScuoleDeleteAll.as_view(),name = 'scuole-Delete-All'),
     path('listaturni/', qv.ListaTurni.as_view(),name = 'turni-list'),
+    path('listaprenotazioni/', qv.ListaPrenotazioni.as_view(),name = 'prenotazioni-list'),
 ]

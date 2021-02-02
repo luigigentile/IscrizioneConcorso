@@ -90,7 +90,8 @@ class Prenotazione(models.Model):
     numero_totale_alunni = models.PositiveIntegerField(null=True)
     esigenze = models.TextField(blank=True, null=True)
     pagato = models.BooleanField(default=False,null=True)
-    argomentiPreferiti = models.CharField(max_length=250,blank=True, null=True)
+    argomentiPreferiti = models.CharField(max_length=250,blank=True, null=True,
+                                        help_text = "indicare gli stand della mostra che si preferisce visitare")
     mailInformativaInviata = models.BooleanField(default=False,null=True)
     mailConfermaInviata = models.BooleanField(default=False,null=True)
 

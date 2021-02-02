@@ -48,7 +48,7 @@ def mailConfermaPrenotazione(request,pk):
     contenuto = contenuto + "Scuola/Gruppo:      \t" + str(prenotazione.nome_scuola) + "\n"
     contenuto = contenuto + "N.ro accompagnatori:\t" + str(prenotazione.numero_accompagnatori) + "\n"
     contenuto = contenuto + "N.ro alunni:        \t" + str(prenotazione.numero_totale_alunni) + "\n"
-    contenuto = contenuto + "Data Prenotazione:  \t" + str(prenotazione.data_prenotazione.strftime('%d %B %Y')) + "\n"
+    contenuto = contenuto + "Data Prenotazione:  \t" + str(prenotazione.data_prenotazione.strftime('%d-%m-%Y')) + "\n"
     contenuto = contenuto + "Esigenze:           \t" + str(prenotazione.esigenze) + "\n\n"
 #   DETTAGLI PRENOTAZIONE
     contenuto = contenuto + "Dettaglio Prenotazione:" + "\n"
@@ -75,59 +75,34 @@ def mailConfermaPrenotazione(request,pk):
 #    return render(request,"powerSimulation/simulazioneResults.html",context)
 
 
-
 def mailInformativa(request,pk):
     import os
 #    print("EMAIL_HOST_USER:")
 #    print(settings.EMAIL_HOST_USER)
 #    print("pk= " + str(pk))
     prenotazione = Prenotazione.objects.get(pk=pk)
-    print("User Id della prenotazione = " + str(prenotazione.user.id))
+#   print("User Id della prenotazione = " + str(prenotazione.user.id))
     user = CustomUser.objects.get(id=prenotazione.user.id)
-#    dettagliPrenotazione = MovimentiPrenotazione.objects.get(prenotazione=prenotazione.id)
+#    print(user.email)
+#    print(request.user.email)
     success_url="/"
     destinatari = (user.email,)
 #   CONTENUTO DELLA MAIL
-    contenuto = "Gentile " + user.first_name  + ", \ngrazie per aver scelto di visitare la Mostra Sperimentando.\n"
-    contenuto = contenuto + "Per Confermare la prenotazione bisogna che lei effettui il pagamento di XXXX€... entro il  gg-mm-aa .\n"
-    contenuto = contenuto + "Questo è il link alla sezione dei pagamenti:\n"
-    contenuto = contenuto + "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/:\n"
-   #
-    ##print(contenuto)
-    #print(destinatari)
-    oggetto = "Informativa sulla  Mostra Sperimentando"
-
+    contenuto = "Gentile " + user.first_name  + ", \nGrazie per aver prenotato la visita alla Mostra Sperimentando.\n"
+    contenuto = contenuto + "Attenzione: ricordati di pagare e di inviare la ricevuta del pagamento!\n"
+    contenuto = contenuto + "Tutte le informazioni per procedere al pagamento sono al seguente indirizzo:\n"
+    contenuto = contenuto + "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/\n"
+    contenuto = contenuto + "\nRiceverai una mail di conferma della prenotazione da info@aifpadova.it, solo quando riceveremo\n"
+    contenuto = contenuto + "la ricevuta di pagamento all’indirizzo mail visitesperimentando@gmail.com\n"
+    contenuto = contenuto + "\n \n Grazie"
+    oggetto = "Informazioni prenotazione per la visita della mostra Sperimentando"
+    print(contenuto)
     from django.core.mail import EmailMessage
     email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari)
     email.send()
+
+#    success_url = reverse_lazy('home')
     return HttpResponseRedirect(success_url)
-
-
-
-
-def mailReset(request,email):
-    print(email)
-  
-    success_url="/login"
-    destinatari = list(email)
-#   CONTENUTO DELLA MAIL
-    contenuto = "Per Confermare la prenotazione bisogna che lei effettui il pagamento di XXXX€... entro il  gg-mm-aa .\n"
-    contenuto = contenuto + "Questo è il link alla sezione dei pagamenti:\n"
-    contenuto = contenuto + "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/:\n"
-   #
-    print(contenuto)
-    #print(destinatari)
-    oggetto = "Informativa sulla  Mostra Sperimentando"
-
-    from django.core.mail import EmailMessage
-    email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari)
-   # email.send()
-    return HttpResponseRedirect(success_url)
-
-
-  
-    
-
 
 
 def dataPrenotazioneModificata(request,pk):
@@ -141,8 +116,6 @@ def dataPrenotazioneModificata(request,pk):
 #    RITORNA ALLA PAGINA INIZIALE
     success_url="/"
     return HttpResponseRedirect(success_url)
-
-
 
 
 
@@ -166,3 +139,23 @@ def visualizzaprivacy(request):
 
 #    return render(request)
     return render(request,"https://sperimentandoaps.wordpress.com/informativa-privacy/")
+
+
+def mailReset(request,email):
+    print(email)
+  
+    success_url="/login"
+    destinatari = list(email)
+#   CONTENUTO DELLA MAIL
+    contenuto = "Per Confermare la prenotazione bisogna che lei effettui il pagamento di XXXX€... entro il  gg-mm-aa .\n"
+    contenuto = contenuto + "Questo è il link alla sezione dei pagamenti:\n"
+    contenuto = contenuto + "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/:\n"
+   #
+    print(contenuto)
+    #print(destinatari)
+    oggetto = "Informativa sulla  Mostra Sperimentando"
+
+    from django.core.mail import EmailMessage
+    email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari)
+   # email.send()
+    return HttpResponseRedirect(success_url)

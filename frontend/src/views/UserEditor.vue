@@ -18,6 +18,8 @@
 
         <label for="ruolo" class="col-3" >Ruolo</label>
         <input type="text" class="col-4"  v-model="ruolo" id="ruolo  " autofocus>
+
+        
 <!--    SELEZIONA LA SCUOLA CON SELECT    -->
         <select  id="nomeruolo"
         class="col-2 ml-3"
@@ -38,7 +40,10 @@
 
         <label for="fax" class="col-3" >Fax</label>
         <input type="text" class="col-9"  v-model="fax" id="fax" autofocus>
-
+       
+        <label for="guida" class="col-3" >Guida
+        <input type="checkbox" class="col-2"  v-model="isguida" id="guida" autofocus>
+        </label>
         <br> <br>
         <button
           class = 'btn btn-success'
@@ -80,6 +85,7 @@ export default {
      ruolo:null,
      telefono:null,
      fax:null,
+     isguida:null,
      ruoli: [],
     };
   },
@@ -110,6 +116,7 @@ export default {
                                          ruolo:this.ruolo,
                                          telefono: this.telefono,
                                          fax:this.fax,
+                                         isguida:this.isguida,
                                          })
              alert("Dati Personali  Aggiornati Correttamente")
              this.tornaIndietro()
@@ -126,7 +133,8 @@ export default {
                  this.email = data.email;
                  this.ruolo = data.ruolo;
                  this.telefono = data.telefono;
-                this.fax = data.fax;
+                 this.fax = data.fax;
+                 this.isguida = data.isguida;
                })
          },
 

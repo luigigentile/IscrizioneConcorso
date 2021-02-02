@@ -357,7 +357,7 @@ export default {
                                         esigenze:this.esigenze,
                                         argomentiPreferiti:this.argomentiPreferiti,
                                         })
-            alert("La prenotazione è stata modificata correttamente \ned è stata inviata una mail di conferma all'utente: " + this.requestUserName)
+            alert("La prenotazione è stata modificata correttamente \ned è stata inviata una mail di conferma all'utente: " + this.prenotazione.user)
             reference = "/mail-informativa/" + this.pk +"/"
             location.href = reference;
            
@@ -468,6 +468,11 @@ export default {
 
         onSubmit() {
             var messaggio,reference
+            if (this.data_prenotazione==null) {
+                alert("Attenzione !!!! la data di prenotazione non puo' essere null")
+                document.getElementById('dataPrenotazione').focus();
+                return
+            }
             if (!this.previousData_Prenotazione) {
                 let endpoint = `/api/prenotazioni/`;
                 apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,

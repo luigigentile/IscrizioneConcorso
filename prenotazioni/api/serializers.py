@@ -28,9 +28,6 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Prenotazione
-        
-
-     
         fields = ['id','user','created_at','data_prenotazione','scuola','pagato','status','nome_scuola','numero_accompagnatori','numero_totale_alunni','esigenze',
         'argomentiPreferiti','tipoVisita','mailInformativaInviata','mailConfermaInviata','labelStatus']
         
@@ -89,7 +86,8 @@ class AnagraficaScuoleSerializer(serializers.ModelSerializer):
 class AnagraficaVideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnagraficaVideo
-        fields = '__all__'
+        fields = ["id","titolo","descrizione","note",'collegamento','settore']
+    #    fields = '__all__'
 
 class TabellaRuoliSerializer(serializers.ModelSerializer):
     class Meta:

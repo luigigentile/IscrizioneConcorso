@@ -54,12 +54,12 @@
 
    <!--    Elenco Video    -->
     <font face="Times New Roman" size="2" color="#000000">
-    <div class="container border-bottom" v-for="(video) in videos"   :key="video.id">
+    <div class="container border-bottom" v-for="(video) in videos_filtered"   :key="video.id">
         <div class="row">
             <div v-on:click="riproduciVideo(video.collegamento)" class="col-md-2 " v-text="video.titolo"> </div>
             <div class="col-md-4 " v-text="video.descrizione"> </div>
             <div class="col-md-2 " v-text="getSettoreTurno(video.settore)"> </div>
-            <a class="btn btn-outline-success  btn-sm"  @click="riproduciVideo(video.collegamento)"
+            <a class="btn btn-outline-success  btn-sm mb-2"  @click="riproduciVideo(video.collegamento)"
             >Visualizza
             </a>
           </div>
@@ -72,7 +72,7 @@
 
 <script>
 import { apiService } from "../common/api.service.js";
-import { FormatToLocalDateString } from "../common/methods.js";
+
 
 export default {
   name: "ElencoVideo",
@@ -80,12 +80,12 @@ export default {
   data() {
     return {
     videos: [],
+    videos_filtered: [],
     allVideo: [],
     settori:[],
     dataAttuale:null,
     selectedSettore : null,
-    firstFilter: true,
-  };
+    };
   },
 
 
@@ -96,7 +96,7 @@ export default {
         },
 
       getSettoreTurno(IdTurno) {
-        return this.settori[IdTurno].settore;
+        return this.settori[IdTurno-1].settore;
     },
 
     getSettori() {
@@ -106,46 +106,29 @@ export default {
         });
     },
    
-      getLocalDate(Data) {
-    //    return new Date(DataPrenotazione).toLocaleDateString();
-        return FormatToLocalDateString(Data);
-          },
-
-      getToISOString(DataPrenotazione) {
-    //    return new Date(DataPrenotazione).toLocaleDateString();
-        return new Date(DataPrenotazione).toISOString();
-          },
-
+   
 
      getAllVideo() {
       let endpoint = `/api/video/`;
      apiService(endpoint).then(data => {
         this.videos.push(...data.results);
          });
+         this.videos_filtered = this.videos;
     },
 
-     getVideoFilteredBySettore() {
-        alert(this.firstFilter)
-          if (this.firstFilter) {
-              this.allVideo = JSON.parse(JSON.stringify(this.videos));
-              this.firstFilter = false
+    getVideoFilteredBySettore() {
+        this.videos_filtered = [];
+        if (this.selectedSettore != "" ) {
+            for (var i =0 ; i<this.videos.length ;i++) {
+              if (this.videos[i].settore == this.selectedSettore){
+                this.videos_filtered.push(this.videos[i])
+              }
+            };
+          }
+           else  {
+             this.videos_filtered = this.videos;
             }
-            var len = this.videos.length
-            alert("len=" + len)
-            alert("settore:" + this.selectedSettore)
-              for (var i = 0; i<= len; i++) {
-                alert("i="+i)
-                alert(this.videos[i].settore)
-                   if (this.videos[i].settore != this.selectedSettore) {
-//                if (this.allConnectivityRelay.edges[i].node.name != this.selectedName) { 
-                    this.videos[i].splice(i,1);
-                    i = i-1 
-                    len = len-1
-                 }
-             }
-       
-        },  
- 
+    },
   },
 
   created() {
