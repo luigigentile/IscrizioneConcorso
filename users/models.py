@@ -5,6 +5,5 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     ruolo =  models.CharField(max_length=50,null=True) 
-    isguida = models.BooleanField(default=False)
     telefono =  models.CharField(max_length=50,null=True)
     fax =  models.CharField(max_length=50,null=True)

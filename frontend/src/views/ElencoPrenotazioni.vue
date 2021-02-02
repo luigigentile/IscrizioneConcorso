@@ -128,7 +128,7 @@ export default {
     loadingPrenotazioni: false,
     dataAttuale:null,
     currentUser:{},
-    isGuida:null,
+   
   };
   },
 
@@ -224,21 +224,17 @@ export default {
                  this.currentUser.id = data.id;
                  this.currentUser.userName = data.username;
                  this.currentUser.isStaff = data.is_staff;
-                 this.currentUser.isGuida = data.isguida;
                  this.userName=data.username;
               })
          },
 
-           setIsGuida() {
-            this.isGuida = window.localStorage.getItem("isGuida");
-    },
+   
 
 
   },
 
   created() {
-    this.setIsGuida()
-    this.getUserName();
+     this.getUserName();
     this.getPrenotazioni();
     this.getPrenotazioniFilteredByDataPrenotazione()
     this.getTurni();

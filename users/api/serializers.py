@@ -5,7 +5,7 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ["id","username",'email','ruolo','telefono','fax','first_name','last_name','is_staff','isguida']
+        fields = ["id","username",'email','ruolo','telefono','fax','first_name','last_name','is_staff']
 #        fields = ["username"]
 #        fields = '__all__'
 
@@ -13,5 +13,5 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id','email','ruolo','telefono','fax','first_name','last_name','isguida']
+        fields = ['id','email','ruolo','telefono','fax','first_name','last_name']
 #        fields = '__all__'

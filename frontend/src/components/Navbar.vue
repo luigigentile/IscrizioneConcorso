@@ -16,7 +16,7 @@
           </li>
   <!-- Elenco Video -->
           <li class="nav-item mx-1 " title="Visualizza l'elenco dei video disponibili">
-            <router-link v-show="currentUser.isStaff || currentUser.isGuida" :to="{ name: 'elencovideo' }" class="btn btn-sm btn-primary"
+            <router-link v-show="currentUser.isStaff " :to="{ name: 'elencovideo' }" class="btn btn-sm btn-primary"
               >Video
             </router-link>
           </li>
@@ -134,12 +134,10 @@ export default {
                  this.currentUser.id = data.id;
                  this.currentUser.userName = data.username;
                  this.currentUser.isStaff = data.is_staff;
-                 this.currentUser.isGuida = data.isguida;
                  this.userName=data.username;
                 window.localStorage.setItem("username", data.username);
                 window.localStorage.setItem("isStaff", data.is_staff);
-                window.localStorage.setItem("isGuida", data.isguida);
-               })
+                })
          },
 
   },
