@@ -1,8 +1,8 @@
 <template lang="html">
-    <div class="container mt-2">
+    <div class="container mt-2 text-left">
         <div class="row">
             <div class="col-12">
-                <h3 class = "mb-3">Sei sicuro di voler eliminare la seguente  prenotazione e tutti i suoi movimenti</h3>
+                <h4 class = "mb-3">Sei sicuro di voler eliminare la seguente  prenotazione e tutti i suoi turni</h4>
                 <form @submit.prevent="onSubmit" >
                     <h3
                         class = "form-control"

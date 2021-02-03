@@ -3,8 +3,9 @@
   <nav class="navbar navbar-expand-sm navbar-light bg-light my-navbar">
     <div class="container">
       <router-link :to="{ name: 'Home' }" class="navbar-brand" title="Ritorna alla pagina principale">
-        <span>  <img src="/static/logoSperimentandoPiccolo.jpeg" style = 'max-width:14%' ></span>
-        Sperimentando
+        <span class="mr-2 " >  <img src="/static/logoSperimentandoPiccolo.jpeg" style = 'max-width:14%' ></span>
+      <span>Sperimentando </span>
+      
       </router-link>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -14,12 +15,7 @@
               >Home
             </router-link>
           </li>
-  <!-- Elenco Video -->
-          <li class="nav-item mx-1 " title="Visualizza l'elenco dei video disponibili">
-            <router-link v-show="currentUser.isStaff " :to="{ name: 'elencovideo' }" class="btn btn-sm btn-primary"
-              >Video
-            </router-link>
-          </li>
+ 
   <!-- Elenco Prenotazioni -->
           <li class="nav-item mx-1 " title="Visualizza l'elenco delle prenotazioni">
             <router-link :to="{ name: 'prenotazioni-elenco' }" class="btn btn-sm btn-primary"
@@ -34,6 +30,12 @@
             </router-link>
           </li>
 
+  <!-- Elenco Video -->
+          <li class="nav-item mx-1 " title="Visualizza l'elenco dei video disponibili">
+            <router-link v-show="currentUser.isStaff " :to="{ name: 'elencovideo' }" class="btn btn-sm btn-primary"
+              >Video
+            </router-link>
+          </li>
 
     <!-- Menu Utente Dropdown -->
       <div class="dropdown nav-item mx-1" title="Account">

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home text-left">
     <div class="container">
       <h2>Elenco Prenotazioni
         <router-link title="Inserisci una nuova Prenotazione"

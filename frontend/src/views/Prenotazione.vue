@@ -1,6 +1,6 @@
 <template lang="html">
   <!-- DESCRIZIONE  PRENOTAZIONE EFFETTUATA -->
-  <div class="container" >
+  <div class="container text-left" >
       <h4 class="d-none d-print-block">Padova {{ getLocalDate(dataAttuale)}} </h4>
     <div class="card  border-primary rounded ">
         <div class="card-header" >

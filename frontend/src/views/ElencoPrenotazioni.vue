@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="container">
+  <div class="container text-left">
       <h4 class="d-none d-print-block">Padova {{ dataAttuale}} </h4>
 <!--    SELEZIONA LA DATA PRENOTAZIONE CON SELECT    -->
 <div class ='d-print-none'>
@@ -60,13 +60,6 @@
             <div class="col-md-1 " v-text="prenotazione.data_prenotazione"> </div>
             <div class="col-md-1 " v-text="prenotazione.status"> </div>
             <div class="col-md-1 " v-text="prenotazione.tipoVisita"> </div>
-<!--   LINK AL DETTAGLIO PRENOTAZIONE
-            <router-link  v-if="prenotazione.scuola || staff " title="Visualizza dettagli Prenotazione"
-              :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
-              class="prenotazione-link col-md-4"
-            >Data Prenotazione {{ prenotazione.nome_scuola }}
-            </router-link>
--->
 
 <!--   LINK ALla PRENOTAZIONE --> 
       <div  class="prenotazione-editor-link col-md-2" >
@@ -86,15 +79,15 @@
                 >   {{ prenotazione.user }}
             </router-link>
     </div>
-
-
+            
             <div class="col-md-1 text-center" v-text="prenotazione.numero_accompagnatori"> </div>
             <div class="col-md-1 text-center" v-text="prenotazione.numero_totale_alunni"> </div>
             <div class="col-md-1 " v-text="prenotazione.esigenze"> </div>
             <div class="col-md-2 " v-text="prenotazione.argomentiPreferiti "> </div>
-            <div class="col-md-1 text-right" v-text="prenotazione.mailInformativaInviata + ' ' + prenotazione.mailConfermaInviata">
-                <h4 class="ml-4" >Mail Inviate:  </h4>
-             </div>
+            <div class="col-md-1 text-right">
+            <input title="Mail Informativa Inviata" type="checkbox" onclick="return false;"  v-model="prenotazione.mailInformativaInviata">
+            <input  title="Mail Conferma Inviata" class = " ml-1" type="checkbox" onclick="return false;"  v-model="prenotazione.mailConfermaInviata">
+            </div>
              
         </div>
     </div>
@@ -161,7 +154,8 @@ export default {
 
 
     getPrenotazioni() {
-         let endpoint = `/api/prenotazioni/?ordering=data_prenotazione`;
+         //let endpoint = `/api/prenotazioni/?ordering=-data_prenotazione`;
+         let endpoint = `/api/prenotazioni/`;
          apiService(endpoint).then(data => {
         this.prenotazioni.push(...data.results);
          });
@@ -185,7 +179,7 @@ export default {
         this.prenotazioni_filtered = [];
       
         if (this.status != null ) {
-            let endpoint = `/api/prenotazioni/?ordering=data_prenotazione&search=${this.status}`;
+            let endpoint = `/api/prenotazioni/?ordering=-data_prenotazione&search=${this.status}`;
             apiService(endpoint).then(data => {
             this.prenotazioni_filtered.push(...data.results);
              });
@@ -234,7 +228,7 @@ export default {
   },
 
   created() {
-     this.getUserName();
+    this.getUserName();
     this.getPrenotazioni();
     this.getPrenotazioniFilteredByDataPrenotazione()
     this.getTurni();

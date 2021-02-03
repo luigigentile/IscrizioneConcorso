@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="container">
+    <div class="container text-left">
 <!--    TITOLO - Pulsante Dettaglio Prenotazione - pulsante Pagamenti -->
         <div class="container " >
             <div class="row  rounded" >
@@ -120,11 +120,11 @@
 
                <!--    argomenti Preferiti    -->
                     <label for="argomentiPreferiti" class="col-3" >Argomenti Preferiti</label>
-                    <input type="text" class="col-9" placeholder="Argomenti Preferiti" v-model="argomentiPreferiti" id="argomentiPreferiti" autofocus>
+                    <input type="text" title = "Inserire qui gli argomenti che si desidera affrontare durante la visita" class="col-9" placeholder="Argomenti Preferiti" v-model="argomentiPreferiti" id="argomentiPreferiti" autofocus>
                     
                 <!--    esigenze    -->
                     <label for="esigenze" class="col-3" >Esigenze</label>
-                    <input type="text" class="col-9" placeholder="esigenze" v-model="esigenze" id="esigenze" autofocus>
+                    <input type="text" title = "Inserire qui eventuali esigenze che si possono avere durante la visita" class="col-9" placeholder="esigenze" v-model="esigenze" id="esigenze" autofocus>
                     <br>
                     <br>
                     <button

@@ -1,6 +1,6 @@
 <template lang="html">
   <!-- DESCRIZIONE  PRENOTAZIONE EFFETTUATA -->
-  <div class="container" id="da_stampare">
+  <div class="container" id="da_stampare text-left">
 
  
 

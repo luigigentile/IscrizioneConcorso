@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="container">
+  <div class="container text-left">
 
 <h4 class="d-none d-print-block">Padova {{ getLocalDate(dataAttuale)}}</h4>
 
