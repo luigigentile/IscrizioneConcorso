@@ -28,6 +28,7 @@
          <option value="">All.....</option>
          <option value="DC">Da Confermare</option>
          <option value="CO" selected>Confermato</option>
+         <option value="EF" selected>Effettuata</option>
     </select>
     </font>
 </div>
@@ -39,7 +40,7 @@
     <!--    INTESTAZIONE DELLE COLONNE    -->
         <div class="row border-top border-secondary mb-2">
             <div class="col-md-8 "></div>
-              <div class="col-md-3 ml-2 text-right">Mail Inviate</div>
+              <div class="col-md-3 ml-4 text-right">Mail Inviate</div>
         </div>
         <div class="row border-bottom border-secondary mb-2">
         <div class="col-md-1 ">Data</div>

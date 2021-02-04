@@ -85,12 +85,13 @@
             <select id = "SelectTurno" class="form-control mb-1"
                 v-model='turno'
                   @change="getSelectedUserTurno">
-                  <optgroup label="Data - Turno - Settore">
-                     <option
+                    <option >Data Prenotazione: {{ prenotazione.data_prenotazione }}</option>
+                  <optgroup  label="Orario -  Settore">
+                   <option
                       v-for="turno in turniFiltrati"
                       :key="turno.id"
                       :value=turno.id
-                    > {{ turno.data }} - {{ turno.orario_turno }} - {{ turno.settore }} - {{ turno.numero_posti_disponibili - getNumeroAlunniPrenotatiPerTurno(turno.id) }}
+                    >   {{ turno.orario_turno }} - {{ turno.settore }} - {{ turno.numero_posti_disponibili - getNumeroAlunniPrenotatiPerTurno(turno.id) }}
                   </option>
                      </optgroup>
             </select>
@@ -180,6 +181,10 @@ export default {
 
 
   methods: {
+
+    labelOptGroup() {
+          return "data:" +  " - Turno - Settore"
+        },
 
 
       getDescrizioneSettoreTurno(varIdTurno) {
