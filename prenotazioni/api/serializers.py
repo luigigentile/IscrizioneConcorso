@@ -47,7 +47,7 @@ class DataPrenotazioniSerializer(serializers.ModelSerializer):
         fields = ['data_prenotazione']
 
 class TurniSerializer(serializers.ModelSerializer):
-    #settore = serializers.StringRelatedField(read_only=True)
+    settore = serializers.StringRelatedField(read_only=True)
     data = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'])
 
 #    data = serializers.SerializerMethodField(read_only=True)
