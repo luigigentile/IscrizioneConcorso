@@ -85,7 +85,7 @@ class Prenotazione(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete = models.CASCADE,
                                 related_name = 'prenotazioni')
-    nome_scuola = models.CharField(max_length=50,null=True)
+    nome_scuola = models.CharField(max_length=50,null=True,blank=True)
     numero_accompagnatori = models.PositiveIntegerField(default=1)
     numero_totale_alunni = models.PositiveIntegerField(null=True)
     esigenze = models.TextField(blank=True, null=True)
