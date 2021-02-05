@@ -34,7 +34,7 @@
 </div>
 
     <!--        -->
-    <h3 id="dataPrenotazione" >Elenco Prenotazioni</h3>
+    <h3 id="dataPrenotazione" >Elenco Prenotazioni </h3>
 
     <!--    ELENCO COMPLETO PRENOTAZIONI    -->
     <!--    INTESTAZIONE DELLE COLONNE    -->
@@ -51,7 +51,7 @@
         <div class="col-md-1 ">Alunni</div>
         <div class="col-md-1 ">Esigenze</div>
         <div class="col-md-2 ">Argomenti</div>
-        <div class="col-md-1 text-right">I.    C.</div>
+        <div class="col-md-1 text-right">I.    C.   P.</div>
         </div>
 
 <!--      Elenco movimenti prenotazione -->
@@ -88,6 +88,7 @@
             <div class="col-md-1 text-right">
             <input title="Mail Informativa Inviata" type="checkbox" onclick="return false;"  v-model="prenotazione.mailInformativaInviata">
             <input  title="Mail Conferma Inviata" class = " ml-1" type="checkbox" onclick="return false;"  v-model="prenotazione.mailConfermaInviata">
+            <input  title="Mail Conferma Inviata" class = " ml-1" type="checkbox" onclick="return false;"  v-model="prenotazione.pagato">
             </div>
              
         </div>

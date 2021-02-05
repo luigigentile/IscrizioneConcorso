@@ -29,11 +29,11 @@
         <form @submit.prevent="onSubmit" >
         <div class = "border-bottom border-secondary pb-1" v-if="userIsStaff && pk">
         <!--    checkbox  pagato -->
-            <input class="ml-1" type="checkbox" id="pagato"  v-model="pagato">
+            <input class="ml-1" type="checkbox" id="pagato"  v-model="pagato" @change="updatePagato">
             <label class="ml-1 mr-3" for="pagato"> Pagato </label>
         <!--    STATUS   -->
             <label class="ml-2" for="id_status">Status:</label>
-            <select class="ml-1" name="status" id="id_status" v-model="status">
+            <select class="ml-1" name="status" id="id_status" v-model="status" @change="updateStatus">
                 <option value="DC">Da Confermare</option>
                 <option value="CO" selected>Confermato</option>
                 <option value="EF" selected>Effettuata</option>
@@ -119,9 +119,11 @@
                     </div>
 
                <!--    argomenti Preferiti    -->
-                    <label for="argomentiPreferiti" class="col-3" >Argomenti Preferiti</label>
-                    <input type="text" title = "Inserire qui gli argomenti che si desidera affrontare durante la visita" class="col-9" placeholder="Argomenti Preferiti" v-model="argomentiPreferiti" id="argomentiPreferiti" autofocus>
-                    
+                    <label for="argomentiPreferiti" class="col-3"  > </label>
+                    <input type="text" class="col-8" title = "Inserire qui gli argomenti che si desidera affrontare durante la visita"  placeholder="Argomenti Preferiti" v-model="argomentiPreferiti" id="argomentiPreferiti" autofocus>
+                     <a class="text-right btn btn-outline-success btn-sm ml-4" @click="visualizzaMappaMostra"> 
+                        Mappa </a>
+     
                 <!--    esigenze    -->
                     <label for="esigenze" class="col-3" >Esigenze</label>
                     <input type="text" title = "Inserire qui eventuali esigenze che si possono avere durante la visita" class="col-9" placeholder="esigenze" v-model="esigenze" id="esigenze" autofocus>
@@ -312,6 +314,22 @@ export default {
                 }
             },
 
+ //          UPDATE PAGATO        
+        updatePagato() {
+            let endpoint = `/api/prenotazioni/${this.pk}/`;
+            apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
+                                        pagato:this.pagato,
+            })
+        },
+//          UPDATE Stato PRENOTAZIONE        
+        updateStatus() {
+            let endpoint = `/api/prenotazioni/${this.pk}/`;
+            apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
+                                         status:this.status,
+            })
+        },
+        
+        
         inviaMailConferma() {
             var reference
     //          SALVA LA PRENOTAZIONE
@@ -363,10 +381,15 @@ export default {
            
           },
 
-          visualizzaPagamenti() {
+        visualizzaPagamenti() {
               var linkpage = "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/"
               window.open(linkpage,"");
-          },
+        },
+
+        visualizzaMappaMostra() {
+              var linkpage = "https://sperimentandoaps.wordpress.com/mappa-sperimentando-20-21/"
+              window.open(linkpage,"");
+        },
 
 
         prenotazioneIsConfermata() {
@@ -480,7 +503,7 @@ export default {
                                                 scuola:this.scuola,
                                                 mailInformativaInviata:this.mailInformativaInviata,
                                                 mailConfermaInviata:this.mailConfermaInviata,
-                                                nome_scuola:this.nome_scuola,
+                                                nome_scuola:this. nome_scuola,
                                                 numero_totale_alunni:this.numero_totale_alunni,
                                                 esigenze:this.esigenze,
                                                 argomentiPreferiti:this.argomentiPreferiti,

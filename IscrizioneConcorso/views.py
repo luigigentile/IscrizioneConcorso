@@ -28,20 +28,21 @@ def visualizzaGuidaUtente(request):
 
 def mailConfermaPrenotazione(request,pk):
     import os
-#    print("EMAIL_HOST_USER:")
-#    print(settings.EMAIL_HOST_USER)
-#    print("pk= " + str(pk))
     prenotazione = Prenotazione.objects.get(pk=pk)
-    print("User Id della prenotazione = " + str(prenotazione.user.id))
+    #print("User Id della prenotazione = " + str(prenotazione.user.id))
     user = CustomUser.objects.get(id=prenotazione.user.id)
 #    dettagliPrenotazione = MovimentiPrenotazione.objects.get(prenotazione=prenotazione.id)
     dettagliPrenotazione = MovimentiPrenotazione.objects.filter(prenotazione=prenotazione.id)
-#    print(user.email)
 #    print(request.user.email)
     success_url="/"
     destinatari = (user.email,)
+    if (user.first_name) :
+        name=user.first_name
+    else:
+        name = user.name
+      
 #   CONTENUTO DELLA MAIL
-    contenuto = "Gentile " + user.first_name  + ", \ngrazie per aver scelto di visitare la Mostra Sperimentando.\n"
+    contenuto = "Gentile " + name  + ", \ngrazie per aver scelto di visitare la Mostra Sperimentando.\n"
     contenuto = contenuto + "La prenotazione della visita alla mostra è confermata.\n"
     contenuto = contenuto + "Ecco i dettagli della visita:\n"
     contenuto = contenuto + "Utente:             \t" + str(user.username) + "\n"
@@ -77,9 +78,6 @@ def mailConfermaPrenotazione(request,pk):
 
 def mailInformativa(request,pk):
     import os
-#    print("EMAIL_HOST_USER:")
-#    print(settings.EMAIL_HOST_USER)
-#    print("pk= " + str(pk))
     prenotazione = Prenotazione.objects.get(pk=pk)
 #   print("User Id della prenotazione = " + str(prenotazione.user.id))
     user = CustomUser.objects.get(id=prenotazione.user.id)
@@ -87,8 +85,12 @@ def mailInformativa(request,pk):
 #    print(request.user.email)
     success_url="/"
     destinatari = (user.email,)
+    if (user.first_name) :
+        name=user.first_name
+    else:
+        name = user.name
 #   CONTENUTO DELLA MAIL
-    contenuto = "Gentile " + user.first_name  + ", \nGrazie per aver prenotato la visita alla Mostra Sperimentando.\n"
+    contenuto = "Gentile " + name  + ", \nGrazie per aver prenotato la visita alla Mostra Sperimentando.\n"
     contenuto = contenuto + "Attenzione: ricordati di pagare e di inviare la ricevuta del pagamento!\n"
     contenuto = contenuto + "Tutte le informazioni per procedere al pagamento sono al seguente indirizzo:\n"
     contenuto = contenuto + "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/\n"
