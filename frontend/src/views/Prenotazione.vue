@@ -85,9 +85,9 @@
             <select id = "SelectTurno" class="form-control mb-1"
                 v-model='turno'
                   @change="getSelectedUserTurno">
-                    <option >Data Prenotazione: {{ prenotazione.data_prenotazione }}</option>
-                  <optgroup  label="Orario -  Settore">
-                   <option
+                    <option disabled >Data Prenotazione: {{ prenotazione.data_prenotazione }}</option>
+                  <optgroup   label="Orario -  Settore   - Posti Disponibili">
+                   <option 
                       v-for="turno in turniFiltrati"
                       :key="turno.id"
                       :value=turno.id

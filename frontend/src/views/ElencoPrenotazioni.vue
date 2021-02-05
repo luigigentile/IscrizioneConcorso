@@ -65,17 +65,16 @@
 <!--   LINK ALla PRENOTAZIONE --> 
       <div  class="prenotazione-editor-link col-md-2" >
             <router-link
-                v-if="prenotazione.scuola "
+                v-if="prenotazione.nome_scuola "
                 :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, prenotazione:prenotazione} }"
-               
                 title = "Modifica Prenotazione"
                 >  {{ prenotazione.nome_scuola }}
             </router-link>
 
             <router-link
-                v-else
-                :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, } }"
-                class="prenotazione-editor-link col-md-4"
+                v-if="!prenotazione.nome_scuola "
+                :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, prenotazione:prenotazione } }"
+                class="prenotazione-editor-link"
                 title = "Modifica Prenotazione"
                 >   {{ prenotazione.user }}
             </router-link>

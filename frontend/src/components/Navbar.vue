@@ -24,9 +24,9 @@
           </li>
  
  <!-- Riepilogo Prenotazioni -->
-          <li class="nav-item mx-1" title="Visualizza il Riepilogo Prenotazioni">
+          <li class="nav-item mx-1" title="Visualizza il Riepilogo dei turni Prenotazioni">
             <router-link v-show="currentUser.isStaff" :to="{ name: 'prenotazioni-riepilogo' }" class="btn btn-sm btn-primary"
-              >Riepilogo Prenotazioni
+              >Riepilogo Turni
             </router-link>
           </li>
 
@@ -50,7 +50,6 @@
                 >Dati Personali
                 </router-link>
             </div>
-            <a class="dropdown-item" href="/accounts/login/">Login</a>
             <a class="dropdown-item" href="/accounts/logout/">Logout</a>
             <a class="dropdown-item" href="/accounts/password_change/">Cambio Password</a>
         </div>

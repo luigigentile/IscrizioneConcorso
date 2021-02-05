@@ -119,10 +119,10 @@
                     </div>
 
                <!--    argomenti Preferiti    -->
-                    <label for="argomentiPreferiti" class="col-3"  > </label>
+                    <label for="argomentiPreferiti" class="col-3"  >Argomenti Preferiti </label>
                     <input type="text" class="col-8" title = "Inserire qui gli argomenti che si desidera affrontare durante la visita"  placeholder="Argomenti Preferiti" v-model="argomentiPreferiti" id="argomentiPreferiti" autofocus>
                      <a class="text-right btn btn-outline-success btn-sm ml-4" @click="visualizzaMappaMostra"> 
-                        Mappa </a>
+                      Mappa </a>
      
                 <!--    esigenze    -->
                     <label for="esigenze" class="col-3" >Esigenze</label>
@@ -527,6 +527,12 @@ export default {
             }
             if (this.previousData_Prenotazione) {
                 this.SetStatusField();
+//                Controlla che il nome della scuola non sia blank
+                  if (this.nome_scuola == "") {
+                      this.nome_scuola = null
+                    }
+
+               
                 let endpoint = `/api/prenotazioni/${this.pk}/`;
                 apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
                                             scuola:this.scuola,
