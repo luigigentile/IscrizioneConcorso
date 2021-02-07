@@ -28,7 +28,7 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Prenotazione
-        fields = ['id','user','created_at','data_prenotazione','scuola','pagato','status','nome_scuola','numero_accompagnatori','numero_totale_alunni','esigenze',
+        fields = ['id','user','created_at','data_prenotazione','ora_prenotazione','scuola','pagato','status','nome_scuola','numero_accompagnatori','numero_totale_alunni','esigenze',
         'argomentiPreferiti','tipoVisita','mailInformativaInviata','mailConfermaInviata','labelStatus']
         
 #        fields = '__all__'
@@ -48,6 +48,7 @@ class DataPrenotazioniSerializer(serializers.ModelSerializer):
 
 class TurniSerializer(serializers.ModelSerializer):
     settore = serializers.StringRelatedField(read_only=True)
+    #settore = serializers.StringRelatedField()
     data = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'])
 
 #    data = serializers.SerializerMethodField(read_only=True)

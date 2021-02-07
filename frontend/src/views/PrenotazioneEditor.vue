@@ -11,7 +11,7 @@
                      <span class="text-right" v-if="scuola && pk">
                      <router-link   title="Visualizza dettagli Prenotazione"
                        :to="{ name: 'prenotazione', params: {pk: prenotazione.id , prenotazione:prenotazione} }"
-                       class="btn btn-outline-success btn-sm prenotazione-link"
+                       class="btn btn-outline-dark btn-sm "
                        >Dettaglio Turni
                        </router-link>
                       </span>
@@ -19,7 +19,7 @@
               
                <!--   Pulsante PAGAMENTI -->
                 <div class="col-md-2 mt-2 text-right">
-                    <a class="btn btn-outline-success btn-sm" @click="visualizzaPagamenti"> 
+                    <a class="btn btn-outline-dark btn-sm" @click="visualizzaPagamenti"> 
                         Pagamenti
                     </a>
                  </div>
@@ -63,11 +63,12 @@
         
 
 <!--    checkbox  Scuola    -->
-        <input class="ml-3" @change="updateScuola" type="checkbox" id="scuola"  v-model="scuola">
-        <label class="ml-1" for="scuola"> scuola/gruppo </label><br>
+        <label class="ml-3 mt-3" for="scuola"> scuola/gruppo 
+        <input class="ml-1 " @change="updateScuola" type="checkbox" id="scuola"  v-model="scuola">
+    </label><br>
 <!--    TIPO VISITA   -->
     <label  class="col-3" for="id_tipovisita">Tipo Visita:</label>
-    <select  class="col-7 mr-4"  name="tipoVisita" id="id_tipovisita" v-model="tipoVisita">
+    <select  class="col-9"  name="tipoVisita" id="id_tipovisita" v-model="tipoVisita">
         <option value="VI">Virtuale</option>
         <option value="PR" selected>Presenza</option>
     </select>
@@ -77,7 +78,7 @@
         <label for="dataPrenotazione" class="col-3" >Data Prenotazione</label>
         <select  id="dataPrenotazione"
             @change="changeDataPrenotazione"
-            class="col-9" placeholder="data prenotazione"
+            class="col-5" placeholder="data prenotazione"
             v-model="data_prenotazione">
             <option
                v-for="turno in distinct_data_turni"
@@ -85,12 +86,16 @@
                >{{ turno.data }}
              </option>
         </select>
-     
-
+<!--    ORA PRENOTAZIONE  solo NO scuola   -->
+         <span  v-if="!scuola">
+            <label for="oraPrenotazione" class="col-2 " >Ora Prenotazione</label>
+            <input type="time" class="col-2 " title = "Ora di prenotazione"  placeholder="hh:mm" v-model="ora_prenotazione" id="oraPrenotazione" >
+         </span>
+  
         <div v-if="scuola">
             <!--    Nome Scuola con casella di testo e Select  -->
             <label for="nomescuola" class="col-3" >Nome Scuola/Gruppo</label>
-            <input type="text" class="col-4" placeholder="nome scuola" v-model="nome_scuola" id="nomescuola" autofocus>
+            <input type="text" class="col-4" placeholder="nome scuola/gruppo" v-model="nome_scuola" id="nomescuola" autofocus>
             <!--    SELEZIONA LA SCUOLA CON SELECT    -->
           
             <select  id="nomescuola" 
@@ -121,7 +126,7 @@
                <!--    argomenti Preferiti    -->
                     <label for="argomentiPreferiti" class="col-3"  >Argomenti Preferiti </label>
                     <input type="text" class="col-8" title = "Inserire qui gli argomenti che si desidera affrontare durante la visita"  placeholder="Argomenti Preferiti" v-model="argomentiPreferiti" id="argomentiPreferiti" autofocus>
-                     <a class="text-right btn btn-outline-success btn-sm ml-4" @click="visualizzaMappaMostra"> 
+                     <a class="text-right btn btn-outline-dark btn-sm ml-2" @click="visualizzaMappaMostra"> 
                       Mappa </a>
      
                 <!--    esigenze    -->
@@ -170,6 +175,11 @@ export default {
             type: String,
             required:false
             },
+        previousOra_Prenotazione: {
+            type: String,
+            required:false
+            },
+
         previousscuola: {
             type: Boolean,
             required:false
@@ -229,6 +239,7 @@ export default {
             submitText:"Aggiungi Prenotazione",
             id:this.previousId || null,
             data_prenotazione:this.previousData_Prenotazione || null,
+            ora_prenotazione:this.previousOra_Prenotazione || null,
             scuole: [],
             scuola:this.previousscuola || null,
             mailInformativaInviata:this.previousMailInformativa || false,
@@ -258,6 +269,7 @@ export default {
             await apiService(endpoint)
                     .then(data => {
                         to.params.previousData_Prenotazione = data.data_prenotazione;
+                        to.params.previousOra_Prenotazione = data.ora_prenotazione;
                         to.params.previousscuola = data.scuola;
                         to.params.previousMailInformativa = data.mailInformativaInviata;
                         to.params.previousMailConferma = data.mailConfermaInviata;
@@ -272,6 +284,9 @@ export default {
                     })
                     .catch(error => console.log(error))
             }
+              if(to.params.pk == undefined) {
+                 to.params.previousscuola  = true
+              }
         return next();
     },
 
@@ -499,6 +514,7 @@ export default {
             if (!this.previousData_Prenotazione) {
                 let endpoint = `/api/prenotazioni/`;
                 apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,
+                                                ora_prenotazione: this.ora_prenotazione,
                                                 numero_accompagnatori: this.numero_accompagnatori,
                                                 scuola:this.scuola,
                                                 mailInformativaInviata:this.mailInformativaInviata,
@@ -535,6 +551,7 @@ export default {
                
                 let endpoint = `/api/prenotazioni/${this.pk}/`;
                 apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
+                                            ora_prenotazione: this.ora_prenotazione,
                                             scuola:this.scuola,
                                             mailInformativaInviata:this.mailInformativaInviata,
                                             mailConfermaInviata:this.mailConfermaInviata,

@@ -83,6 +83,15 @@
               }}</span>
             </p>
 
+            <p v-if="!prenotazione.scuola" class="mb-0">
+              Ora prenotazione:
+              <span class="ora_prenotazione">{{
+                prenotazione.ora_prenotazione 
+              }}</span>
+            </p>
+
+
+
             <p class="mb-0">
               Esigenze:
               <span class="author-name">{{ prenotazione.esigenze }}</span>
@@ -131,6 +140,12 @@ export default {
     //    return new Date(DataPrenotazione).toLocaleDateString();
         return FormatToLocalDateString(Data);
           },
+
+
+      getTimeFormat(ora) {
+        alert(ora)
+        return("10:15")
+      },
 
     getPrenotazioni() {
       let endpoint = "api/prenotazioni/";

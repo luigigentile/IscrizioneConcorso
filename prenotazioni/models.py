@@ -67,6 +67,7 @@ class Prenotazione(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     data_prenotazione = models.DateField()
+    ora_prenotazione = models.TimeField(null=True,blank = True)
     status = models.CharField(
         max_length=2,
         choices=StatusPrenotazione.choices,
@@ -81,7 +82,7 @@ class Prenotazione(models.Model):
     )
 
 
-    scuola = models.BooleanField(default=False,null=True)
+    scuola = models.BooleanField(default=True,null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete = models.CASCADE,
                                 related_name = 'prenotazioni')
@@ -93,6 +94,7 @@ class Prenotazione(models.Model):
     argomentiPreferiti = models.CharField(max_length=250,blank=True, null=True)
     mailInformativaInviata = models.BooleanField(default=False,null=True)
     mailConfermaInviata = models.BooleanField(default=False,null=True)
+   
 
     def __str__(self):
         return str(self.id) + " - " + str(self.user) + " - " + str(self.data_prenotazione.strftime('%d/%m/%Y'))

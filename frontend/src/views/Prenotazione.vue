@@ -85,13 +85,12 @@
             <select id = "SelectTurno" class="form-control mb-1"
                 v-model='turno'
                   @change="getSelectedUserTurno">
-                    <option disabled >Data Prenotazione: {{ prenotazione.data_prenotazione }}</option>
-                  <optgroup   label="Orario -  Settore   - Posti Disponibili">
-                   <option 
+                  <optgroup label="Data - Turno - Settore">
+                     <option
                       v-for="turno in turniFiltrati"
                       :key="turno.id"
                       :value=turno.id
-                    >   {{ turno.orario_turno }} - {{ turno.settore }} - {{ turno.numero_posti_disponibili - getNumeroAlunniPrenotatiPerTurno(turno.id) }}
+                    >  {{ turno.data }} - {{ turno.orario_turno }} - {{ turno.settore }} - {{ turno.numero_posti_disponibili - getNumeroAlunniPrenotatiPerTurno(turno.id) }}
                   </option>
                      </optgroup>
             </select>
@@ -101,7 +100,7 @@
               <input type="text" id ="classe" class="form-control" placeholder="classe" v-model="classe">
             </div>
             <div class="col-2">
-            <p class="form-control" id="postiPrenotati">  {{ postiDisponibili }}</p>
+            <p class="form-control" id="postiPrenotati"> {{ postiDisponibili }}</p>
             </div>
 
             <div class="col-2">
@@ -182,10 +181,6 @@ export default {
 
   methods: {
 
-    labelOptGroup() {
-          return "data:" +  " - Turno - Settore"
-        },
-
 
       getDescrizioneSettoreTurno(varIdTurno) {
           var j,descrizioneSettoreTurno;
@@ -247,11 +242,10 @@ export default {
 
 
     getSelectedUserTurno() {
-        var idTurno
-        idTurno = document.getElementById("SelectTurno").value
+        var idTurno = document.getElementById("SelectTurno").value
         this.postiPrenotati = this.postiPrenotatiPerTurno[idTurno];
         this.numeroAlunni = 0
-//        this.postiDisponibili = this.turni[idTurno-1].numero_posti_disponibili - this.postiPrenotati
+  //      this.postiDisponibili = this.turni[idTurno].numero_posti_disponibili - this.postiPrenotati
         this.postiDisponibili = this.getNumeroPostiDisponibili(idTurno)- this.postiPrenotati
         document.getElementById("classe").focus();
         return

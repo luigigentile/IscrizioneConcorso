@@ -36,6 +36,7 @@ def mailConfermaPrenotazione(request,pk):
 #    print(request.user.email)
     success_url="/"
     destinatari = (user.email,)
+    perConoscenza = (settings.DEFAULT_FROM_EMAIL,)
     if (user.first_name) :
         name=user.first_name
     else:
@@ -45,15 +46,23 @@ def mailConfermaPrenotazione(request,pk):
     contenuto = "Gentile " + name  + ", \ngrazie per aver scelto di visitare la Mostra Sperimentando.\n"
     contenuto = contenuto + "La prenotazione della visita alla mostra è confermata.\n"
     contenuto = contenuto + "Ecco i dettagli della visita:\n"
-    contenuto = contenuto + "Utente:             \t" + str(user.username) + "\n"
-    contenuto = contenuto + "Scuola/Gruppo:      \t" + str(prenotazione.nome_scuola) + "\n"
-    contenuto = contenuto + "N.ro accompagnatori:\t" + str(prenotazione.numero_accompagnatori) + "\n"
-    contenuto = contenuto + "N.ro alunni:        \t" + str(prenotazione.numero_totale_alunni) + "\n"
-    contenuto = contenuto + "Data Prenotazione:  \t" + str(prenotazione.data_prenotazione.strftime('%d-%m-%Y')) + "\n"
-    contenuto = contenuto + "Esigenze:           \t" + str(prenotazione.esigenze) + "\n\n"
+    contenuto = contenuto + "Utente:                 \t" + str(user.username) + "\n"
+    if (prenotazione.scuola): 
+        contenuto = contenuto + "Scuola/Gruppo:           \t" + str(prenotazione.nome_scuola) + "\n"
+        contenuto = contenuto + "N.ro accompagnatori:    \t" + str(prenotazione.numero_accompagnatori) + "\n"
+        contenuto = contenuto + "N.ro alunni:             \t" + str(prenotazione.numero_totale_alunni) + "\n"
+        contenuto = contenuto + "Data Prenotazione:       \t" + str(prenotazione.data_prenotazione.strftime('%d-%m-%Y')) + "\n"
+    else:
+        contenuto = contenuto + "Data Prenotazione:       \t" + str(prenotazione.data_prenotazione.strftime('%d-%m-%Y')) + "\n"
+        contenuto = contenuto + "Ora  Prenotazione        \t" + str(prenotazione.ora_prenotazione) + "\n"
+        contenuto = contenuto + "N.ro Persone:            \t" + str(prenotazione.numero_accompagnatori) + "\n"
+    
+    contenuto = contenuto + "Argomenti Preferiti:     \t" + str(prenotazione.argomentiPreferiti) + "\n"
+    contenuto = contenuto + "Esigenze:                \t" + str(prenotazione.esigenze) + "\n\n"
+    contenuto = contenuto + "Lo Staff di Sperimentando" +"\n"
 #   DETTAGLI PRENOTAZIONE
     contenuto = contenuto + "Dettaglio Prenotazione:" + "\n"
-    contenuto = contenuto + "Settore\t\t" + "Orario\t\t" + "Classe\t\t" +"N.ro Alunni" +"\n"
+    contenuto = contenuto + "Settore\t" + "Orario\t" + "Classe\t\t" +"N.ro Alunni" +"\n"
 
     for dettaglio in dettagliPrenotazione:
         contenuto = contenuto + str(dettaglio.turno.settore) + "\t\t"
@@ -61,13 +70,15 @@ def mailConfermaPrenotazione(request,pk):
         contenuto = contenuto + str(dettaglio.classe) + "\t\t"
         contenuto = contenuto + str(dettaglio.numero_alunni)
         contenuto = contenuto +  "\n"
-
+    oggetto = "Conferma di prenotazione alla Mostra Sperimentando"
     print(contenuto)
     print(destinatari)
-    oggetto = "Conferma di prenotazione alla Mostra Sperimentando"
+    print(perConoscenza)
+    print(oggetto)
+    
 
     from django.core.mail import EmailMessage
-    email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari)
+    email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari,bcc=perConoscenza)
     email.send()
 
 #    success_url = reverse_lazy('home')
@@ -85,6 +96,7 @@ def mailInformativa(request,pk):
 #    print(request.user.email)
     success_url="/"
     destinatari = (user.email,)
+    perConoscenza = (settings.DEFAULT_FROM_EMAIL,)
     if (user.first_name) :
         name=user.first_name
     else:
@@ -96,12 +108,15 @@ def mailInformativa(request,pk):
     contenuto = contenuto + "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/\n"
     contenuto = contenuto + "\nRiceverai una mail di conferma della prenotazione da info@aifpadova.it, solo quando riceveremo\n"
     contenuto = contenuto + "la ricevuta di pagamento all’indirizzo mail visitesperimentando@gmail.com\n"
-    contenuto = contenuto + "\n \n Grazie"
+    contenuto = contenuto + "\n Grazie," "\n"
+    contenuto = contenuto + "Lo Staff di Sperimentando" +"\n"
     oggetto = "Informazioni prenotazione per la visita della mostra Sperimentando"
-    print(contenuto)
+   
     from django.core.mail import EmailMessage
-    email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari)
+    email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari,bcc=perConoscenza)
     email.send()
+    print(contenuto)
+    print(destinatari)
 
 #    success_url = reverse_lazy('home')
     return HttpResponseRedirect(success_url)
