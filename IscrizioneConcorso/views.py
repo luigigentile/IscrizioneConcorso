@@ -17,7 +17,6 @@ from django.conf import settings
 ##    return render(request,"127.0.0.1:8000/IscrizioneConcorso/frontend/views/userEditor.vue")
 
 def visualizzaGuidaUtente(request):
-    print(settings.BASE_DIR)
     with open(settings.BASE_DIR + '/static/GuidaUtente.pdf', 'rb') as pdf:
         response = HttpResponse(pdf.read())
         response['Content-Disposition'] = 'inline;filename=some_file.pdf'
@@ -40,7 +39,7 @@ def mailConfermaPrenotazione(request,pk):
     if (user.first_name) :
         name=user.first_name
     else:
-        name = user.name
+        name = user.username
       
 #   CONTENUTO DELLA MAIL
     contenuto = "Gentile " + name  + ", \ngrazie per aver scelto di visitare la Mostra Sperimentando.\n"
@@ -71,10 +70,10 @@ def mailConfermaPrenotazione(request,pk):
         contenuto = contenuto + str(dettaglio.numero_alunni)
         contenuto = contenuto +  "\n"
     oggetto = "Conferma di prenotazione alla Mostra Sperimentando"
-    print(contenuto)
-    print(destinatari)
-    print(perConoscenza)
-    print(oggetto)
+    #print(contenuto)
+    #print(destinatari)
+    #print(perConoscenza)
+    #print(oggetto)
     
 
     from django.core.mail import EmailMessage
@@ -100,7 +99,8 @@ def mailInformativa(request,pk):
     if (user.first_name) :
         name=user.first_name
     else:
-        name = user.name
+        name = user.username
+#    print("name = 2" + user.name)
 #   CONTENUTO DELLA MAIL
     contenuto = "Gentile " + name  + ", \nGrazie per aver prenotato la visita alla Mostra Sperimentando.\n"
     contenuto = contenuto + "Attenzione: ricordati di pagare e di inviare la ricevuta del pagamento!\n"
@@ -115,8 +115,8 @@ def mailInformativa(request,pk):
     from django.core.mail import EmailMessage
     email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari,bcc=perConoscenza)
     email.send()
-    print(contenuto)
-    print(destinatari)
+    #print(contenuto)
+    #print(destinatari)
 
 #    success_url = reverse_lazy('home')
     return HttpResponseRedirect(success_url)
@@ -140,20 +140,12 @@ def dataPrenotazioneModificata(request,pk):
 
 
 def visualizzaPagamenti(request):
-    print("Visualizza Pagamenti ")
     return render(request,"https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/")
 
 def visualizzaprivacy(request):
     #    email.send()
 #    print(request.user.email)
-    print("Visualizza Privacy ")
-#    success_url = reverse_lazy('127.0.0.1:8000/IscrizioneConcorso/privacypolicy.html/')
-#    return HttpResponseRedirect(success_url)
-
-#    return HttpResponseRedirect('https://sperimentandoaps.wordpress.com/informativa-privacy/')
-
-#    return HttpResponseRedirect('/')
-
+   
 #    return render(request)
     return render(request,"https://sperimentandoaps.wordpress.com/informativa-privacy/")
 

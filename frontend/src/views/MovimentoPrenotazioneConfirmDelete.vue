@@ -82,7 +82,7 @@ export default {
 
         },
         created() {
-            document.title = "Elimina Prenotazione";
+            document.title = "Elimina Turno Prenotazione";
         }
     }
 
