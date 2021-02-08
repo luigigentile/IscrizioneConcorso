@@ -64,7 +64,6 @@ export default {
 
          async onSubmit() {
              let  endpoint = `/api/movimentiPrenotazioni/${this.turnoPrenotazione.id}/`;
-             alert(endpoint)
              try {
              await apiService(endpoint,"DELETE");
                 this.$router.push({
