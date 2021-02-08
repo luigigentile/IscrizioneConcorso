@@ -169,8 +169,8 @@ export default {
 
 
     getPrenotazioni() {
-         //let endpoint = `/api/prenotazioni/?ordering=-data_prenotazione`;
-         let endpoint = `/api/prenotazioni/`;
+         let endpoint = `/api/prenotazioni/?ordering=data_prenotazione`;
+        // let endpoint = `/api/prenotazioni/`;
          apiService(endpoint).then(data => {
         this.prenotazioni.push(...data.results);
          });
