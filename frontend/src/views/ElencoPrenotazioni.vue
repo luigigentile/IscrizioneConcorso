@@ -43,14 +43,13 @@
               <div class="col-md-3 ml-4 text-right">Mail Inviate</div>
         </div>
         <div class="row border-bottom border-secondary mb-2">
-        <div class="col-md-1 ">Data</div>
+        <div class="col-md-2 ">Data</div>
         <div class="col-md-1 ">Status</div>
         <div class="col-md-1 ">Visita</div>
         <div class="col-md-2">Utente/Scuola</div>
         <div class="col-md-1 ">Accomp.</div>
         <div class="col-md-1 ">Alunni</div>
-        <div class="col-md-1 ">Esigenze</div>
-        <div class="col-md-2 ">Argomenti</div>
+         <div class="col-md-3 ">Argomenti Preferiti</div>
         <div class="col-md-1 text-right">I.    C.   P.</div>
         </div>
 
@@ -58,7 +57,10 @@
 <font face="Times New Roman" size="1" color="#000000">
     <div  v-for="(prenotazione,index) in prenotazioni_filtered"   :key="index">
         <div class="row border-bottom">
-            <div class="col-md-1 " v-text="prenotazione.data_prenotazione"> </div>
+            <div class="col-md-2 "
+               v-text="prenotazione.data_prenotazione +  getTimehhmm(prenotazione.ora_prenotazione,prenotazione.scuola)  ">
+             </div>
+        
             <div class="col-md-1 " v-text="prenotazione.status"> </div>
             <div class="col-md-1 " v-text="prenotazione.tipoVisita"> </div>
 
@@ -82,12 +84,11 @@
             
             <div class="col-md-1 text-center" v-text="prenotazione.numero_accompagnatori"> </div>
             <div class="col-md-1 text-center" v-text="prenotazione.numero_totale_alunni"> </div>
-            <div class="col-md-1 " v-text="prenotazione.esigenze"> </div>
-            <div class="col-md-2 " v-text="prenotazione.argomentiPreferiti "> </div>
+            <div class="col-md-3 " v-text="prenotazione.argomentiPreferiti "> </div>
             <div class="col-md-1 text-right">
             <input title="Mail Informativa Inviata" type="checkbox" onclick="return false;"  v-model="prenotazione.mailInformativaInviata">
             <input  title="Mail Conferma Inviata" class = " ml-1" type="checkbox" onclick="return false;"  v-model="prenotazione.mailConfermaInviata">
-            <input  title="Mail Conferma Inviata" class = " ml-1" type="checkbox" onclick="return false;"  v-model="prenotazione.pagato">
+            <input  title="Pagato" class = " ml-1" type="checkbox" onclick="return false;"  v-model="prenotazione.pagato">
             </div>
              
         </div>
@@ -142,6 +143,19 @@ export default {
       giorno = varData.substring(0,2);
       return anno+"-"+mese+"-"+giorno
   },
+      getTimehhmm(Time,Scuola) {
+    
+        if (Scuola) {
+           return ""
+        }
+        if(Time != null) {
+          var Timehhmm = " - " + Time.toString().substring(0,5)
+          }
+        else {
+           Timehhmm = ""
+            }
+        return Timehhmm;
+        },
 
       getLocalDate(Data) {
     //    return new Date(DataPrenotazione).toLocaleDateString();

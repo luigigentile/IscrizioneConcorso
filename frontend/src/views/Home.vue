@@ -86,7 +86,7 @@
             <p v-if="!prenotazione.scuola" class="mb-0">
               Ora prenotazione:
               <span class="ora_prenotazione">{{
-                prenotazione.ora_prenotazione 
+                getTimehhmm(prenotazione.ora_prenotazione)
               }}</span>
             </p>
 
@@ -142,10 +142,16 @@ export default {
           },
 
 
-      getTimeFormat(ora) {
-        alert(ora)
-        return("10:15")
-      },
+     getTimehhmm(Time) {
+   
+           if(Time != null) {
+          var Timehhmm =  Time.toString().substring(0,5)
+          }
+        else {
+           Timehhmm = ""
+            }
+        return Timehhmm;
+        },
 
     getPrenotazioni() {
       let endpoint = "api/prenotazioni/";

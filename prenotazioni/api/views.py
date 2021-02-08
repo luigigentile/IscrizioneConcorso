@@ -137,7 +137,7 @@ class DistinctDataPrenotazione(generics.ListAPIView):
         from django.db.models import Count
 #        query_set = TabellaTurni.objects.annotate(Count('data'))
 #        query_set = TabellaTurni.objects.values('data').annotate(name_count=Count('data')).filter(name_count=3)
-        query_set = Prenotazione.objects.values('data_prenotazione').annotate(name_count=Count('data_prenotazione'))
+        query_set = Prenotazione.objects.values('data_prenotazione').annotate(name_count=Count('data_prenotazione')).order_by('data_prenotazione')
         return query_set
 
 
