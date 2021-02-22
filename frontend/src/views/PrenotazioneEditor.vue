@@ -620,6 +620,7 @@ export default {
                                                 ora_prenotazione: this.ora_prenotazione,
                                                 numero_accompagnatori: this.numero_accompagnatori,
                                                 scuola:this.scuola,
+                                                tipoVisita:this.tipoVisita,
                                                 mailInformativaInviata:this.mailInformativaInviata,
                                                 mailConfermaInviata:this.mailConfermaInviata,
                                                 nome_scuola:this. nome_scuola,
