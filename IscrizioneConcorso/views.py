@@ -30,9 +30,9 @@ def mailConfermaPrenotazione(request,pk):
     prenotazione = Prenotazione.objects.get(pk=pk)
     #print("User Id della prenotazione = " + str(prenotazione.user.id))
     user = CustomUser.objects.get(id=prenotazione.user.id)
-    dettagliPrenotazione = MovimentiPrenotazione.objects.filter(prenotazione=prenotazione.id).order_by("id")
+    dettagliPrenotazione = MovimentiPrenotazione.objects.filter(prenotazione=prenotazione.id)
 #    print(request.user.email)
-    success_url="/prenotazioni/elenco/"
+    success_url="/"
     destinatari = (user.email,)
     perConoscenza = (settings.DEFAULT_FROM_EMAIL,)
     if (user.first_name) :
@@ -81,7 +81,6 @@ def mailConfermaPrenotazione(request,pk):
 
   
     return HttpResponseRedirect(success_url)
-#    return render(request)
 #    return render(request,"powerSimulation/simulazioneResults.html",context)
 
 
@@ -92,7 +91,7 @@ def mailInformativa(request,pk):
     user = CustomUser.objects.get(id=prenotazione.user.id)
 #    print(user.email)
 #    print(request.user.email)
-    success_url="/prenotazioni/elenco/"
+    success_url="/"
     destinatari = (user.email,)
     perConoscenza = (settings.DEFAULT_FROM_EMAIL,)
     if (user.first_name) :
