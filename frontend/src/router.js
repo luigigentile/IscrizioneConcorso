@@ -8,6 +8,8 @@ import RiepilogoPrenotazioni from "./views/RiepilogoPrenotazioni.vue";
 import ElencoPrenotazioni from "./views/ElencoPrenotazioni.vue";
 import ElencoVideo from "./views/ElencoVideo.vue";
 import PrenotazioneConfirmDelete from "./views/PrenotazioneConfirmDelete.vue";
+import PrenotazioneTipoVisita from "./views/PrenotazioneTipoVisita.vue";
+import PrenotazioneTipoVisitatori from "./views/PrenotazioneTipoVisitatori.vue";
 import UserEditor from "./views/UserEditor.vue";
 import UserResetPassword from "./views/UserResetPassword.vue";
 import About from "./views/About.vue";
@@ -67,14 +69,29 @@ const routes = [
 //    component: () => import(/* webpackChunkName: "about" */ "./views/About.vue")
   },
 
-
-  {
+{
     path: "/prenotazioni/:pk/",
     name: "prenotazione-editor",
     component: PrenotazioneEditor,
     props: true
-
 },
+
+{
+  path: "/prenotazionetipovisita/",
+  name: "prenotazione-tipovisita",
+  component: PrenotazioneTipoVisita,
+  props: true
+},
+
+{
+  path: "/prenotazionetipovisitatori/",
+  name: "prenotazione-tipovisitatori",
+  component: PrenotazioneTipoVisitatori,
+  props: true
+},
+
+
+
 {
   path: "/prenotazioni/:pk/",
   name: "prenotazione-delete",

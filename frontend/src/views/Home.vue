@@ -3,7 +3,7 @@
     <div class="container">
       <h2>Elenco Prenotazioni
         <router-link title="Inserisci una nuova Prenotazione"
-                  :to="{ name: 'prenotazione-editor'}"
+                  :to="{ name: 'prenotazione-tipovisita', params: { tipoVisita: null, scuola: null}}"
                   class="btn btn-sm btn-primary"
 
                   ><span> Nuova Prenotazione

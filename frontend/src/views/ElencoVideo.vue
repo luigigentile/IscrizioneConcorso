@@ -58,7 +58,7 @@
         <div class="row">
             <div v-on:click="riproduciVideo(video.collegamento)" class="col-md-2 " v-text="video.titolo"> </div>
             <div class="col-md-4 " v-text="video.descrizione"> </div>
-            <div class="col-md-2 " v-text="getSettoreTurno(video.settore)"> </div>
+            <div class="col-md-2 " v-text="getDescrizioneSettoreTurno(video.settore)"> </div>
             <a class="btn btn-outline-success  btn-sm mb-2"  @click="riproduciVideo(video.collegamento)"
             >Visualizza
             </a>
@@ -80,6 +80,7 @@ export default {
   data() {
     return {
     videos: [],
+    turni: [],
     videos_filtered: [],
     allVideo: [],
     settori:[],
@@ -96,8 +97,22 @@ export default {
         },
 
       getSettoreTurno(IdTurno) {
-        return this.settori[IdTurno-1].settore;
+   //     var settore= this.settori[IdTurno-1]
+        alert(this.settori[IdTurno-1]["id"])
+        return this.settori[IdTurno-1];
     },
+
+    getDescrizioneSettoreTurno(varIdTurno) {
+          var j,descrizioneSettoreTurno;
+           for (j=0; j<this.settori.length; j++) {
+            if (this.settori[j].id == varIdTurno) {
+                  descrizioneSettoreTurno = this.settori[j].settore
+              }
+          }
+          return (descrizioneSettoreTurno)
+        },
+
+
 
     getSettori() {
           let endpoint = `/api/settori/`;
@@ -105,8 +120,14 @@ export default {
             this.settori.push(...data.results);
         });
     },
-   
-   
+
+      getTurni() {
+          let endpoint = `/api/turni/`;
+          apiService(endpoint).then(data => {
+            this.turni.push(...data.results);
+        });
+    },
+     
 
      getAllVideo() {
       let endpoint = `/api/video/`;
@@ -134,6 +155,7 @@ export default {
   created() {
     this.getAllVideo() 
     this.getSettori();
+    this.getTurni();
   
     //        document.getElementById('SelectUser').selectedIndex  = "1"
     document.title = "Elenco Video";

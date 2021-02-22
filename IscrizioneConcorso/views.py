@@ -30,10 +30,9 @@ def mailConfermaPrenotazione(request,pk):
     prenotazione = Prenotazione.objects.get(pk=pk)
     #print("User Id della prenotazione = " + str(prenotazione.user.id))
     user = CustomUser.objects.get(id=prenotazione.user.id)
-#    dettagliPrenotazione = MovimentiPrenotazione.objects.get(prenotazione=prenotazione.id)
-    dettagliPrenotazione = MovimentiPrenotazione.objects.filter(prenotazione=prenotazione.id)
+    dettagliPrenotazione = MovimentiPrenotazione.objects.filter(prenotazione=prenotazione.id).order_by("id")
 #    print(request.user.email)
-    success_url="/"
+    success_url="/prenotazioni/elenco/"
     destinatari = (user.email,)
     perConoscenza = (settings.DEFAULT_FROM_EMAIL,)
     if (user.first_name) :
@@ -80,7 +79,7 @@ def mailConfermaPrenotazione(request,pk):
     email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari,bcc=perConoscenza)
     email.send()
 
-#    success_url = reverse_lazy('home')
+  
     return HttpResponseRedirect(success_url)
 #    return render(request)
 #    return render(request,"powerSimulation/simulazioneResults.html",context)
@@ -93,32 +92,48 @@ def mailInformativa(request,pk):
     user = CustomUser.objects.get(id=prenotazione.user.id)
 #    print(user.email)
 #    print(request.user.email)
-    success_url="/"
+    success_url="/prenotazioni/elenco/"
     destinatari = (user.email,)
     perConoscenza = (settings.DEFAULT_FROM_EMAIL,)
     if (user.first_name) :
         name=user.first_name
     else:
         name = user.username
-#    print("name = 2" + user.name)
 #   CONTENUTO DELLA MAIL
-    contenuto = "Gentile " + name  + ", \nGrazie per aver prenotato la visita alla Mostra Sperimentando.\n"
-    contenuto = contenuto + "Attenzione: ricordati di pagare e di inviare la ricevuta del pagamento!\n"
-    contenuto = contenuto + "Tutte le informazioni per procedere al pagamento sono al seguente indirizzo:\n"
-    contenuto = contenuto + "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/\n"
-    contenuto = contenuto + "\nRiceverai una mail di conferma della prenotazione da info@aifpadova.it, solo quando riceveremo\n"
-    contenuto = contenuto + "la ricevuta di pagamento all’indirizzo mail visitesperimentando@gmail.com\n"
-    contenuto = contenuto + "\n Grazie," "\n"
-    contenuto = contenuto + "Lo Staff di Sperimentando" +"\n"
+    if(prenotazione.scuola):
+        contenuto = "Gentile " + name  + ", \nGrazie per aver prenotato la visita alla Mostra Sperimentando.\n"
+        contenuto = contenuto + "Attenzione: ricordati di pagare e di inviare la ricevuta del pagamento!\n"
+        contenuto = contenuto + "Tutte le informazioni per procedere al pagamento sono al seguente indirizzo:\n"
+        contenuto = contenuto + "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/\n"
+        contenuto = contenuto + "\nRiceverai una mail di conferma della prenotazione da info@aifpadova.it, solo quando riceveremo\n"
+        contenuto = contenuto + "la ricevuta di pagamento all’indirizzo mail visitesperimentando@gmail.com.\n"
+        contenuto = contenuto + "\n Grazie, \n" 
+        contenuto = contenuto + "Lo Staff di Sperimentando" +"\n"
+
+    if(not prenotazione.scuola):
+        contenuto = "Gentile " + name  + ", \nGrazie per aver prenotato la visita alla Mostra Sperimentando.\n"
+        contenuto = contenuto +  "Attenzione !!\n"
+        contenuto = contenuto + "\nSe hai prenotato la visita in presenza, riceverai una mail di conferma della prenotazione da info@aifpadova.it e potrai eseguire il pagamento direttamente alla cassa.\n"
+        contenuto = contenuto + "\nSe hai prenotato la visita virtuale, ti verrà inviata una mail di conferma della prenotazione da info@aifpadova.it "
+        contenuto = contenuto + "solo quando riceveremo la ricevuta di pagamento all’indirizzo mail visitesperimentando@gmail.com.\n"
+        contenuto = contenuto + "Tutte le informazioni per procedere al pagamento sono al seguente indirizzo:\n"
+        contenuto = contenuto + "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/.\n"
+        contenuto = contenuto + "\nGrazie, \n" 
+        contenuto = contenuto + "Lo Staff di Sperimentando" +"\n"
+
     oggetto = "Informazioni prenotazione per la visita della mostra Sperimentando"
    
     from django.core.mail import EmailMessage
     email = EmailMessage(subject=oggetto, body=contenuto, to=destinatari,bcc=perConoscenza)
     email.send()
-    #print(contenuto)
+   
+    #print(oggetto)
     #print(destinatari)
+    #print(perConoscenza)
+    #print(contenuto)
+   
 
-#    success_url = reverse_lazy('home')
+  
     return HttpResponseRedirect(success_url)
 
 
@@ -126,17 +141,13 @@ def dataPrenotazioneModificata(request,pk):
 #   SELEZIONA  LA PRENOTAZIONE CON id=pk
     prenotazione = Prenotazione.objects.get(pk=pk)
 #   SELEZIONA  IL DETTAGLIO DELLE PRENOTAZIONI
-    dettagliPrenotazione = MovimentiPrenotazione.objects.filter(prenotazione=prenotazione.id)
+    dettagliPrenotazione = MovimentiPrenotazione.objects.filter(prenotazione=prenotazione.id).order_by("id")
 #   ELIMINA IL DETTAGLIO DELLE PRENOTAZIONI
     for dettaglio in dettagliPrenotazione:
         dettaglio.delete()
 #    RITORNA ALLA PAGINA INIZIALE
     success_url="/"
     return HttpResponseRedirect(success_url)
-
-
-
-
 
 
 def visualizzaPagamenti(request):

@@ -3,9 +3,10 @@
 <!--    TITOLO - Pulsante Dettaglio Prenotazione - pulsante Pagamenti -->
         <div class="container " >
             <div class="row  rounded" >
-                <div class="col-md-7" >
+                <div class="col-md-5" >
                       <h2 >{{title}}  </h2>
                 </div>
+                 
               <!--   Pulsante Dettaglio Prenotazione  -->
                 <div class="col-md-3 mt-2 text-right" >
                      <span class="text-right" v-if="scuola && pk">
@@ -22,7 +23,9 @@
                     <a class="btn btn-outline-dark btn-sm" @click="visualizzaPagamenti"> 
                         Pagamenti
                     </a>
-                 </div>
+                </div>
+            
+          
             </div>
         </div>
     <!--    FINE TITOLO ....... pulsante Pagamenti -->
@@ -48,7 +51,7 @@
         </a>
 
             <!--    Pulsante Invia mail Informativa -->
-         <span class="ml-4" >Mail Inviate:  </span>
+         <span class="ml-3" >Mail Inviate:  </span>
       
       <!--    checkbox  Mail Informativa    -->
         <input class="ml-1"  type="checkbox" id="mailinformativa"  v-model="mailInformativaInviata">
@@ -56,9 +59,13 @@
 
           <!--    checkbox  Mail di Conferma    -->
         <input class="ml-1"  type="checkbox" id="mailConferma"  v-model="mailConfermaInviata">
-        <label class="ml-1" for="mailConferma"> Conferma </label><br>
-    
-    
+        <label class="ml-1" for="mailConferma"> Conferma </label>
+       
+
+            <!--   EMAIL DELL'UTENTE -->
+             <font face="Times New Roman" size="2" color="#000000">
+            <label class="ml-3" for="mailConferma">  {{ getUserEmail(prenotazione.user) }} </label><br>
+            </font>
         </div>
         
 
@@ -68,10 +75,11 @@
     </label><br>
 <!--    TIPO VISITA   -->
     <label  class="col-3" for="id_tipovisita">Tipo Visita:</label>
-    <select  class="col-9"  name="tipoVisita" id="id_tipovisita" v-model="tipoVisita">
+    <select  class="col-5"  name="tipoVisita" id="id_tipovisita" v-model="tipoVisita">
         <option value="VI">Virtuale</option>
         <option value="PR" selected>Presenza</option>
     </select>
+     <label  class="col-4" for="id_tipovisita"></label>
 
 
 <!--    DATA PRENOTAZIONE CON SELECT    -->
@@ -86,12 +94,44 @@
                >{{ turno.data }}
              </option>
         </select>
-<!--    ORA PRENOTAZIONE  solo NO scuola   -->
-         <span  v-if="!scuola">
-            <label for="oraPrenotazione" class="col-2 " >Ora Prenotazione</label>
+<!--    ORA PRENOTAZIONE  solo NO scuola
             <input type="time" class="col-2 " title = "Ora di prenotazione"  placeholder="hh:mm" v-model="ora_prenotazione" id="oraPrenotazione" >
+
+   -->
+       <span  v-if="!scuola && tipoVisita=='VI'">
+            <label for="oraPrenotazione" class="col-2" >Ora Prenotazione</label>
+            <select  id="oraPrenotazione"
+                class="col-2" placeholder="ora prenotazione"
+                v-model="ora_prenotazione">
+                     <option  value = "08:00:00">  8:00-9:00   </option>
+                    <option value = "09:00:00">  9:00-10:00    </option>
+                    <option value = "10:00:00"> 10:00-11:00    </option>
+                    <option value = "11:00:00"> 11:00-12:00    </option>
+                    <option value = "12:00:00"> 12:00-13:00    </option>
+                    <option value = "13:00:00"> 13:00-14:00    </option>
+                    <option value = "14:00:00"> 14:00-15:00    </option>
+                    <option value = "15:00:00"> 15:00-16:00    </option>
+                    <option value = "16:00:00"> 16:00-17:00    </option>
+                    <option value = "18:00:00"> 18:00 - Evento   </option>
+               </select>
          </span>
   
+  <span  v-if="!scuola && tipoVisita=='PR'">
+            <label for="oraPrenotazione" class="col-2" >Ora Prenotazione</label>
+            <select  id="oraPrenotazione"
+                class="col-2" placeholder="ora prenotazione"
+                v-model="ora_prenotazione">
+                    <option value = "09:00:00">  9:00-10:00    </option>
+                    <option value = "10:00:00"> 10:00-11:00    </option>
+                    <option value = "11:00:00"> 11:00-12:00    </option>
+                    <option value = "12:00:00"> 12:00-13:00    </option>
+                    <option value = "15:00:00"> 15:00-16:00    </option>
+                    <option value = "16:00:00"> 16:00-17:00    </option>
+            </select>
+         </span>
+
+
+
         <div v-if="scuola">
             <!--    Nome Scuola con casella di testo e Select  -->
             <label for="nomescuola" class="col-3" >Nome Scuola/Gruppo</label>
@@ -143,7 +183,7 @@
                     <button
                     @click="tornaIndietro"
                     class="btn  btn-primary ml-3">
-                    No, torna indietro
+                    Torna indietro
                     </button>
 
                 </form>
@@ -163,6 +203,16 @@ import { FormatToLocalDateString } from "../common/methods.js";
 export default {
     name: "PrenotazioneEditor",
     props: {
+        tipoVisitaFromTipoVisitaForm: {
+        type: String,
+        required:false
+        },
+
+        scuolaFromTipoVisitatoriForm: {
+        type: Boolean,
+        required:false
+        },
+
         pk: {
             type: Number,
             required:false
@@ -241,19 +291,21 @@ export default {
             data_prenotazione:this.previousData_Prenotazione || null,
             ora_prenotazione:this.previousOra_Prenotazione || null,
             scuole: [],
-            scuola:this.previousscuola || null,
+            users:[],
+            scuola:this.previousscuola || this.scuolaFromTipoVisitatoriForm,
             mailInformativaInviata:this.previousMailInformativa || false,
             mailConfermaInviata:this.previousMailConferma || false,
             pagato:this.previouspagato || false,
             nome_scuola:this.previousNome_Scuola || null,
             status:this.previousStatus || null,
-            tipoVisita:this.previousTipoVisita || 'VI',
+            tipoVisita:this.previousTipoVisita || this.tipoVisitaFromTipoVisitaForm,
             numero_accompagnatori: this.previousNumero_Accompagnatori  || 1,
             numero_totale_alunni: this.previousNumero_Totale_Alunni  || 0,
             esigenze: this.previousEsigenze  || null,
             argomentiPreferiti: this.previousArgomentiPreferiti  || null,
             error: null,
             requestUserName : null,
+            email:null,
             userIsStaff:false,
             turni: [],
             distinct_data_turni:[],
@@ -284,9 +336,9 @@ export default {
                     })
                     .catch(error => console.log(error))
             }
-              if(to.params.pk == undefined) {
-                 to.params.previousscuola  = true
-              }
+//              if(to.params.pk == undefined) {
+//                 to.params.previousscuola  = true
+//              }
         return next();
     },
 
@@ -318,8 +370,26 @@ export default {
                     document.getElementById("numeroTotaleAlunni").focus();
                     }
                 },
-
+       
+       TipoVisitaInPresenza() {
+           var  anno = this.data_prenotazione.substring(6,10);
+            var mese = this.data_prenotazione.substring(3,5);
+            var giorno = this.data_prenotazione.substring(0,2);
+            var data = new Date(anno, mese, giorno);
+            if((data.getDay() == 2 || data.getDay() == 3)   && this.tipoVisita == "PR") {
+             return false
+            }
+            return true
+           },
+        
         changeDataPrenotazione() {
+
+             if(!this.TipoVisitaInPresenza() ) {
+            alert("Attenzione per le norme anti Covid non puoi effettuare una visita in Presenza di Sabato o di Domenica. \n Cambia la data di prenotazione")
+            document.getElementById('dataPrenotazione').focus();
+            return
+            }
+
             if (this.scuola && this.tipoOperazione =="update") {
                 var messaggio
                 messaggio = "Gentile utente, le ricordiamo che se viene modificata la data di . \n"
@@ -418,7 +488,7 @@ export default {
 
         setRequestUserName() {
           this.requestUserName = window.localStorage.getItem("username");
-          if (window.localStorage.getItem("isStaff") == "true") {
+         if (window.localStorage.getItem("isStaff") == "true") {
               this.userIsStaff = true;
           }
         },
@@ -441,6 +511,24 @@ export default {
                 this.turni.push(...data.results);
             });
         },
+        getUsers() {
+              let endpoint = `/api/users/`;
+              apiService(endpoint).then(data => {
+                this.users.push(...data.results);
+            });
+        },
+
+          getUserEmail(username) {
+           for (var i=0; i<this.users.length ;i++) {
+              
+            if (this.users[i].username == username ) {
+                return  this.users[i].email
+            }
+           }
+        },
+
+
+
         getScuole() {
               let endpoint = `/api/scuole/`;
               apiService(endpoint).then(data => {
@@ -467,9 +555,15 @@ export default {
         },
         tornaIndietro() {
             this.$router.push({
-                name: this.from_Name
+                name: this.from_Name,
+                params: { scuola: this.scuola, tipoVisita:this.tipoVisita }
             })
-//        window.history.back()
+         },
+
+          goToHome() {
+            this.$router.push({
+                name: "Home"
+              })
          },
 
          vaiAMovimentiPrenotazione() {
@@ -511,6 +605,15 @@ export default {
                 document.getElementById('dataPrenotazione').focus();
                 return
             }
+
+            if(!this.TipoVisitaInPresenza() ) {
+            alert("Attenzione per le norme anti Covid non puoi effettuare una visita in Presenza di Sabato o di Domenica. \n Cambia la data di prenotazione")
+            document.getElementById('dataPrenotazione').focus();
+            return
+            }
+
+            
+
             if (!this.previousData_Prenotazione) {
                 let endpoint = `/api/prenotazioni/`;
                 apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,
@@ -537,7 +640,7 @@ export default {
                 if (this.scuola) {
                     this.getLastPrenotazione()
                 }else {
-                    this.tornaIndietro()
+                    this.goToHome()
                 }
 //                this.vaiAMovimentiPrenotazione();
             }
@@ -598,7 +701,7 @@ export default {
                 this.title = "Modifica Prenotazione"
                 document.title = this.title;
             } else {
-                this.title = "Aggiungi Prenotazione"
+                this.title = "Conferma Prenotazione"
                 document.title = this.title;
             }
             this.getTurni()
@@ -611,6 +714,8 @@ export default {
 
             this.getDistinctDataTurni()
             this.getScuole()
+            this.getUsers()
+            this.getUserEmail()
             this.setRequestUserName()
 //          IMPOSTA IL TIPO DI OPERAZIONE
             if (this.previousData_Prenotazione) {

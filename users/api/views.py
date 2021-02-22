@@ -20,7 +20,7 @@ class CurrentUserAPIView(APIView):
         return Response(serializer.data)
 
 class UsersAPIView(generics.ListAPIView):
-    queryset=CustomUser.objects.all()
+    queryset=CustomUser.objects.all().order_by("id")
     serializer_class =  UserDisplaySerializer
 #    permission_classes = [IsAuthenticated]
 
@@ -36,3 +36,5 @@ class UsersViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated,IsOwnProfileOrReadOnly]
     filter_backends = [SearchFilter]
     search_fields = ["first_name"]
+    ordering_fields = ['id']
+

@@ -56,7 +56,7 @@ class ListaPrenotazioni(generics.ListAPIView):
 
 
 class MovimentiPrenotazioneViewSet(viewsets.ModelViewSet):
-    queryset = MovimentiPrenotazione.objects.all()
+    queryset = MovimentiPrenotazione.objects.all().order_by("id")
     serializer_class = MovimentiPrenotazioneSerializer
     permission_classes = [IsAuthenticated]
 
