@@ -1,20 +1,25 @@
 <template>
   <div class="home text-left">
     <div class="container">
+        <div class="row  rounded" >
       <h2>Elenco Prenotazioni
         <router-link title="Inserisci una nuova Prenotazione"
                   :to="{ name: 'prenotazione-tipovisita', params: { tipoVisita: null, scuola: null}}"
-                  class="btn btn-sm btn-primary"
-
+                  class="btn btn-sm btn-primary "
                   ><span> Nuova Prenotazione
-
                       <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                         <path fill="#70bf2b" d="M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"/>
                       </svg>
                 </span>
-
         </router-link>
+           <!--   Pulsante PAGAMENTI -->
+         
+                <a class="btn btn-outline-dark btn-sm ml-5"  @click="visualizzaPagamenti"> 
+                  Pagamenti
+                </a>
         </h2>
+          </div>
+           
 
          <!-- AGGIUNGE LE PRENOTAZIONI DELL'UTENTE USER -->
       <div v-for="prenotazione in prenotazioni" :key="prenotazione.pk">
@@ -168,6 +173,11 @@ export default {
           this.next = null;
         }
       });
+    },
+
+   visualizzaPagamenti() {
+          var linkpage = "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/"
+          window.open(linkpage,"");
     },
 
 

@@ -38,11 +38,11 @@
 
     <!--    ELENCO COMPLETO PRENOTAZIONI    -->
     <!--    INTESTAZIONE DELLE COLONNE    -->
-        <div class="row border-top border-secondary mb-2">
+     <div class="row border-top border-secondary mb-2">
             <div class="col-md-8 "></div>
               <div class="col-md-3 ml-4 text-right">Mail Inviate</div>
-        </div>
-        <div class="row border-bottom border-secondary mb-2">
+     </div>
+     <div class="row border-bottom border-secondary mb-2">
         <div class="col-md-2 ">Data</div>
         <div class="col-md-1 ">Status</div>
         <div class="col-md-1 ">Visita</div>
@@ -51,21 +51,20 @@
         <div class="col-md-1 ">Alunni</div>
          <div class="col-md-3 ">Argomenti Preferiti</div>
         <div class="col-md-1 text-right">I.    C.   P.</div>
-        </div>
+     </div>
 
-<!--      Elenco movimenti prenotazione -->
+<!--      Prenotazione -->
 <font face="Times New Roman" size="1" color="#000000">
     <div  v-for="(prenotazione,index) in prenotazioni_filtered"   :key="index">
         <div class="row border-bottom">
             <div class="col-md-2 "
                v-text="prenotazione.data_prenotazione +  getTimehhmm(prenotazione.ora_prenotazione,prenotazione.scuola)  ">
              </div>
-        
             <div class="col-md-1 " v-text="prenotazione.status"> </div>
             <div class="col-md-1 " v-text="prenotazione.tipoVisita"> </div>
 
-<!--   LINK ALla PRENOTAZIONE --> 
-      <div  class="prenotazione-editor-link col-md-2" >
+                <!--   LINK ALla PRENOTAZIONE --> 
+          <div  class="prenotazione-editor-link col-md-2" >
             <router-link
                 v-if="prenotazione.nome_scuola "
                 :to="{ name: 'prenotazione-editor', params: { pk: prenotazione.id, prenotazione:prenotazione} }"
@@ -80,7 +79,7 @@
                 title = "Modifica Prenotazione"
                 >   {{ prenotazione.user }}
             </router-link>
-    </div>
+          </div>
             
             <div class="col-md-1 text-center" v-text="prenotazione.numero_accompagnatori"> </div>
             <div class="col-md-1 text-center" v-text="prenotazione.numero_totale_alunni"> </div>
@@ -89,11 +88,25 @@
             <input title="Mail Informativa Inviata" type="checkbox" onclick="return false;"  v-model="prenotazione.mailInformativaInviata">
             <input  title="Mail Conferma Inviata" class = " ml-1" type="checkbox" onclick="return false;"  v-model="prenotazione.mailConfermaInviata">
             <input  title="Pagato" class = " ml-1" type="checkbox" onclick="return false;"  v-model="prenotazione.pagato">
-            </div>
-             
-        </div>
+      </div>
+      <br>
+
+      <!--    MOVIMENTI PRENOTAZIONE --> 
+      <div  v-for="(movimentoPrenotazione,index) in movimentiPrenotazioni"   :key="index">
+        <div class="container "  v-if="movimentoPrenotazione.prenotazione == prenotazione.id ">
+            <div class="col-12">
+                <span class="col-md-3"  >Orario:{{getDescrizioneOrarioTurno(movimentoPrenotazione.turno)}} </span>
+                <span class="col-md-3" > Settore: {{getDescrizioneSettoreTurno(movimentoPrenotazione.turno)}} </span>
+                <span class="col-md-3" > Classe: {{movimentoPrenotazione.classe}} </span>
+                <span class="col-md-3"> Alunni: {{movimentoPrenotazione.numero_alunni}} </span>
+              </div>
+          </div>
+      </div>
+              
+   </div>
     </div>
-    </font>
+   
+    </font>      <!--        FINE FONT -->
     <!--        Fine Elenco movimenti prenotazione -->
 
   </div>
@@ -216,6 +229,29 @@ export default {
             this.turni.push(...data.results);
         });
     },
+
+
+          getDescrizioneSettoreTurno(varIdTurno) {
+          var j,descrizioneSettoreTurno;
+          for (j=0; j<this.turni.length; j++) {
+             if (this.turni[j].id == varIdTurno) {
+                  descrizioneSettoreTurno = this.turni[j].settore
+              }
+          }
+          return (descrizioneSettoreTurno)
+        },
+
+
+    getDescrizioneOrarioTurno(varIdTurno) {
+        var j,descrizioneOrarioTurno;
+        for (j=0; j<this.turni.length; j++) {
+          if (this.turni[j].id == varIdTurno) {
+                descrizioneOrarioTurno = this.turni[j].orario_turno
+            }
+        }
+        return (descrizioneOrarioTurno)
+      },
+
 
 
     async getMovimentiPrenotazioni() {
