@@ -67,7 +67,7 @@ class MovimentiPrenotazioneCreateAPIView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self,serializer):
-    #    request_user =self.request.user
+        request_user =self.request.user
         kwarg_pk = self.kwargs.get('pk')
         print(kwarg_pk)
         prenotazione = get_object_or_404(Prenotazione,pk=kwarg_pk)
