@@ -71,8 +71,8 @@ class MovimentiPrenotazioneCreateAPIView(generics.CreateAPIView):
         kwarg_pk = self.kwargs.get('pk')
         print(kwarg_pk)
         prenotazione = get_object_or_404(Prenotazione,pk=kwarg_pk)
-    #    if (prenotazione.user !=  request_user) :
-    #        raise ValidationError("Utente non abilitato")
+        if (prenotazione.user !=  request_user) :
+            raise ValidationError("Utente non abilitato")
         serializer.save(prenotazione=prenotazione)
 
 
@@ -89,7 +89,7 @@ class PrenotazioneMovimentiListAPIView(generics.ListAPIView):
 class MovimentoPrenotazioneRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset=MovimentiPrenotazione.objects.all()
     serializer_class =  MovimentiPrenotazioneSerializer
-    permission_classes = [IsUserOrReadOnlyOrIsStaff]
+    permission_classes = [IsAuthenticated]
 
 
 class TurniViewSet(viewsets.ModelViewSet):
