@@ -25,13 +25,13 @@
                     </a>
                 </div>
 
-                   <!--  telefono utente -->
+                   <!--  telefono utente  
                 <div class="col-md-2 mt-2 text-right">
                 <font face="Times New Roman" size="2" color="#000000">
-                    <span  for="username">  User: {{ prenotazione.user}} </span>
-                    <span  for="telefono">  {{ getTelefono(prenotazione.user) }} </span>
+                     <span  for="telefono">  {{ getTelefono(prenotazione.username) }} </span>
                  </font>
                 </div>
+               -->
             
           
             </div>
