@@ -24,6 +24,14 @@
                         Pagamenti
                     </a>
                 </div>
+
+                   <!--  telefono utente -->
+                <div class="col-md-2 mt-2 text-right">
+                <font face="Times New Roman" size="2" color="#000000">
+                    <span  for="username">  User: {{ prenotazione.user}} </span>
+                    <span  for="telefono">  {{ getTelefono(prenotazione.user) }} </span>
+                 </font>
+                </div>
             
           
             </div>
@@ -33,9 +41,9 @@
         <div class = "border-bottom border-secondary pb-1" v-if="userIsStaff && pk">
         <!--    checkbox  pagato -->
             <input class="ml-1" type="checkbox" id="pagato"  v-model="pagato" @change="updatePagato">
-            <label class="ml-1 mr-3" for="pagato"> Pagato </label>
+            <label class="ml-1" for="pagato"> Pagato </label>
         <!--    STATUS   -->
-            <label class="ml-2" for="id_status">Status:</label>
+            <label class="ml-3" for="id_status">Status:</label>
             <select class="ml-1" name="status" id="id_status" v-model="status" @change="updateStatus">
                 <option value="DC">Da Confermare</option>
                 <option value="CO" selected>Confermato</option>
@@ -63,9 +71,9 @@
        
 
             <!--   EMAIL DELL'UTENTE -->
-             <font face="Times New Roman" size="2" color="#000000">
-            <label class="ml-3" for="mailConferma">  {{ getUserEmail(prenotazione.user) }} </label><br>
-            </font>
+        <font face="Times New Roman" size="2" color="#000000">
+        <label class="ml-4" for="mailConferma">  {{ getUserEmail(prenotazione.user) }} </label><br>
+        </font>
         </div>
         
 
@@ -523,6 +531,16 @@ export default {
               
             if (this.users[i].username == username ) {
                 return  this.users[i].email
+            }
+           }
+        },
+
+
+        getTelefono(username) {
+           for (var i=0; i<this.users.length ;i++) {
+              
+            if (this.users[i].username == username ) {
+                return  this.users[i].telefono
             }
            }
         },

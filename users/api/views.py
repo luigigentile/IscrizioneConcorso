@@ -33,7 +33,8 @@ class UserRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
 class UsersViewSet(ModelViewSet):
     queryset=CustomUser.objects.all()
     serializer_class =  UserUpdateSerializer
-    permission_classes = [IsAuthenticated,IsOwnProfileOrReadOnly]
+    permission_classes = [IsAuthenticated]
+#    permission_classes = [IsAuthenticated,IsOwnProfileOrReadOnly]
     filter_backends = [SearchFilter]
     search_fields = ["first_name"]
     ordering_fields = ['id']
