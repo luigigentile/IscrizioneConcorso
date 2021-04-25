@@ -111,7 +111,7 @@
             <select  id="oraPrenotazione"
                 class="col-2" placeholder="ora prenotazione"
                 v-model="ora_prenotazione">
-                    <option  value = "08:00:00">  8:00-9:00   </option>
+                     <option  value = "08:00:00">  8:00-9:00   </option>
                     <option value = "09:00:00">  9:00-10:00    </option>
                     <option value = "10:00:00"> 10:00-11:00    </option>
                     <option value = "11:00:00"> 11:00-12:00    </option>
@@ -384,14 +384,14 @@ export default {
             var mese = this.data_prenotazione.substring(3,5);
             var giorno = this.data_prenotazione.substring(0,2);
             var data = new Date(anno, mese, giorno);
-        //  MODIFICA EFFETTUATA IL 25 O4 2021 PER PERMETTERE ANCHE LE PRENOTAZIONI DI SABATO E DOMENICA
-            if((data.getDay() == 2 || data.getDay() == 3)   && this.tipoVisita == "??") {
+            if((data.getDay() == 2 || data.getDay() == 3)   && this.tipoVisita == "PR") {
              return false
             }
             return true
            },
         
         changeDataPrenotazione() {
+
              if(!this.TipoVisitaInPresenza() ) {
             alert("Attenzione per le norme anti Covid non puoi effettuare una visita in Presenza di Sabato o di Domenica. \n Cambia la data di prenotazione")
             document.getElementById('dataPrenotazione').focus();
