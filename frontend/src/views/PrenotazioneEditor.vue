@@ -720,7 +720,7 @@ export default {
                 this.title = "Modifica Prenotazione"
                 document.title = this.title;
             } else {
-                this.title = "Conferma Prenotazione modificata"
+                this.title = "Conferma Prenotazione modificata 2 volte"
                 document.title = this.title;
             }
             this.getTurni()
