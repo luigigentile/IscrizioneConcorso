@@ -12,7 +12,7 @@ class MovimentiPrenotazioneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MovimentiPrenotazione
-        fields = ["id","prenotazione","created_at","turno",'classe','numero_alunni']
+        fields = ["id","prenotazione","created_at","turno",'classe','numero_alunni','orario_turno','settore']
 #        fields = '__all__'
 #    def get_created_at(self, instance):
 #        return instance.created_at.strftime('%d %B %Y')

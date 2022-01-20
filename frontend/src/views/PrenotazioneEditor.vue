@@ -615,15 +615,23 @@ export default {
                                             }
                       },
 
-
         onSubmit() {
             var messaggio,reference
+          
             if (this.data_prenotazione==null) {
                 alert("Attenzione !!!! la data di prenotazione non puo' essere null")
                 document.getElementById('dataPrenotazione').focus();
                 return
             }
 
+
+            if (this.nome_scuola==null && this.scuola) {
+                alert("Attenzione !!!! la Scuola o il gruppo non puo' essere null")
+                document.getElementById('dataPrenotazione').focus();
+                return
+            }
+           
+       
             if(!this.TipoVisitaInPresenza() ) {
             alert("Attenzione per le norme anti Covid non puoi effettuare una visita in Presenza di Sabato o di Domenica. \n Cambia la data di prenotazione")
             document.getElementById('dataPrenotazione').focus();
@@ -650,11 +658,13 @@ export default {
 
                 messaggio = "Gentile utente, \ngrazie di aver prenotato una visita alla mostra  Sperimentando.  \n"
                 if (this.scuola) {
-                messaggio = messaggio + "Completi la prenotazione inserendo i turni e i settori da visitare.\n"
+                    messaggio = messaggio + "Completi la prenotazione inserendo i turni e i settori da visitare.\n"
                 }
                 messaggio = messaggio + "Nei prossimi giorni Le manderemo una mail di conferma da parte di Sperimentando \n"
                 messaggio = messaggio + "Distinti saluti,\nlo staff di Sperimentando"
-                alert(messaggio)
+                if (!this.scuola) { 
+                    alert(messaggio)
+                }
 //        SI POSIZIONE SULL'ULTIMA PRENOTAZIONE O TORNA ALLA PAGINA home
                 if (this.scuola) {
                     this.getLastPrenotazione()
@@ -663,14 +673,15 @@ export default {
                 }
 //                this.vaiAMovimentiPrenotazione();
             }
-            if (this.previousData_Prenotazione) {
+          
+          if (this.previousData_Prenotazione) {
                 this.SetStatusField();
 //                Controlla che il nome della scuola non sia blank
                   if (this.nome_scuola == "") {
                       this.nome_scuola = null
                     }
 
-               
+//              Update   Prenotazione            
                 let endpoint = `/api/prenotazioni/${this.pk}/`;
                 apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
                                             ora_prenotazione: this.ora_prenotazione,
@@ -717,10 +728,10 @@ export default {
         created() {
 //     Controlla il titolo e il pulsante del Form
             if (this.pk)  {
-                this.title = "Modifica Prenotazione"
+                this.title = "Continua"
                 document.title = this.title;
             } else {
-                this.title = "Conferma Prenotazione modificata 2 volte"
+                this.title = "Avanti"
                 document.title = this.title;
             }
             this.getTurni()

@@ -6,7 +6,7 @@
         <div class="card-header" >
             <p  ><strong>PRENOTAZIONE:</strong>
                 <a href="#" title="Inserisci turni  prenotazione"> 
-                    <span class ='d-print-none btn btn-sm btn-primary ml-3' @click="setDisplayInsertPrenotazione">Nuovo Turno
+                    <span class ='d-print-none btn btn-sm btn-primary ml-3' @click="setDisplayInsertPrenotazione">Inserisci Turno
                         <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                           <path fill="#70bf2b" d="M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"/>
                         </svg>
@@ -65,10 +65,10 @@
         <div class="col-md-2 text-right" v-text="turnoPrenotazione.numero_alunni"> </div>
         </div>
     </div>
-    <!--    Fine Elenco movimenti prenotazione    -->
+        <!--    Fine Elenco movimenti prenotazione    -->
 
-    <!--    Inserisci/Modifica prenotazione    -->
-    <!--    Form Input data    -->
+        <!--    Inserisci/Modifica prenotazione    -->
+        <!--    Form Input data    -->
         <br>
         <form class ="mt-2 " v-show="displayEditorPrenotazione" @submit.prevent="AddInsertPrenotazione">
             <div class="row">
@@ -79,40 +79,38 @@
              </div>
              <br>
 
-          <div class="form-row">
-        <!--    TURNO    -->
+        <div class="form-row">
+         <!--    TURNO    -->
             <div class="col-4 ">
-            <select id = "SelectTurno" class="form-control mb-1"
-                v-model='turno'
-                  @change="getSelectedUserTurno">
-                    <option disabled >Data Prenotazione: {{ prenotazione.data_prenotazione }}</option>
-                  <optgroup   label="Orario -  Settore   - Posti Disponibili">
-                   <option 
-                      v-for="turno in turniFiltrati"
-                      :key="turno.id"
-                      :value=turno.id
-                    >   {{ turno.orario_turno }} - {{ turno.settore }} - {{ turno.numero_posti_disponibili - getNumeroAlunniPrenotatiPerTurno(turno.id) }}
-                  </option>
-                     </optgroup>
-            </select>
-        </div>
+              <select id = "SelectTurno" class="form-control mb-1"
+                  v-model='turno'
+                    @change="getSelectedUserTurno">
+                      <option disabled >Data Prenotazione: {{ prenotazione.data_prenotazione }}</option>
+                    <optgroup   label="Orario -  Settore   - Posti Disponibili">
+                    <option 
+                        v-for="turno in turniFiltrati"
+                        :key="turno.id"
+                        :value=turno.id
+                      >   {{ turno.orario_turno }} - {{ turno.settore }} - {{ turno.numero_posti_disponibili - getNumeroAlunniPrenotatiPerTurno(turno.id) }}
+                    </option>
+                      </optgroup>
+              </select>
+           </div>
 
-            <div class="col-2">
+          <div class="col-2">
               <input type="text" id ="classe" class="form-control" placeholder="classe" v-model="classe">
-            </div>
-            <div class="col-2">
+          </div>
+          <div class="col-2">
             <p class="form-control" id="postiPrenotati">  {{ postiDisponibili }}</p>
-            </div>
-
-            <div class="col-2">
-              <input type="number" id="numeroAlunni"  @change="checkNumeroAlunni" class="form-control" placeholder="numero alunni" v-model.number="numeroAlunni">
-            </div>
-            <div class="col-2">
-            <button  class="btn btn-outline-primary "  >{{labelPulsanteAggiungi}}</button>
-                </div>
           </div>
 
-
+          <div class="col-2">
+              <input type="number" id="numeroAlunni"  @change="checkNumeroAlunni" class="form-control" placeholder="numero alunni" v-model.number="numeroAlunni">
+          </div>
+          <div class="col-2">
+            <button  class="btn btn-outline-primary "  >{{labelPulsanteAggiungi}}</button>
+          </div>
+        </div>
         </form>
 <!--    end Form Inputa data    -->
 
@@ -392,15 +390,16 @@ export default {
                 }
                if (this.operation == 'insert') {
                 let endpoint = `/api/prenotazioni/${this.pk}/movimento/`;
-                apiService(endpoint, "POST", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni})
+                apiService(endpoint, "POST", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni,orario_turno:this.getDescrizioneOrarioTurno(this.turno),settore:this.getDescrizioneSettoreTurno(this.turno)})
                 alert("Turno di prenotazione aggiunto correttamente")
                 this.getMovimentiPrenotazione()
                 this.postiDisponibili = 0
                 }
 
                if (this.operation == 'update') {
-                    let endpoint = `/api/movimentiPrenotazioni/${this.idMovimentoPrenotazione}/`;
-                    apiService(endpoint, "PUT", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni})
+                   let endpoint = `/api/movimentiPrenotazioni/${this.idMovimentoPrenotazione}/`;
+                   alert(this.getDescrizioneSettoreTurno(this.turno))
+                   apiService(endpoint, "PUT", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni,orario_turno:this.getDescrizioneOrarioTurno(this.turno),settore:this.getDescrizioneSettoreTurno(this.turno)})
                     alert("Turno di prenotazione modificato correttamente");
                     this.getMovimentiPrenotazione()
                 }

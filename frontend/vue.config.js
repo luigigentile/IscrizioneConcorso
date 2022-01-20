@@ -9,7 +9,7 @@ module.exports = {
   chainWebpack: config => {
     config
       .plugin("BundleTracker")
-      .use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
+      .use(BundleTracker, [{ filename: "./dist/webpack-stats.json" }]);
 
     config.output.filename("bundle.js");
 
