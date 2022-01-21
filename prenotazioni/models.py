@@ -119,8 +119,9 @@ class MovimentiPrenotazione(models.Model):
                                 related_name = 'turni')
     classe = models.CharField(max_length=30,blank=True, null=True)
     numero_alunni = models.PositiveIntegerField(blank=True, default=0)
-    orario_turno = models.CharField(max_length=30,null=True)
-    settore = models.CharField(max_length=30,null = True)
+  
+  #  orario_turno = models.CharField(max_length=30,null=True)
+  #  settore = models.CharField(max_length=31,null = True)
     
 
     def __str__(self):
