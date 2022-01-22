@@ -122,7 +122,7 @@ class MovimentiPrenotazione(models.Model):
   
   #  orario_turno = models.CharField(max_length=30,null=True)
   #  settore = models.CharField(max_length=31,null = True)
-  #  orario = models.CharField(max_length=30,null=True)
+    orario = models.CharField(max_length=30,null=True)
     
 
     def __str__(self):
@@ -131,6 +131,11 @@ class MovimentiPrenotazione(models.Model):
     class Meta:
         verbose_name = 'Dettaglio Prenotazione'
         verbose_name_plural = 'Dettaglio Prenotazioni'
+
+
+
+
+
 
 
 class AnagraficaScuole(models.Model):
