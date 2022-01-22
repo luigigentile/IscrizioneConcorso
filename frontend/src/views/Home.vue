@@ -133,12 +133,13 @@
         <div class="col-md-3" v-text="getDescrizioneTurno(turnoPrenotazione.turno)"> </div>
      {{ prenotazione.data_prenotazione }}
 
--->
-        <div class="col-md-2 ml-4 mr-1 " v-text="prenotazione.data_prenotazione"> </div>
         <div class="col-md-2 " v-text="turnoPrenotazione.orario_turno"> </div>
          <div class="col-md-3 " v-text="turnoPrenotazione.settore"> </div>
         <div class="col-md-2 " v-text="turnoPrenotazione.classe"> </div>
         <div class="col-md-2 text-right" v-text="turnoPrenotazione.numero_alunni"> </div>
+-->
+
+        <div class="col-md-2 ml-4 mr-1 " v-text="prenotazione.data_prenotazione"> </div>
     </div>
     </div>
       </div>
