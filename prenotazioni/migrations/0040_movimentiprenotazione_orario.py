@@ -10,16 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='movimentiprenotazione',
-            name='orario_turno',
-            field=models.CharField(max_length=30, null=True),
-        ),
-        migrations.AddField(
-            model_name='movimentiprenotazione',
-            name='settore',
-            field=models.CharField(max_length=31, null=True),
-        ),
+    
         migrations.AddField(
             model_name='movimentiprenotazione',
             name='orario',

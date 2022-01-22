@@ -390,8 +390,11 @@ export default {
                 }
                if (this.operation == 'insert') {
                 let endpoint = `/api/prenotazioni/${this.pk}/movimento/`;
-                apiService(endpoint, "POST", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni,orario_turno:this.getDescrizioneOrarioTurno(this.turno),settore:this.getDescrizioneSettoreTurno(this.turno)})
-                alert("Turno di prenotazione aggiunto correttamente")
+               apiService(endpoint, "POST", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni})
+
+              // apiService(endpoint, "POST", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni,orario_turno:this.getDescrizioneOrarioTurno(this.turno),settore:this.getDescrizioneSettoreTurno(this.turno)})
+               
+               alert("Turno di prenotazione aggiunto correttamente")
                 this.getMovimentiPrenotazione()
                 this.postiDisponibili = 0
                 }
@@ -399,7 +402,9 @@ export default {
                if (this.operation == 'update') {
                    let endpoint = `/api/movimentiPrenotazioni/${this.idMovimentoPrenotazione}/`;
                    alert(this.getDescrizioneSettoreTurno(this.turno))
-                   apiService(endpoint, "PUT", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni,orario_turno:this.getDescrizioneOrarioTurno(this.turno),settore:this.getDescrizioneSettoreTurno(this.turno)})
+                   apiService(endpoint, "PUT", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni})
+
+                  // apiService(endpoint, "PUT", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni,orario_turno:this.getDescrizioneOrarioTurno(this.turno),settore:this.getDescrizioneSettoreTurno(this.turno)})
                     alert("Turno di prenotazione modificato correttamente");
                     this.getMovimentiPrenotazione()
                 }
