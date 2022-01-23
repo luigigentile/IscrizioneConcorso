@@ -2,7 +2,7 @@
   <div class="home text-left">
     <div class="container">
         <div class="row  rounded" >
-      <h2>Elenco Prenotazioni
+      <h2>Elenco Prenotazioni 10:48
         <router-link title="Inserisci una nuova Prenotazione"
                   :to="{ name: 'prenotazione-tipovisita', params: { tipoVisita: null, scuola: null}}"
                   class="btn btn-sm btn-primary "
@@ -103,11 +103,14 @@
               Argomenti Preferiti:
               <span class="author-name">{{ prenotazione.argomentiPreferiti }}</span>
             </p>
- <!-- AGGIUNTE DEL 05-01-2021 -->
+ <!-- AGGIUNGE I MOVIMENTI DELLA PRENOTAZIONE -->
 
 
-   <!--    INTESTAZIONE DELLE COLONNE    -->
+   <!--    INTESTAZIONE DELLE COLONNE    
+    -->
+ 
   <div v-if = "getNumeroMovimentiPrenotazione(prenotazione.id) > 0 " class="row">
+
     <div class="container border-bottom border-secondary">
         <div class="row  rounded" >
           <div class="col-md-2 ml-4 mr-1  ">Data</div>
@@ -118,9 +121,10 @@
         </div>
     </div>
 
-<!--    Elenco movimenti prenotazione    -->
+<!--    Elenco movimenti prenotazione   
     <div class="container border-bottom" v-for="(turnoPrenotazione,index) in movimentiPrenotazione"   :key="index">
         <div class="row">
+ -->
 
    <!-- 
         <div class="col-md-2 " v-text="getDescrizioneOrarioTurno(turnoPrenotazione.turno)"> </div>
@@ -137,18 +141,13 @@
          <div class="col-md-3 " v-text="turnoPrenotazione.settore"> </div>
         <div class="col-md-2 " v-text="turnoPrenotazione.classe"> </div>
         <div class="col-md-2 text-right" v-text="turnoPrenotazione.numero_alunni"> </div>
--->
-
         <div class="col-md-2 ml-4 mr-1 " v-text="prenotazione.data_prenotazione"> </div>
     </div>
     </div>
+-->
       </div>
+
     <!--    Fine Elenco movimenti prenotazione    -->
-
-
-
-
-
 
 
             <!-- FINE AGGIUNGE LE DOMANDE POSTE DALL'UTENTE USER -->
@@ -198,7 +197,6 @@ export default {
         return FormatToLocalDateString(Data);
           },
 
-
      getTimehhmm(Time) {
    
            if(Time != null) {
@@ -238,9 +236,19 @@ export default {
     },
 
    getNumeroMovimentiPrenotazione(varID) {
+     var count
+      alert(varID)
+      count = 1
+  
+       return (count)
+    
+    },
+
+
+async getNumeroMovimentiPrenotazioneOld(varID) {
         var j,count;
-        count = 0;
-          this.movimentiPrenotazione = []
+         count = 0;
+         this.movimentiPrenotazione = []
 
     //  this.getTurniPrenotazione(varID)
 
@@ -255,13 +263,19 @@ export default {
     
     },
 
-    getMovimentiPrenotazioni() {
+
+
+   
+
+  async getMovimentiPrenotazioni() {
       let endpoint = `/api/movimentiPrenotazioni/`;
       this.movimentiPrenotazioni = [];
       apiService(endpoint).then(data => {
         this.movimentiPrenotazioni.push(...data.results);
       });
     },
+
+
 
    getDescrizioneOrarioTurno(varIdTurno) {
         var j,descrizioneOrarioTurno;
