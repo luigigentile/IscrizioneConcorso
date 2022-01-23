@@ -13,7 +13,7 @@
                 </span>
         </router-link>
            <!--   Pulsante PAGAMENTI -->
-         
+        
                 <a class="btn btn-outline-dark btn-sm ml-5"  @click="visualizzaPagamenti"> 
                   Pagamenti
                 </a>
@@ -107,9 +107,11 @@
 
 
    <!--    INTESTAZIONE DELLE COLONNE    
+  <div v-if = "getNumeroMovimentiPrenotazione(prenotazione.id) > 0 " class="row">
     -->
  
-  <div v-if = "getNumeroMovimentiPrenotazione(prenotazione.id) > 0 " class="row">
+      <div v-if = "getMovimentiPrenotazione(prenotazione.id) > 0 " class="row">
+
 
     <div class="container border-bottom border-secondary">
         <div class="row  rounded" >
@@ -121,9 +123,9 @@
         </div>
     </div>
 
-<!--    Elenco movimenti prenotazione   
     <div class="container border-bottom" v-for="(turnoPrenotazione,index) in movimentiPrenotazione"   :key="index">
         <div class="row">
+<!--    Elenco movimenti prenotazione   
  -->
 
    <!-- 
@@ -141,10 +143,10 @@
          <div class="col-md-3 " v-text="turnoPrenotazione.settore"> </div>
         <div class="col-md-2 " v-text="turnoPrenotazione.classe"> </div>
         <div class="col-md-2 text-right" v-text="turnoPrenotazione.numero_alunni"> </div>
-        <div class="col-md-2 ml-4 mr-1 " v-text="prenotazione.data_prenotazione"> </div>
-    </div>
-    </div>
 -->
+     <div class="col-md-2 ml-4 mr-1 " v-text="prenotazione.data_prenotazione"> </div>
+    </div>
+    </div>
       </div>
 
     <!--    Fine Elenco movimenti prenotazione    -->
@@ -227,12 +229,13 @@ export default {
 
  // AGGIUNTE DEL 05-01-2022  
 
-  getMovimentiPrenotazione(varID) {
+  async getMovimentiPrenotazione(varID) {
       let endpoint = `/api/prenotazione/${varID}/movimenti/`;
       this.movimentiPrenotazione = []
       apiService(endpoint).then(data => {
         this.movimentiPrenotazione.push(...data.results);
-      });
+       });
+      return 1
     },
 
    getNumeroMovimentiPrenotazione(varID) {
@@ -352,6 +355,7 @@ async getNumeroMovimentiPrenotazioneOld(varID) {
     created() {
       this.getPrenotazioni();
       this.getMovimentiPrenotazioni();
+      this.getMovimentiPrenotazione(167)
       this.getTurni();
       this.getSettori();
       this.getUserName();

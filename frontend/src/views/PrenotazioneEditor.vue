@@ -7,7 +7,7 @@
                       <h2 >{{title}}  </h2>
                 </div>
                  
-              <!--   Pulsante Dettaglio Prenotazione  -->
+              <!--   Pulsante Dettaglio Prenotazione 
                 <div class="col-md-3 mt-2 text-right" >
                      <span class="text-right" v-if="scuola && pk">
                      <router-link   title="Visualizza dettagli Prenotazione"
@@ -17,9 +17,11 @@
                        </router-link>
                       </span>
                 </div>
-              
+            -->
+
+
                <!--   Pulsante PAGAMENTI -->
-                <div class="col-md-2 mt-2 text-right">
+                <div class="col-md-6 mt-2 text-right">
                     <a class="btn btn-outline-dark btn-sm" @click="visualizzaPagamenti"> 
                         Pagamenti
                     </a>
@@ -617,29 +619,25 @@ export default {
 
         onSubmit() {
             var messaggio,reference
-          
+         // CONTROLLA CHE SIA INSERITA LA  DATA PRENOTAZIONE  
             if (this.data_prenotazione==null) {
                 alert("Attenzione !!!! la data di prenotazione non puo' essere null")
                 document.getElementById('dataPrenotazione').focus();
                 return
             }
-
-
+            // CONTROLLO CHE SIA INSERITO IL NOME DELLA SCUOLA  
             if (this.nome_scuola==null && this.scuola) {
                 alert("Attenzione !!!! la Scuola o il gruppo non puo' essere null")
                 document.getElementById('dataPrenotazione').focus();
                 return
             }
-           
-       
+            // CONTROLLA CHE NON SIA INSERITA UNA VISITA IN PRESENZA        
             if(!this.TipoVisitaInPresenza() ) {
             alert("Attenzione per le norme anti Covid non puoi effettuare una visita in Presenza di Sabato o di Domenica. \n Cambia la data di prenotazione")
             document.getElementById('dataPrenotazione').focus();
             return
             }
-
-            
-
+          //   INSERISCE UNA NUOVA PRENOTAZIONE
             if (!this.previousData_Prenotazione) {
                 let endpoint = `/api/prenotazioni/`;
                 apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,
@@ -673,7 +671,7 @@ export default {
                 }
 //                this.vaiAMovimentiPrenotazione();
             }
-          
+ //         UPDATE  PRENOTAZIONE          
           if (this.previousData_Prenotazione) {
                 this.SetStatusField();
 //                Controlla che il nome della scuola non sia blank
@@ -681,7 +679,7 @@ export default {
                       this.nome_scuola = null
                     }
 
-//              Update   Prenotazione            
+//              UPDATE  PRENOTAZIONE            
                 let endpoint = `/api/prenotazioni/${this.pk}/`;
                 apiService(endpoint, "PUT", {data_prenotazione: this.data_prenotazione,
                                             ora_prenotazione: this.ora_prenotazione,
@@ -697,8 +695,9 @@ export default {
                                             esigenze:this.esigenze,
                                             argomentiPreferiti:this.argomentiPreferiti,
                                             })
-                if(this.data_prenotazione != this.previousData_Prenotazione && this.scuola) {
-
+               
+               //  NEL CASO DI CAMBIO DELLA DATA DI PRENOTAZIONE 
+               if(this.data_prenotazione != this.previousData_Prenotazione && this.scuola) {
                     messaggio = "Gentile utente, la sua prenotazione è stata modificata correttamente. \n"
                     messaggio = messaggio + "Attenzione avendo cambiato la data di prenotazione è necessario \n"
                     messaggio = messaggio + "nuovamente impostare i turni di prenotazione. \nI turni precedenti sono stati eliminati perchè si riferivano ad una data di prenotazione differente \n"
@@ -708,8 +707,21 @@ export default {
 //                    this.tornaIndietro()
                     }
                 else {
+          
+          //     MODIFICA L'OGGETTO PRENOTAZIONE
                     alert("Gentile utente, la sua prenotazione è stata modificata correttamente")
-                    this.tornaIndietro()
+                    this.prenotazione.numero_accompagnatori = this.numero_accompagnatori
+                    this.prenotazione.numero_totale_alunni = this.numero_totale_alunni
+                    this.prenotazione.esigenze = this.esigenze
+                    this.prenotazione.argomentiPreferiti = this.argomentiPreferiti
+                 
+                   this.$router.push({
+                    name: "prenotazione",
+                    params: { pk: this.pk, prenotazione: this.prenotazione }
+                })
+//
+
+//                    this.tornaIndietro()
                     }
             }
         },
@@ -728,7 +740,7 @@ export default {
         created() {
 //     Controlla il titolo e il pulsante del Form
             if (this.pk)  {
-                this.title = "Continua"
+                this.title = "Avanti"
                 document.title = this.title;
             } else {
                 this.title = "Avanti"
