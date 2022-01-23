@@ -237,8 +237,7 @@ export default {
 
    getNumeroMovimentiPrenotazione(varID) {
      var count
-      alert(varID)
-      count = 1
+       count = 1
   
        return (count)
     
@@ -247,7 +246,7 @@ export default {
 
 async getNumeroMovimentiPrenotazioneOld(varID) {
         var j,count;
-         count = 0;
+         count = 0; 
          this.movimentiPrenotazione = []
 
     //  this.getTurniPrenotazione(varID)
