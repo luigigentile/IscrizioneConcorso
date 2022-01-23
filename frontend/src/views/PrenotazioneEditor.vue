@@ -709,7 +709,7 @@ export default {
                 else {
           
           //     MODIFICA L'OGGETTO PRENOTAZIONE
-                    alert("Gentile utente, la sua prenotazione è stata modificata correttamente")
+          //          alert("Gentile utente, la sua prenotazione è stata modificata correttamente")
                     this.prenotazione.numero_accompagnatori = this.numero_accompagnatori
                     this.prenotazione.numero_totale_alunni = this.numero_totale_alunni
                     this.prenotazione.esigenze = this.esigenze
