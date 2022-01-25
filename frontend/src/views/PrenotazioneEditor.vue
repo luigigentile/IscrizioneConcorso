@@ -187,7 +187,7 @@
                     <button
                     class = 'btn btn-success'
                     type="submit"
-                    > {{title}}
+                    > {{avanti}}
                     </button>
 
                     <button
@@ -295,7 +295,9 @@ export default {
     data() {
         return {
             title: null,
+            avanti:"Avanti",
             lastPrenotazione:[],
+            ultimaPrenotazione:{},
             submitText:"Aggiungi Prenotazione",
             id:this.previousId || null,
             data_prenotazione:this.previousData_Prenotazione || null,
@@ -561,18 +563,27 @@ export default {
                 this.distinct_data_turni.push(...data.results);
             });
         },
-        getLastPrenotazione() {
+
+    getLastPrenotazione() {
           //          let endpoint = `/api/prenotazioni/${this.pk}/`;
           this.lastPrenotazione=[];
           let endpoint = "api/prenotazioni/?ordering=-id";
           apiService(endpoint).then(data => {
              this.lastPrenotazione[0] = data.results[0];
-               this.$router.push({
+   //          alert(this.lastPrenotazione[0].id)
+                this.$router.push({
                       name: "prenotazione",
                       params: {pk: this.lastPrenotazione[0].id , prenotazione:this.lastPrenotazione[0]}
                   })
             });
         },
+
+
+
+
+
+
+
         tornaIndietro() {
             this.$router.push({
                 name: this.from_Name,
@@ -640,7 +651,7 @@ export default {
           //   INSERISCE UNA NUOVA PRENOTAZIONE
             if (!this.previousData_Prenotazione) {
                 let endpoint = `/api/prenotazioni/`;
-                apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,
+                         apiService(endpoint, "POST", {data_prenotazione: this.data_prenotazione,
                                                 ora_prenotazione: this.ora_prenotazione,
                                                 numero_accompagnatori: this.numero_accompagnatori,
                                                 scuola:this.scuola,
@@ -651,9 +662,10 @@ export default {
                                                 numero_totale_alunni:this.numero_totale_alunni,
                                                 esigenze:this.esigenze,
                                                 argomentiPreferiti:this.argomentiPreferiti,
-                                                })
-
-
+                                                }).then(data => {
+                                                 this.ultimaPrenotazione = data;
+                                                } );
+                
                 messaggio = "Gentile utente, \ngrazie di aver prenotato una visita alla mostra  Sperimentando.  \n"
                 if (this.scuola) {
                     messaggio = messaggio + "Completi la prenotazione inserendo i turni e i settori da visitare.\n"
@@ -665,12 +677,29 @@ export default {
                 }
 //        SI POSIZIONE SULL'ULTIMA PRENOTAZIONE O TORNA ALLA PAGINA home
                 if (this.scuola) {
+            messaggio = "Gentile utente,\n"
+                if (this.scuola) {
+                    messaggio = messaggio + "Completi la prenotazione inserendo i turni e i settori da visitare.\n"
+                }
+                
+                messaggio = messaggio + "Le visite in presenza sono organizzate per turni. Nei giorni feriali da lunedi' a sabato, alla mattina sono previsti due turni che iniziano alle 9.00 e alle 11.00, mentre al pomeriggio è previsto un solo turno. \n"
+                messaggio = messaggio + "Nei giorni festivi è previsto un solo turno alla mattina, mentre sono previsti due turni al pomeriggio con inizio alle 15:00 e alle 17:00 \n"
+
+                    alert(messaggio)
+
+
+    //                 this.$router.push({
+     //                 name: "prenotazione",
+     //                 params: {pk: this.lastPrenotazione[0].id , prenotazione:this.lastPrenotazione[0]}
+     //             })
+
+
                     this.getLastPrenotazione()
                 }else {
                     this.goToHome()
                 }
 //                this.vaiAMovimentiPrenotazione();
-            }
+            }       // FINE INSERIMENTO PRENOTAZIONE
  //         UPDATE  PRENOTAZIONE          
           if (this.previousData_Prenotazione) {
                 this.SetStatusField();
@@ -740,10 +769,10 @@ export default {
         created() {
 //     Controlla il titolo e il pulsante del Form
             if (this.pk)  {
-                this.title = "Avanti"
+                this.title = "Modifica Prenotazione"
                 document.title = this.title;
             } else {
-                this.title = "Avanti"
+                this.title = "Nuova Prenotazione"
                 document.title = this.title;
             }
             this.getTurni()
@@ -766,8 +795,6 @@ export default {
                 this.tipoOperazione ="insert"
             }
 
-
-        //        this.getLastPrenotazione()
         },
 
 };

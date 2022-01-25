@@ -6,15 +6,23 @@
         <div class="card-header" >
             <p  ><strong>PRENOTAZIONE:</strong>
                 <a href="#" title="Inserisci turni  prenotazione"> 
-                    <span class ='d-print-none btn btn-sm btn-primary ml-3' @click="setDisplayInsertPrenotazione">Inserisci Turno
+                    <span class ='d-print-none btn btn-sm btn-primary ml-3 mr-5' @click="setDisplayInsertPrenotazione">Inserisci Turno
                         <svg width="13" height="13" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                           <path fill="#70bf2b" d="M1600 796v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z"/>
                         </svg>
                     </span>
                 </a>
- <!--   stampante
+      
+
+             <button 
+                    @click="completaPrenotazione"
+                    class="btn-sm btn-primary ml-5">CompletaPrenotazione
+            </button>
+
+
+              <!--   stampante
                 <span class ='d-print-none' @click="stampa" >  <img src="/static/apps_printer_15747.png" style = 'max-width:3%' ></span>
--->
+                -->
               <br>Data Prenotazione {{ prenotazione.data_prenotazione }}
               <br>Prenotazione Effettuata da : <strong class="author-name">   {{ prenotazione.user }}</strong>
               <br>Numero Accompagnatori: {{ prenotazione.numero_accompagnatori}} <br>
@@ -179,6 +187,20 @@ export default {
 
 
   methods: {
+ 
+
+    
+    
+    completaPrenotazione() {
+      var messaggio
+            messaggio = "Gentile utente, \ngrazie di aver prenotato una visita alla mostra  Sperimentando.  \n"
+            messaggio = messaggio + "Nei prossimi giorni Le manderemo una mail di conferma da parte di Sperimentando \n"
+            messaggio = messaggio + "Distinti saluti,\nlo staff di Sperimentando"
+            alert(messaggio)
+               this.$router.push({
+                name: 'Home'
+            })
+         },
 
     labelOptGroup() {
           return "data:" +  " - Turno - Settore"
@@ -401,11 +423,10 @@ export default {
 
                if (this.operation == 'update') {
                    let endpoint = `/api/movimentiPrenotazioni/${this.idMovimentoPrenotazione}/`;
-                   alert(this.getDescrizioneSettoreTurno(this.turno))
                    apiService(endpoint, "PUT", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni})
 
                   // apiService(endpoint, "PUT", { prenotazione:this.pk,turno: this.turno,classe: this.classe,numero_alunni:this.numeroAlunni,orario_turno:this.getDescrizioneOrarioTurno(this.turno),settore:this.getDescrizioneSettoreTurno(this.turno)})
-                    alert("Turno di prenotazione modificato correttamente");
+               //     alert("Turno di prenotazione modificato correttamente");
                     this.getMovimentiPrenotazione()
                 }
 
