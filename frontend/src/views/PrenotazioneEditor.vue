@@ -484,7 +484,7 @@ export default {
         },
 
         visualizzaMappaMostra() {
-              var linkpage = "https://sperimentandoaps.wordpress.com/mappa-sperimentando-20-21/"
+              var linkpage = "https://sperimentandoaps.wordpress.com/mappa-sperimentando-2022/"
               window.open(linkpage,"");
         },
 
