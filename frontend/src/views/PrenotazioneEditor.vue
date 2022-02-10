@@ -479,7 +479,7 @@ export default {
           },
 
         visualizzaPagamenti() {
-              var linkpage = "https://sperimentandoaps.wordpress.com/pagamenti-mostra-20-21/"
+               var linkpage = "https://sperimentandoaps.wordpress.com/pagamenti-mostra-2022/"
               window.open(linkpage,"");
         },
 

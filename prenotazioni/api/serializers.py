@@ -47,8 +47,9 @@ class DataPrenotazioniSerializer(serializers.ModelSerializer):
         fields = ['data_prenotazione']
 
 class TurniSerializer(serializers.ModelSerializer):
-    settore = serializers.StringRelatedField(read_only=True)
-    #settore = serializers.StringRelatedField()
+#  la Riga sottostante va commentata quando si lancia la procedura di importazione dei turni
+#    settore = serializers.StringRelatedField(read_only=True)
+#    settore = serializers.StringRelatedField()
     data = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'])
 
 #    data = serializers.SerializerMethodField(read_only=True)
@@ -56,8 +57,8 @@ class TurniSerializer(serializers.ModelSerializer):
         model = TabellaTurni
         fields = '__all__'
 
-#    def get_data(self, instance):
-#        return instance.data.strftime('%d %B %Y')
+    def get_data(self, instance):
+        return instance.data.strftime('%d %B %Y')
 #
 class ListaTurniSerializer(serializers.ModelSerializer):
     class Meta:
