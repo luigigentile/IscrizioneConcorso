@@ -48,7 +48,8 @@ class DataPrenotazioniSerializer(serializers.ModelSerializer):
 
 class TurniSerializer(serializers.ModelSerializer):
 #  la Riga sottostante va commentata quando si lancia la procedura di importazione dei turni
-#    settore = serializers.StringRelatedField(read_only=True)
+    settore = serializers.StringRelatedField(read_only=True)
+
 #    settore = serializers.StringRelatedField()
     data = serializers.DateField(format="%d-%m-%Y", input_formats=['%d-%m-%Y', 'iso-8601'])
 
