@@ -14,9 +14,17 @@
                 </a>
       
 
-             <button 
+             <button  
+                    title="Conferma la Prenotazione"
                     @click="completaPrenotazione"
-                    class="btn-sm btn-primary ml-5">CompletaPrenotazione
+                    class="btn-sm btn-primary ml-5 mr-4">Conferma Prenotazione
+            </button>
+
+
+               <button  
+                    title="Visualizza Orario Visite"
+                    @click="visualizzaOrarioVisite"
+                    class = "btn btn-outline-primary ml-4">Orario Visite
             </button>
 
 
@@ -188,7 +196,10 @@ export default {
 
   methods: {
  
-
+   visualizzaOrarioVisite() {
+        var linkpage = "https://sperimentandoaps.wordpress.com/sperimentando-2022/"
+        window.open(linkpage,"");
+        },
     
     
     completaPrenotazione() {

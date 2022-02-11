@@ -682,8 +682,8 @@ export default {
                     messaggio = messaggio + "Completi la prenotazione inserendo i turni e i settori da visitare.\n"
                 }
                 
-                messaggio = messaggio + "Le visite in presenza sono organizzate per turni. Nei giorni feriali da lunedi' a sabato, alla mattina sono previsti due turni che iniziano alle 9.00 e alle 11.00, mentre al pomeriggio è previsto un solo turno. \n"
-                messaggio = messaggio + "Nei giorni festivi è previsto un solo turno alla mattina, mentre sono previsti due turni al pomeriggio con inizio alle 15:00 e alle 17:00 \n"
+                messaggio = messaggio + "Le visite in presenza sono organizzate per turni di due ore. \nNella prossima schermata potrà consultare anche gli orari delle visite"
+    //            messaggio = messaggio + "Nei giorni festivi è previsto un solo turno alla mattina, mentre sono previsti due turni al pomeriggio con inizio alle 15:00 e alle 17:00 \n"
 
                     alert(messaggio)
 
