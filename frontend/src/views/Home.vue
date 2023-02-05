@@ -2,7 +2,7 @@
   <div class="home text-left">
     <div class="container">
         <div class="row  rounded" >
-      <h2>Elenco Prenotazioni
+      <h2>Elenco Prenotazioni modificato
         <router-link title="Inserisci una nuova Prenotazione"
                   :to="{ name: 'prenotazione-tipovisita', params: { tipoVisita: null, scuola: null}}"
                   class="btn btn-sm btn-primary "
